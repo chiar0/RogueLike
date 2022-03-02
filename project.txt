@@ -1,4 +1,7 @@
 --- Settori ---
   - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
+      Matteo:
   - Interazione grafica - codice  (rapportare ogni elemento della componente grafica al relativo codice)
+      Alessandro:
   - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
+      Fabio:
