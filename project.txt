@@ -1,7 +1,8 @@
 --- Settori ---
-  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
-      Matteo:
-  - Interazione grafica - codice  (rapportare ogni elemento della componente grafica al relativo codice)
-      Alessandro:
-  - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
-      Fabio:
+pat  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
+ale  - Interazione grafica - codice  (rapportare ogni elemento della componente grafica al relativo codice)
+fab  - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
+
+--- Idee ---
+Menù principale   (aggiunta di opzione)
+Difficoltà        (esempi: meno vita, nemici più forti, più nemici)
