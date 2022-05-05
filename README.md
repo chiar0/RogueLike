@@ -49,6 +49,7 @@ Vincoli:
 ESEMPIO DI FILE
 
 NomeClasse.hpp
+
     class NomeClasse{
         protected:
             int field;
