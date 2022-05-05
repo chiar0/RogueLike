@@ -46,38 +46,25 @@ Vincoli:
 - Il progetto è organizzato in più file
 - Ad ogni classe corrispondono due file: NomeClasse.cpp e NomeClasse.hpp
 
-ESEMPIO FILE
-
 ESEMPIO DI FILE
 
 NomeClasse.hpp
-
-  class NomeClasse{
-  
-  protected:
-  
-  int field;
-  
-  ...
-  
-  public:
-  
-  ...
-  
-  void method();
-  
-  ...
-  
-  };
+    class NomeClasse{
+        protected:
+            int field;
+            ...
+        public:
+            ...
+            void method();
+            ...
+    };
   
 NomeClasse.cpp
 
-  #include "NomeClasse.hpp"
+    #include "NomeClasse.hpp"
   
-  void NomeClasse::method(){
-  
-  // do something
-  
-  }
+    void NomeClasse::method(){
+    // do something
+    }
   
 IN OGNI FILE IN CUI SI USA IL TIPO “NOMECLASSE” BISOGNA IMPORTARE NOMECLASSE.HPP
