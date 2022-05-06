@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
-project(GitHub)
+project(RogueLike)
 
 set(CMAKE_CXX_STANDARD 23)
 
-include_directories(.)
+add_executable(test main.cpp)
 
-add_executable(gioco
-        main.cpp)
+find_package(Curses REQUIRED)
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(test
+        ${CURSES_LIBRARIES})

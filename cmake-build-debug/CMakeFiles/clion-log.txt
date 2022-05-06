@@ -1,4 +1,4 @@
-C:\Users\chiar\AppData\Local\JetBrains\Toolbox\apps\CLion\ch-0\221.5080.224\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=C:/Users/chiar/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/221.5080.224/bin/ninja/win/ninja.exe -G Ninja -S C:\Users\chiar\Documents\GitHub -B C:\Users\chiar\Documents\GitHub\cmake-build-debug
+/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/chiar0/RogueLike -B /home/chiar0/RogueLike/cmake-build-debug
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/chiar/Documents/GitHub/cmake-build-debug
+-- Build files have been written to: /home/chiar0/RogueLike/cmake-build-debug
