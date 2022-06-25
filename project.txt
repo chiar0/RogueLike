@@ -1,8 +1,16 @@
 --- Settori ---
-pat  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
+pat  - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
 ale  - Interazione grafica - codice  (rapportare ogni elemento della componente grafica al relativo codice)
-fab  - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
+fab  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
 
 --- Idee ---
 Menù principale   (aggiunta di opzione)
 Difficoltà        (esempi: meno vita, nemici più forti, più nemici)
+
+--- Divide et Impera ---
+Creazione del menù
+Classe personaggio
+Classe nemico
+Classe artefatto
+Interazione combattimento
+Interazione con artefatti / porte
