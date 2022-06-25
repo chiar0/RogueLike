@@ -6,6 +6,7 @@ fab  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox
 --- Idee ---
 Menù principale   (aggiunta di opzione)
 Difficoltà        (esempi: meno vita, nemici più forti, più nemici)
+Risoluzione       (idea: 80x25)
 
 --- Divide et Impera ---
 Creazione del menù
