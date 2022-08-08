@@ -1,7 +1,7 @@
 --- Settori ---
-pat  - Esecuzione del gioco          (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
-ale  - Interazione grafica - codice  (rapportare ogni elemento della componente grafica al relativo codice)
-fab  - Realizzazione della grafica   (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
+  - Gestione delle classi   (calcolo dei danni, powerup, artefatti, interazioni con la mappa, muri, messaggi di errori, sistema di punteggio)
+  - Gestione del main       (rapportare ogni elemento della componente grafica al relativo codice)
+  - Gestione del menù       (bordi mappa, icona del personaggio, hitbox, colpi a distanza)
 
 --- Idee ---
 Menù principale   (aggiunta di opzione)
