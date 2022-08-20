@@ -1,4 +1,4 @@
-/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /home/chiar0/RogueLike -B /home/chiar0/RogueLike/cmake-build-debug
+C:\WINDOWS\system32\wsl.exe --distribution Ubuntu-20.04 --exec /bin/bash -c "export CMAKE_COLOR_DIAGNOSTICS=ON && export CLION_IDE=TRUE && export JETBRAINS_IDE=TRUE && cd /mnt/d/Documents/Github/RogueLike/cmake-build-debug && /home/lxchiar0/cmake-3.22.6/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G 'CodeBlocks - Unix Makefiles' -S /mnt/d/Documents/Github/RogueLike -B /mnt/d/Documents/Github/RogueLike/cmake-build-debug"
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/chiar0/RogueLike/cmake-build-debug
+-- Build files have been written to: /mnt/d/Documents/Github/RogueLike/cmake-build-debug

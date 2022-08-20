@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/test.dir/src/main.cpp.o CMakeFiles/test.dir/src/level.cpp.o CMakeFiles/test.dir/src/geometry.cpp.o -o test  -lcurses /usr/lib/x86_64-linux-gnu/libform.so 
