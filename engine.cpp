@@ -153,11 +153,11 @@ void engine::create_exit() { //creo un uscita casuale nel livello corrente
             current->exit->NSWE = random(0, 3);
         }
     }
-    switch (current->exit->NSWE) {                              //genero le coordinate casuali
+    switch (current->exit->NSWE) {                              //creo la lista di punti della porta di uscita in base alla direzione scelta
         case 0: //nord
-            for (int i = 0; i < h_exit_lenght; i++) { 		 //creo la lista di punti della porta di uscita
-                if (i == 0) { 								 //se e` il primo punto della lista
-                    add_point_to_list(&current->exit->pointList, create_point(0, random(1, last_col - h_exit_lenght - 1))); //creo il primo punto della lista con coordinate casuali
+            for (int i = 0; i < h_exit_lenght; i++) {
+                if (i == 0) {
+                    add_point_to_list(&current->exit->pointList, create_point(0, random(1, last_col - h_exit_lenght - 1)));
                 } else {
                     add_point_to_list(&current->exit->pointList, create_point(0, get_point_list_node(&current->exit->pointList, i - 1)->p.x + 1));
                 }
@@ -192,7 +192,7 @@ void engine::create_exit() { //creo un uscita casuale nel livello corrente
             break;
     }
     point_list *temp = current->exit->pointList;
-    while (temp != nullptr) {
+    while (temp != nullptr) { //scrivo l'uscita sul dungeon corrente
         write_char(temp->p, 'x');
         temp = temp->next;
     }
@@ -209,14 +209,14 @@ void engine::create_rooms() { //creo le stanze nel livello corrente
         if (rand_x > (d_width/2)+h_exit_lenght-1) rand_x = (d_width/2)-h_exit_lenght-1;
         else rand_x++;
     }
-    mvwvline (current->dungeon, 0, rand_x, ACS_VLINE, d_height); //disegno una linea verticale lunga 24 caratteri
-    mvwhline (current->dungeon, rand_y, 0, ACS_HLINE, d_width); //disegno una linea orizzontale lunga 64 caratteri
-    mvwaddch (current->dungeon, rand_y, rand_x, ACS_PLUS); //disegno un punto in cui le due linee si incontranono
+    mvwvline (current->dungeon, 0, rand_x, ACS_VLINE, d_height);                                                                     //disegno una linea verticale lunga 24 caratteri
+    mvwhline (current->dungeon, rand_y, 0, ACS_HLINE, d_width);                                                                      //disegno una linea orizzontale lunga 64 caratteri
+    mvwaddch (current->dungeon, rand_y, rand_x, ACS_PLUS);                                                                           //disegno un punto in cui le due linee si incontranono
     int p = 0;
-    int a = random (2, 4);
-    bool b = random (0, 1);
-    int c = 4 - a;
-    int rand_NSWE = random(0,3); //incremento il numero casuale di 1 e lo faccio tornare tra 0 e 3
+    int a = random (2, 4);                                                                                                  //genero un numero casuale tra 2 e 4 per scegliere il numero di muri da disegnare
+    bool b = random (0, 1);                                                                                                 //genero un numero casuale tra 0 e 1 per scegliere se lasciare un muro senza uscita
+    int c = 4 - a;                                                                                                                   //calcolo il numero di muri da eliminare
+    int rand_NSWE = random(0,3);
     for (int i=0; i<4; i++) {
         rand_NSWE = (rand_NSWE + 1) % 4;
         switch (rand_NSWE) {

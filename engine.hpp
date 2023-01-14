@@ -5,10 +5,10 @@
 
 class engine: public display{
 protected:
-    int d_height, d_width;       //altezza e larghezza del dungeon
-    int v_exit_lenght, h_exit_lenght;  //lunghezza dell'uscita verticale e orizzontale del dungeon
-    int s_height, s_width;  //altezza e larghezza della schermata del punteggio
-	int last_row, last_col; //coordinate dell'ultima cella del dungeon
+    int d_height, d_width;              //altezza e larghezza del dungeon
+    int v_exit_lenght, h_exit_lenght;   //lunghezza dell'uscita verticale e orizzontale del dungeon
+    int s_height, s_width;              //altezza e larghezza della schermata del punteggio
+	int last_row, last_col;         //coordinate dell'ultima cella del dungeon
 
     struct dungeon_door {   //struttura per le porte del dungeon
         point_list *pointList;  //puntatore alla lista di coordinate
@@ -19,9 +19,9 @@ protected:
         int number;             //numero del livello
         WINDOW *dungeon;        //puntatore alla finestra del dungeon
         dungeon_door *entry;    //puntatori alla struttura contenente le coordinate dell' entrata e dell'uscita
-        dungeon_door *exit;     //
+        dungeon_door *exit;
         level *prev;            //puntatori al livello precedente e successivo
-        level *next;            //
+        level *next;
     };
 
     level *current;     //puntatore al livello corrente

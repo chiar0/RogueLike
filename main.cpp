@@ -9,7 +9,7 @@ void controller(engine *dungeon) { //gestisce l'input
             dungeon->prev_level(); //passa al livello precedente
             break;
         case 'q':
-            //dungeon->life_update(-1); //decrementa la vita
+            dungeon->life_update(-1); //decrementa la vita
             dungeon->write_char(dungeon->random_clear_point(), 'q'); //scrive un q in un punto casuale libero
             dungeon->refresh_dungeon(); //aggiorna la finestra del dungeon
             break;

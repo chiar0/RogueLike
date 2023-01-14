@@ -1,12 +1,12 @@
 #include "display.hpp"
 
 void display::init(){ //inizializza ncurses
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    curs_set(0);
-    srand(time(nullptr));
+    initscr();                                  //inizializza ncurses
+    cbreak();                                   //disabilita il buffering della tastiera
+    noecho();                                   //disabilita l'echo dei caratteri
+    keypad(stdscr, TRUE);                       //abilita la lettura dei tasti freccia
+    curs_set(0);                                //nasconde il cursore
+    srand(time(nullptr));            //inizializza il generatore di numeri casuali
     //start_color();
     //init_pair(1, COLOR_WHITE, COLOR_BLACK);
     //init_pair(2, COLOR_RED, COLOR_BLACK);
@@ -27,20 +27,20 @@ void display::set_dimensions(int h, int w){ //imposta le dimensioni della finest
     else width = w;
 }
 
-void display::terminal_check(int h, int w) { //controlla se la finestra è abbastanza grande
-    if (LINES < h || COLS < w) {
+void display::terminal_check(int h, int w) { //controlla se la finestra è abbastanza grande e se ha le caratteristiche richieste
+    if (LINES < h || COLS < w) { //se la finestra non è abbastanza grande
         printw("terminal size (HEIGHT x WIDTH) must be >= %dx%d", h, w);
-        printw("\nyou actually have %dx%d", LINES, COLS); //LINES E COLS sono due variabili che inizializza initscr() che contegono le rispettive proprieta` del terminale
-        printw("\nPRESS ANY KEY TO CLOSE THE PROGRAM"); //prima del resize e` meglio chiudere il programma o si baca il terminale xD
+        printw("\nyou actually have %dx%d", LINES, COLS);           //LINES E COLS sono due variabili che inizializza initscr() che contegono le rispettive proprieta` del terminale
+        printw("\nPRESS ANY KEY TO CLOSE THE PROGRAM");             //prima del resize e` meglio chiudere il programma o si baca il terminale xD
         getch();
         end();
-        exit (EXIT_FAILURE);
+        exit (0);
     }
-    if (has_colors() == FALSE) {
+    if (has_colors() == FALSE) { //se il terminale non supporta i colori
         printf("Your terminal does not support color");
         printw("\nPRESS ANY KEY TO CLOSE THE PROGRAM");
         end();
-        exit(EXIT_FAILURE);
+        exit(0);
     }
 }
 
@@ -57,12 +57,12 @@ display::point display::create_point(int y, int x) { //crea un nuovo punto
     return new_point;
 }
 
-void display::add_point_to_list(point_list **head, point p) {
-    if (*head == nullptr) {
+void display::add_point_to_list(point_list **head, point p) { //aggiunge un punto alla lista
+    if (*head == nullptr) { //se la lista è vuota crea il primo nodo
         *head = new point_list;
         (*head)->p = p;
         (*head)->next = nullptr;
-    } else {
+    } else {                //altrimenti aggiunge un nodo alla fine
         point_list *temp = *head;
         while (temp->next != nullptr) {
             temp = temp->next;
@@ -73,10 +73,10 @@ void display::add_point_to_list(point_list **head, point p) {
     }
 }
 
-display::point_list *display::get_point_list_node(point_list **head, int i) {
-    if (*head == nullptr) {
+display::point_list *display::get_point_list_node(point_list **head, int i) { //ritorna il nodo i-esimo della lista
+    if (*head == nullptr) { //se la lista è vuota ritorna nullptr
         return nullptr;
-    } else {
+    } else {                //altrimenti ritorna il nodo i-esimo
         point_list *temp = *head;
         for (int j = 0; j < i && temp->next != nullptr; j++) {
             temp = temp->next;
@@ -85,7 +85,7 @@ display::point_list *display::get_point_list_node(point_list **head, int i) {
     }
 }
 
-bool display::is_y_in_list(point_list **head, int y) {
+bool display::is_y_in_list(point_list **head, int y) { //controlla se y è presente nella lista
     if (*head == nullptr) {
         return false;
     }
@@ -113,12 +113,12 @@ bool display::is_x_in_list(point_list **head, int x) { //controlla se x è prese
     return false;
 }
 
-bool display::is_point_in_list(point_list **head, point p) {
+bool display::is_point_in_list(point_list **head, point p) { //controlla se il punto è presente nella lista
     return is_x_in_list(head, p.x) && is_y_in_list(head, p.y);
 }
 
 
-int display::random(int min, int max) {
+int display::random(int min, int max) { //ritorna un numero casuale tra min e max
     return rand() % (max - min + 1) + min;
 }
 
@@ -148,8 +148,8 @@ int display::get_relative_x (int x, int NSWE) { //ritorna la coordinata x relati
     }
 }
 
-display::point display::get_relative_point (point *p, int NSWE) { //ritorna il punto relativo alla direzione NSWE
-    return create_point(get_relative_x(p->x, NSWE), get_relative_y(p->y, NSWE));
+display::point display::get_relative_point (point p, int NSWE) { //ritorna il punto relativo alla direzione NSWE
+    return create_point(get_relative_x(p.x, NSWE), get_relative_y(p.y, NSWE));
 }
 
 bool display::is_point_in_window(point p) { //controlla se il punto è nella finestra
