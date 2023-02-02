@@ -1,3 +1,0 @@
-/mnt/hgfs/Github/RogueLike/cmake-build-debug/CMakeFiles/test.dir
-/mnt/hgfs/Github/RogueLike/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/hgfs/Github/RogueLike/cmake-build-debug/CMakeFiles/rebuild_cache.dir
