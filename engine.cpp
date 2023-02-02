@@ -350,6 +350,14 @@ WINDOW *engine::retrive_dungeon() { //restituisce il puntatore alla finestra del
     return current->dungeon;
 }
 
+display::point_list *engine::retrive_entry() { //restituisce il puntatore alla lista dei punti di ingresso
+    return current->entry->pointList;
+}
+
+display::point_list *engine::retrive_exit() { //restituisce il puntatore alla lista dei punti di ingresso
+    return current->exit->pointList;
+}
+
 void engine::refresh_scoreboard() { //stampa il livello corrente
     wclear(scoreboard);
     box(scoreboard, 0, 0);
@@ -412,5 +420,5 @@ void engine::refresh_dungeon() { //stampa il dungeon corrente
 │                                  │                       ││                  │
 │                                  │                       ││                  │
 └──────────────────────────────────┴───────────────────────┘└──────────────────
- 
+
  */
