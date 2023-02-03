@@ -27,6 +27,12 @@ public:
     void setRange(int range);
     // void setRoom(level room);
 
+    // metodi per il movimento
+    bool moveUp();
+    bool moveDown();
+    bool moveLeft();
+    bool moveRight();
+
     // metodi per il combattimento
     void attack(int y, int x);
     void attackUp();
@@ -39,6 +45,9 @@ public:
 
     // metodo invocato quando viene affrontato un nemico
     void defeatedEnemy(bool isBoss);
+
+    // metodo invocato quando si cerca di entrare in una porta
+    void checkRoom(char move);
 
     // update si occupa di modificare lo stato (come posizione e altro) dell'entità
     int update();
