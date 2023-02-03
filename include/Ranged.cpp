@@ -1,12 +1,14 @@
 #include "Ranged.hpp"
 
-    Ranged::Ranged(int positionX, int positionY, int room, int HP, int damage, int range, bool isBoss, engine* dungeon, char character)
+    Ranged::Ranged(int positionX, int positionY, int room, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id)
     :Entity(positionX, positionY, room, HP, damage, dungeon, character) {
+        this->id = id;
         this->range = range;
         this->isBoss = isBoss;
     }
 
     // getters
+    int Ranged::getId() { return id; }
     int Ranged::getRange() { return range; }
     bool Ranged::getIsBoss() { return isBoss; }
 

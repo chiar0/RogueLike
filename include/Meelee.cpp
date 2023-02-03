@@ -1,9 +1,10 @@
 #include "Meelee.hpp"
 
     // costruttore
-    Meelee::Meelee(int positionX, int positionY, int room, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, char character)
+    Meelee::Meelee(int positionX, int positionY, int room, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, char character, int id)
     :Entity(positionX, positionY, room, HP, damage, dungeon, character) {
 
+        this->id = id;
         this->isBoss = isBoss;
         this->isTaunted = false; // ogni nemico corpo a corpo di base non è "taunted"
         this->chaseBlocks = chaseBlocks;
@@ -12,6 +13,7 @@
     }
 
     // getters
+    int Meelee::getId() { return this->id; }
     bool Meelee::getIsBoss() { return this->isBoss; }
     bool Meelee::getIsTaunted() { return this->isTaunted; }
     int Meelee::getCurrentChaseBlocks() { return this->currentChaseBlocks; }

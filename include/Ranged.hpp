@@ -9,15 +9,17 @@ class Ranged: public Entity {
 
 protected:
 
+    int id; // id del nemico, diverso per ogni nemico in una stanza
     int range; // distanza massima di attacco
     bool isBoss; // = true se è un boss (più forte, più vita, più danno)
 
 public:
 
     // costruttore
-    Ranged(int positionX, int positionY, int room, int HP, int damage, int range, bool isBoss, engine* dungeon, char character);
+    Ranged(int positionX, int positionY, int room, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id);
 
     // getters
+    int getId();
     int getRange();
     bool getIsBoss();
 
