@@ -12,7 +12,7 @@ protected:
 
     struct dungeon_door {   //struttura per le porte del dungeon
         point_list *pointList;  //puntatore alla lista di coordinate
-        int NSWE;               //direzione del muro in cui si inserisce la porta (0=Nord, 1=Sud, 2=Est, 3=Ovest)
+        int NSWE;               //direzione del muro in cui si inserisce la porta (0=Nord, 1=Sud, 2=Ovest, 3=Est)
     };
 
     struct level {  //struttura per il livello
@@ -52,6 +52,11 @@ public: //===================// =======
     WINDOW *retrive_dungeon();              //ritorna il puntatore alla finestra del dungeon
     point_list *retrive_entry();            //ritorna il puntatore alla lista di coordinate dell'entrata
     point_list *retrive_exit();             //ritorna il puntatore alla lista di coordinate dell'uscita
+    int retrive_entry_NSWE();               //ritorna la direzione del muro in cui si trova l'entrata
+    int retrive_exit_NSWE();                //ritorna la direzione del muro in cui si trova l'uscita
+    int retrive_level_number();                    //ritorna il punteggio
+    int retrive_columns(); //restituisce il numero di colonne del dungeon
+    int retrive_rows(); //restituisce il numero di righe del dungeon
     void refresh_scoreboard();              //aggiorna la finestra del punteggio
     void refresh_dungeon();                 //aggiorna la finestra del dungeon
 };

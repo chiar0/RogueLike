@@ -7,10 +7,9 @@
         this->HP = HP;
         this->damage = damage;
         this->dungeon = dungeon;
-        this->window = this->dungeon->retrive_dungeon();
         this->character = character;
-        this-> xMax = getmaxx(this->window);
-        this-> yMax = getmaxy(this->window);
+        this-> xMax = getmaxx(this->dungeon->retrive_dungeon());
+        this-> yMax = getmaxy(this->dungeon->retrive_dungeon());
     }
 
     // getters
@@ -20,7 +19,6 @@
     int Entity::getMaxY() { return yMax; }
     int Entity::getHP() { return HP; }
     int Entity::getDamage() { return this->damage; }
-    WINDOW* Entity::getWindow() { return window; }
     char Entity::getCharacter() { return character; }
     char Entity::getNearby(int x, int y) { return nearby[x][y]; }
 
@@ -31,8 +29,8 @@
 
     // metodo che stampa l'entità sulla finestra
     void Entity::display(){
-        wmove(window, getPositionY(), getPositionX());
-        waddch(window, character);
+        wmove(dungeon->retrive_dungeon(), getPositionY(), getPositionX());
+        waddch(dungeon->retrive_dungeon(), character);
     };
 
     // metodo che aggiorna la matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
@@ -40,7 +38,7 @@
     void Entity::updateNearby(){
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                nearby[i][j] = mvwinch(window, getPositionY() + i - 1, getPositionX() + j - 1);
+                nearby[i][j] = mvwinch(dungeon->retrive_dungeon(), getPositionY() + i - 1, getPositionX() + j - 1);
             }
         }
     }
@@ -49,36 +47,36 @@
     // e per evitare che si muova su altre entità
 
     void Entity::moveUp(){
-        wmove(window, positionY, positionX);
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[0][1] == ' ') {
-            waddch(window, ' ');
+            waddch(dungeon->retrive_dungeon(), ' ');
             if (positionY < 1) { positionY = 1; }
             else { positionY = positionY - 1; } 
         }
         display();
     }
     void Entity::moveDown(){
-        wmove(window, positionY, positionX);
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[2][1] == ' ') {
-            waddch(window, ' ');
+            waddch(dungeon->retrive_dungeon(), ' ');
             if (positionY > yMax - 2) { positionY = yMax - 2; }
             else { positionY = positionY + 1; }
         }
         display();
     }
     void Entity::moveLeft(){
-        wmove(window, positionY, positionX);
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[1][0] == ' ') {
-            waddch(window, ' ');
+            waddch(dungeon->retrive_dungeon(), ' ');
             if (positionX < 1) { positionX = 1; }
             else { positionX = positionX - 1; }
         }
         display();
     }
     void Entity::moveRight(){
-        wmove(window, positionY, positionX);
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[1][2] == ' ') {
-            waddch(window, ' ');
+            waddch(dungeon->retrive_dungeon(), ' ');
             if (positionX > xMax - 2) { positionX = xMax - 2; }
             else { positionX = positionX + 1; }
         }
@@ -87,8 +85,8 @@
 
     void Entity::isDead() {
         if (HP <= 0) {
-            wmove(window, positionY, positionX);
-            waddch(window, ' ');
+            wmove(dungeon->retrive_dungeon(), positionY, positionX);
+            waddch(dungeon->retrive_dungeon(), ' ');
         }
         display();
     }

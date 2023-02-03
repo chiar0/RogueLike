@@ -32,10 +32,8 @@ public:
     rangedList* getRangedHead();
 
     // list functions
-    void initMeelee();
-    void initRanged();
     void addMeelee(Meelee meelee);
     void addRanged(Ranged ranged);
-    void removeMeelee(int id);
-    void removeRanged(int id);
+    void removeMeelee(int x, int y);
+    void removeRanged(int x, int y);
 };

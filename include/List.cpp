@@ -26,11 +26,12 @@
     }
 
     // rimozione di nemici meelee
-    void List::removeMeelee(int id) {
+    void List::removeMeelee(int x, int y) {
         meeleeList* current = meeleeHead;
         meeleeList* previous = NULL;
         while (current != NULL) {
-            if (current->meelee.getId() == id) {
+            if (current->meelee.getPositionX() == x
+                && current->meelee.getPositionY() == y) {
                 if (previous == NULL) {
                     meeleeHead = current->next;
                 } else {
@@ -45,11 +46,12 @@
     }
 
     // rimozione di nemici ranged
-    void List::removeRanged(int id) {
+    void List::removeRanged(int x, int y) {
         rangedList* current = rangedHead;
         rangedList* previous = NULL;
         while (current != NULL) {
-            if (current->ranged.getId() == id) {
+            if (current->ranged.getPositionX() == x
+                && current->ranged.getPositionY() == y) {
                 if (previous == NULL) {
                     rangedHead = current->next;
                 } else {

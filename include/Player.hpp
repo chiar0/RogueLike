@@ -19,19 +19,20 @@ public:
     int getRange();
     int getScore();
     int getCollectedArtifacts();
-    // level getRoom();
 
     // setters
     void setScore(int increase);
     void setCollectedArtifacts();
     void setRange(int range);
-    // void setRoom(level room);
 
     // metodi per il movimento
-    bool moveUp();
-    bool moveDown();
-    bool moveLeft();
-    bool moveRight();
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+
+    // metodo cambio stanza
+    void changeRoom(int direction);
 
     // metodi per il combattimento
     void attack(int y, int x);
@@ -45,9 +46,6 @@ public:
 
     // metodo invocato quando viene affrontato un nemico
     void defeatedEnemy(bool isBoss);
-
-    // metodo invocato quando si cerca di entrare in una porta
-    void checkRoom(char move);
 
     // update si occupa di modificare lo stato (come posizione e altro) dell'entità
     int update();

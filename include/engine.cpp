@@ -193,7 +193,7 @@ void engine::create_exit() { //creo un uscita casuale nel livello corrente
     }
     point_list *temp = current->exit->pointList;
     while (temp != nullptr) { //scrivo l'uscita sul dungeon corrente
-        write_char(temp->p, 'x');
+        write_char(temp->p, ' ');
         temp = temp->next;
     }
 }
@@ -356,6 +356,26 @@ display::point_list *engine::retrive_entry() { //restituisce il puntatore alla l
 
 display::point_list *engine::retrive_exit() { //restituisce il puntatore alla lista dei punti
     return current->exit->pointList;
+}
+
+int engine::retrive_entry_NSWE() { //restituisce il numero che indica la direzione dell'ingresso
+    return current->entry->NSWE;
+}
+
+int engine::retrive_exit_NSWE() { //restituisce il numero che indica la direzione dell'uscita
+    return current->exit->NSWE;
+}
+
+int engine::retrive_level_number() { //restituisce il numero del livello corrente
+    return current->number;
+}
+
+int engine::retrive_columns() { //restituisce il numero di colonne del dungeon
+    return d_width-1;
+}
+
+int engine::retrive_rows() { //restituisce il numero di righe del dungeon
+    return d_height-1;
 }
 
 void engine::refresh_scoreboard() { //stampa il livello corrente

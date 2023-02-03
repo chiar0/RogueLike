@@ -20,61 +20,80 @@
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
     // void Player::setRoom(level room) { this->room = room; }
 
-    bool Player::moveUp(){
-        bool result = false;
-        wmove(window, positionY, positionX);
+    void Player::moveUp(){
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[0][1] == ' ') {
-            waddch(window, ' ');
-            if (positionY < 1) { positionY = 1; }
-            else { positionY = positionY - 1; result = true; } 
+            waddch(dungeon->retrive_dungeon(), ' ');
+            // if (positionY < 0) { positionY = 0; }
+            positionY = positionY - 1;
         }
-        display();
-        return result;
+        if (positionY == 0) { changeRoom(0); }
+        else { display(); }
     }
 
-    bool Player::moveDown(){
-        bool result = false;
-        wmove(window, positionY, positionX);
+    void Player::moveDown(){
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[2][1] == ' ') {
-            waddch(window, ' ');
-            if (positionY > yMax - 2) { positionY = yMax - 2; }
-            else { positionY = positionY + 1; result = true; }
+            waddch(dungeon->retrive_dungeon(), ' ');
+            // if (positionY > yMax-1) { positionY = yMax-1; }
+            positionY = positionY + 1;
         }
-        display();
-        return result;
+        if (positionY == yMax-1) { changeRoom(1); }
+        else { display(); }
     }
 
-    bool Player::moveLeft(){
-        bool result = false;
-        wmove(window, positionY, positionX);
+    void Player::moveLeft(){
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[1][0] == ' ') {
-            waddch(window, ' ');
-            if (positionX < 1) { positionX = 1; }
-            else { positionX = positionX - 1; result = true; }
+            waddch(dungeon->retrive_dungeon(), ' ');
+            // if (positionX < 0) { positionX = 0; }
+            positionX = positionX - 1;
         }
-        display();
-        return result;
+        if (positionX == 0) { changeRoom(2); }
+        else { display(); }
     }
 
-    bool Player::moveRight(){
-        bool result = false;
-        wmove(window, positionY, positionX);
+    void Player::moveRight(){
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         if (nearby[1][2] == ' ') {
-            waddch(window, ' ');
-            if (positionX > xMax - 2) { positionX = xMax - 2; }
-            else { positionX = positionX + 1; result = true; }
+            waddch(dungeon->retrive_dungeon(), ' ');    
+            // if (positionX > xMax-1) { positionX = xMax-1; }
+            positionX = positionX + 1;
         }
-        display();
-        return result;
+        if (positionX == xMax-2) { changeRoom(3); }
+        else { display(); }
     }
 
-    void Player::attack(int enemyY, int enemyX){
-        if (bulletsRemaining > 0) {
-            return;
-        } else {
-            
+    // metodo per cambiare stanza
+    void Player::changeRoom(int direction) {
+        int entry_NSWE = dungeon->retrive_entry_NSWE();
+        int exit_NSWE = dungeon->retrive_exit_NSWE();;
+
+        if (direction == exit_NSWE) {
+            wmove(dungeon->retrive_dungeon(), positionY, positionX);
+            waddch(dungeon->retrive_dungeon(), ' ');
+            dungeon->next_level();
+            display::point_list *tmp = dungeon->retrive_entry();
+            while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
+                tmp = tmp->next;
+            }
+            positionX = tmp->p.x;
+            positionY = tmp->p.y;
+        } else if (direction == entry_NSWE) {
+            wmove(dungeon->retrive_dungeon(), positionY, positionX);
+            waddch(dungeon->retrive_dungeon(), ' ');
+            dungeon->prev_level();
+            display::point_list *tmp = dungeon->retrive_exit();
+            while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
+                tmp = tmp->next;
+            }
+            positionX = tmp->p.x;
+            positionY = tmp->p.y;
         }
+        dungeon->refresh_dungeon();
     }
+
+    void Player::attack(int enemyY, int enemyX){ }
 
     void Player::attackUp() {
         if (getPositionY() != 2) {
@@ -113,113 +132,6 @@
         if (isBoss) { setScore(1500); }
         else { setScore(500); }
     }
-
-    // metodo invocato per il controllo del cambio stanza
-    void Player::checkRoom(char move) {
-        bool found = false;
-        switch(move) {
-            case 'w':
-                display::point_list* entry = dungeon->retrive_entry();
-                display::point_list* exit = dungeon->retrive_exit();
-                while((entry != NULL || exit != NULL) && !found) {
-                    if (entry != NULL && entry->p.x == positionX && positionY == 1) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->prev_level();
-                        window = dungeon->retrive_dungeon();
-                        positionY = yMax - 2;
-                        display();
-                    } else if (exit->p.x == positionX && positionY == 1) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->next_level();
-                        window = dungeon->retrive_dungeon();
-                        positionY = yMax - 2;
-                        display();
-                    }
-                    entry = entry->next;
-                    exit = exit->next;
-                }
-                ;break;
-            case 's':
-                display::point_list* entry = dungeon->retrive_entry();
-                display::point_list* exit = dungeon->retrive_exit();
-                while((entry != NULL || exit != NULL) && !found) {
-                    if (entry != NULL && entry->p.x == positionX && positionY == yMax - 2) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->prev_level();
-                        window = dungeon->retrive_dungeon();
-                        positionY = 1;
-                        display();
-                    } else if (exit->p.x == positionX && positionY == yMax - 2) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->next_level();
-                        window = dungeon->retrive_dungeon();
-                        positionY = 1;
-                        display();
-                    }
-                    entry = entry->next;
-                    exit = exit->next;
-                }
-                ;break;
-            case 'a':
-                display::point_list* entry = dungeon->retrive_entry();
-                display::point_list* exit = dungeon->retrive_exit();
-                while((entry != NULL || exit != NULL) && !found) {
-                    if (entry != NULL && entry->p.y == positionY && positionX == 1) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->prev_level();
-                        window = dungeon->retrive_dungeon();
-                        positionX = xMax - 2;
-                        display();
-                    } else if (exit->p.y == positionY && positionX == 1) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->next_level();
-                        window = dungeon->retrive_dungeon();
-                        positionX = xMax - 2;
-                        display();
-                    }
-                    entry = entry->next;
-                    exit = exit->next;
-                }
-                ;break;
-            case 'd':
-                display::point_list* entry = dungeon->retrive_entry();
-                display::point_list* exit = dungeon->retrive_exit();
-                while((entry != NULL || exit != NULL) && !found) {
-                    if (entry != NULL && entry->p.y == positionY && positionX == xMax - 2) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->prev_level();
-                        window = dungeon->retrive_dungeon();
-                        positionX = 1;
-                        display();
-                    } else if (exit->p.y == positionY && positionX == xMax - 2) {
-                        found = true;
-                        wmove(window, positionY, positionX);
-                        waddch(window, ' ');
-                        dungeon->next_level();
-                        window = dungeon->retrive_dungeon();
-                        positionX = 1;
-                        display();
-                    }
-                    entry = entry->next;
-                    exit = exit->next;
-                }
-                ;break;
-        }
-    }
  
     // update si occupa di modificare lo stato (come posizione, matrice delle adiacenze ed altro) dell'entità
     int Player::update() {
@@ -227,16 +139,16 @@
         int move = getch();
         switch (move){
             case 'w':
-                if(!moveUp()) { checkRoom(move); }
+                moveUp();
                 ;break;
             case 's':
-                if (!moveDown()) { checkRoom(move); }
+                moveDown();
                 ;break;
             case 'a':
-                if (!moveLeft()) { checkRoom(move); }
+                moveLeft();
                 ;break;
             case 'd':
-                if(!moveRight()) { checkRoom(move); }
+                moveRight();
                 ;break;
             
             /*

@@ -15,7 +15,6 @@ protected:
     int positionX, xMax; // posizione X nella window e dimensione massima X
     int positionY, yMax; // posizione Y nella window e dimensione massima Y
     engine *dungeon; // dungeon in cui si trova l'entità
-    WINDOW* window; // window in cui si trova l'entità
     char character; // carattere che rappresenta l'entità
     char nearby[3][3]; // matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
 
@@ -34,7 +33,6 @@ public:
     int getMaxY();
     int getHP();
     int getDamage();
-    WINDOW* getWindow();
     char getCharacter();
     char getNearby(int x, int y);
 
