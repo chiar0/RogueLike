@@ -62,5 +62,3 @@
             current = current->next;
         }
     }
-
-
