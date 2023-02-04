@@ -65,24 +65,29 @@
     // si aggiorna la posizione del giocatore con quella dell'entrata/uscita confrontando la posizione del giocatore con quella delle porte
     // della stanza successiva in maniera duale (se si è entrati in un uscita allora si confronta con l'entrata della stanza successiva e viceversa)
     void Player::changeRoom(int direction) {
+
         int entry_NSWE = dungeon->retrive_entry_NSWE();
         int exit_NSWE = dungeon->retrive_exit_NSWE();;
 
         if (direction == exit_NSWE) {
+            
             wmove(dungeon->retrive_dungeon(), positionY, positionX);
             waddch(dungeon->retrive_dungeon(), ' ');
             dungeon->next_level();
             display::point_list *tmp = dungeon->retrive_entry();
+
             while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
                 tmp = tmp->next;
             }
             positionX = tmp->p.x;
             positionY = tmp->p.y;
         } else if (direction == entry_NSWE) {
+
             wmove(dungeon->retrive_dungeon(), positionY, positionX);
             waddch(dungeon->retrive_dungeon(), ' ');
             dungeon->prev_level();
             display::point_list *tmp = dungeon->retrive_exit();
+
             while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
                 tmp = tmp->next;
             }

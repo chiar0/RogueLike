@@ -12,27 +12,17 @@
     int Ranged::getRange() { return range; }
     bool Ranged::getIsBoss() { return isBoss; }
 
-    // setters
-    void Ranged::setRange(int range) { range = range; }
-
     void Ranged::update(int playerX, int playerY) {
-        int dx = playerX - positionX;
-        int dy = playerY - positionY;
+
+        updateNearby(); // aggiorno le entità vicine
+        int dx = abs(playerX - positionX);
+        int dy = abs(playerY - positionY);
         int distance = sqrt(dx * dx + dy * dy);
-        if (distance <= range) {
+        if (dx <= range || dy <= range) {
             if (positionX == playerX) {
                 // shoot up or down
             } else if (positionY == playerY) {
                 // shoot left or right
-            } else {
-                bool direction = abs(dx) < abs(dy);
-                if (direction) {
-                    if (dx > 0) { moveRight(); }
-                    else { moveLeft(); }
-                } else {
-                    if (dy > 0) { moveDown(); }
-                    else { moveUp(); }
-                }
             }
         } else {
             int movementChance, direction;
@@ -53,4 +43,5 @@
                 }
             }
         }
+        display();
     }

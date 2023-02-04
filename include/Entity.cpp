@@ -1,15 +1,19 @@
 #include "Entity.hpp"
 
     // costruttore
-    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character){
+    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character){\
+
         this->positionX = positionX;
         this->positionY = positionY;
+
         this->HP = HP;
         this->damage = damage;
         this->dungeon = dungeon;
         this->character = character;
+
         this-> xMax = getmaxx(this->dungeon->retrive_dungeon());
         this-> yMax = getmaxy(this->dungeon->retrive_dungeon());
+        
     }
 
     // getters
