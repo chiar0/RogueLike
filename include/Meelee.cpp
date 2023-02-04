@@ -1,8 +1,8 @@
 #include "Meelee.hpp"
 
     // costruttore
-    Meelee::Meelee(int positionX, int positionY, int room, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, char character, int id)
-    :Entity(positionX, positionY, room, HP, damage, dungeon, character) {
+    Meelee::Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, char character, int id)
+    :Entity(positionX, positionY, HP, damage, dungeon, character) {
 
         this->id = id;
         this->isBoss = isBoss;

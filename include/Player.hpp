@@ -13,7 +13,7 @@ private:
     // level room; // stanza in cui si trova il player
 
 public:
-    Player(int positionX, int positionY, int room, int HP, int damage, engine* dungeon, char character);
+    Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
 
     // getters
     int getRange();

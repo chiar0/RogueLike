@@ -1,26 +1,27 @@
 #include "main.hpp"
 
-void controller(engine *dungeon) { //gestisce l'input
-    switch (int ch = getch()) { //legge un carattere
-        case KEY_UP: //se viene premuto il tasto freccia su
-            dungeon->next_level(); //passa al livello successivo
-            break;
-        case KEY_DOWN: //se viene premuto il tasto freccia giù
-            dungeon->prev_level(); //passa al livello precedente
-            break;
-        case 'q':
-            dungeon->life_update(-1); //decrementa la vita
-            dungeon->write_char(dungeon->random_clear_point(), 'q'); //scrive un q in un punto casuale libero
-            dungeon->refresh_dungeon(); //aggiorna la finestra del dungeon
-            break;
+void controller(engine *dungeon, Player p, List l) { //gestisce l'input
+    char ch = ' ';
+    while(ch != 'x') {
+        ch = p.update();
+        l.updateAll(p.getPositionX(), p.getPositionY());
     }
 }
 
 int main() {
+    
     engine *dungeon=new engine();
+    
+    int x = dungeon->random_clear_point().x;
+    int y = dungeon->random_clear_point().y;
+    Player p(x, y, 100, 10, dungeon, '@');
+    p.display();
+    List l(4, 4, dungeon);
+    dungeon->refresh_dungeon();
 
     while (true) {
-        controller(dungeon);
+        controller(dungeon, p, l);
+        break;
     }
     return 0;
 }

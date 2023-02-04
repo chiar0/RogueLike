@@ -1,8 +1,11 @@
 #include "List.hpp"
 
-    List::List() {
+    List::List(int nMeelee, int nRanged, engine* dungeon) {
         meeleeHead = NULL;
         rangedHead = NULL;
+        this->dungeon = dungeon;
+        for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee(i)); }
+        for (int i = 0; i < nRanged; i++) { addRanged(randomRanged(i)); }
     }
 
     // getters
@@ -11,11 +14,25 @@
 
     // list functions
 
+    // generazione di nemici meelee casuali
+    Meelee List::randomMeelee(int id) {
+        display::point p = dungeon->random_clear_point();
+        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon, 'M', id);
+        return generated;
+    }
+
+    Ranged List::randomRanged(int id) {
+        display::point p = dungeon->random_clear_point();
+        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon, 'R', id);
+        return generated;
+    }
+
     // aggiunta di nemici meelee
     void List::addMeelee(Meelee meelee) {
         meeleeList* newMeelee = new meeleeList(meelee);
         newMeelee->next = meeleeHead;
         meeleeHead = newMeelee;
+        newMeelee->meelee.display();
     }
 
     // aggiunta di nemici ranged
@@ -23,6 +40,7 @@
         rangedList* newRanged = new rangedList(ranged);
         newRanged->next = rangedHead;
         rangedHead = newRanged;
+        newRanged->ranged.display();
     }
 
     // rimozione di nemici meelee
@@ -33,8 +51,12 @@
             if (current->meelee.getPositionX() == x
                 && current->meelee.getPositionY() == y) {
                 if (previous == NULL) {
+                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     meeleeHead = current->next;
                 } else {
+                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     previous->next = current->next;
                 }
                 delete current;
@@ -53,8 +75,12 @@
             if (current->ranged.getPositionX() == x
                 && current->ranged.getPositionY() == y) {
                 if (previous == NULL) {
+                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     rangedHead = current->next;
                 } else {
+                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     previous->next = current->next;
                 }
                 delete current;
@@ -62,5 +88,18 @@
             }
             previous = current;
             current = current->next;
+        }
+    }
+
+    void List::updateAll(int playerX, int playerY) {
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.update(playerX, playerY);
+            tempMeelee = tempMeelee->next;
+        }
+        while(tempRanged != NULL) {
+            tempRanged->ranged.update(playerX, playerY);
+            tempRanged = tempRanged->next;
         }
     }

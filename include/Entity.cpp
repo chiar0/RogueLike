@@ -1,7 +1,7 @@
 #include "Entity.hpp"
 
     // costruttore
-    Entity::Entity(int positionX, int positionY, int room, int HP, int damage, engine* dungeon, char character){
+    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character){
         this->positionX = positionX;
         this->positionY = positionY;
         this->HP = HP;

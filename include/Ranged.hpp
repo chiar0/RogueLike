@@ -16,7 +16,7 @@ protected:
 public:
 
     // costruttore
-    Ranged(int positionX, int positionY, int room, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id);
+    Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id);
 
     // getters
     int getId();

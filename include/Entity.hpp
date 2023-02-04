@@ -24,7 +24,7 @@ protected:
 
 public:
     // costruttore
-    Entity(int positionX, int positionY, int room, int HP, int damage, engine* dungeon, char character);
+    Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
 
     // getters
     int getPositionX();
