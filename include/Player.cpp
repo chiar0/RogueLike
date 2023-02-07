@@ -1,14 +1,16 @@
 #include "Player.hpp"
 
-    Player::Player(int positionX, int positionY, int HP, int damage, engine* dungeon)
-    :Entity(positionX, positionY, HP, damage, dungeon) {
+    Player::Player():Entity() {}
+
+    Player::Player(int positionX, int positionY, int HP, int damage, engine* dungeon, BulletList* bulletsList)
+    :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
         this->score = 0;
         this->range = 4;
         this->collectedArtifacts = 0;
         this->bulletsRemaining = 0;
         this->character = '@';
-        this->head = new listOfLists(List(5, 5, dungeon, 0));
-        this->current = &(head->list);
+        //this->head = new listOfLists(List(5, 5, dungeon, 0));
+        //this->current = &(head->list);
         updateNearby();
     }
 
@@ -36,7 +38,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == 0) { changeRoom(0); }
+        if (positionY == 0) { /*changeRoom(0);*/ }
     }
 
     void Player::moveDown() {
@@ -48,7 +50,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == yMax-1) { changeRoom(1); }
+        if (positionY == yMax-1) { /*changeRoom(1);*/ }
     }
 
     void Player::moveLeft() {
@@ -60,7 +62,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == 0) { changeRoom(2); }
+        if (positionX == 0) { /*changeRoom(2);*/ }
     }
 
     void Player::moveRight() {
@@ -72,7 +74,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == xMax-1) { changeRoom(3); }
+        if (positionX == xMax-1) { /*changeRoom(3);*/ }
     }
 
     // metodo per cambiare stanza
@@ -80,6 +82,7 @@
     // si chiama la funzione next_level() se la porta è di uscita, prev_level() se la porta è di entrata
     // si aggiorna la posizione del giocatore con quella dell'entrata/uscita confrontando la posizione del giocatore con quella delle porte
     // della stanza successiva in maniera duale (se si è entrati in un uscita allora si confronta con l'entrata della stanza successiva e viceversa)
+/*   
     void Player::changeRoom(int direction) {
 
         int entry_NSWE = dungeon->retrive_entry_NSWE();
@@ -114,6 +117,7 @@
             positionX = tmp->p.x;
             positionY = tmp->p.y;
         }
+
     }
 
     void Player::setCurrent(int id) {
@@ -137,7 +141,7 @@
         head->next = NULL;
         head = tmp;
     }
-
+*/
     // metodo invocato quando viene sconfitto un nemico
     void Player::defeatedEnemy(bool isBoss) {
         if (isBoss) { setScore(1500); }
@@ -145,9 +149,7 @@
     }
  
     // update si occupa di modificare lo stato (come posizione, matrice delle adiacenze ed altro) dell'entità
-    char Player::update() { 
-        updateNearby();
-        int move = getch();
+    char Player::update(int move) { 
         switch (move){
             case 'w':
                 moveUp();
@@ -162,24 +164,28 @@
                 moveRight();
                 ;break;
             
-            /*
             case KEY_UP:
-                attackUp();
+                shoot(1);
+                ;break;
             case KEY_DOWN:
-                attackDown();
+                shoot(3);
+                ;break;
             case KEY_LEFT:
-                attackLeft();
+                shoot(2);
                 ;break;
             case KEY_RIGHT:
-                attackRight();
+                shoot(4);
                 ;break;
-            */
+            
             default:
                 ;break;
         }
         display();
-        current->updateAll(positionX, positionY);
+        //current->updateAll(positionX, positionY);
         dungeon->refresh_dungeon();
         return move;
     }
 
+    void Player::shoot(int direction){
+        Entity::addBullets(direction, true);
+    }

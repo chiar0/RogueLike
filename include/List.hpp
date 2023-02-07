@@ -6,11 +6,7 @@
 #include "Items.hpp"
 #include "engine.hpp"
 
-class List {
-
-protected:
-    
-    struct meeleeList {
+struct meeleeList {
         Meelee meelee;
         meeleeList* next;
         meeleeList(Meelee m) : meelee(m), next(NULL) {}
@@ -22,6 +18,10 @@ protected:
         rangedList(Ranged r) : ranged(r), next(NULL) {}
     };
 
+class List {
+
+protected:
+    
     meeleeList* meeleeHead;
     rangedList* rangedHead;
     Items artifact;
@@ -34,9 +34,11 @@ protected:
     bool artifactDisplayed;
     bool artifactTaken;
 
+    BulletList* bulletsList;
+
 public:
 
-    List(int nMeelee, int nRanged, engine* dungeon, int id);
+    List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList) ;
 
     // getters
     meeleeList* getMeeleeHead();

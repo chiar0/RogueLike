@@ -1,6 +1,6 @@
 #include "List.hpp"
 
-    List::List(int nMeelee, int nRanged, engine* dungeon, int id) {
+    List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList) {
         meeleeHead = NULL;
         rangedHead = NULL;
         this->id = id;
@@ -14,11 +14,12 @@
         this->artifact = Items(artifactPoint.x, artifactPoint.y, dungeon, 'a');
         this->artifactDisplayed = false;
         this->artifactTaken = false;
+        this->bulletsList = bulletsList;
     }
 
     // getters
-    List::meeleeList* List::getMeeleeHead() { return meeleeHead; }
-    List::rangedList* List::getRangedHead() { return rangedHead; }
+    meeleeList* List::getMeeleeHead() { return meeleeHead; }
+    rangedList* List::getRangedHead() { return rangedHead; }
     int List::getId() { return id; }
 
     // setters
@@ -29,13 +30,13 @@
     // generazione di nemici meelee casuali
     Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon);
+        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon, bulletsList);
         return generated;
     }
 
     Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
-        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon);
+        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon, bulletsList);
         return generated;
     }
 
@@ -159,12 +160,13 @@
             artifact.display();
             artifactDisplayed = true;
         }
-
+        
         if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
             artifactTaken = true;
             wmove(dungeon->retrive_dungeon(), artifact.getPositionY(), artifact.getPositionX());
             waddch(dungeon->retrive_dungeon(), ' ');
         }
+        
 
     }
 

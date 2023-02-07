@@ -8,14 +8,13 @@
 class Meelee: public Entity {
 
 protected:
-
-    bool isBoss; // = true se è un boss (più forte, più vita, più danno)
-    bool isTaunted; // se = true, il nemico si muove verso il player per n = chaseBlocks mosse
+    bool isBoss;            // = true se è un boss (più forte, più vita, più danno)
+    bool isTaunted;         // se = true, il nemico si muove verso il player per n = chaseBlocks mosse
     int chaseBlocks; 
     int currentChaseBlocks; // numero di caselle per le quali il nemico deve ancora seguire il player prima di smettere di essere "taunted"
 
 public:
-    Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon);
+    Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, BulletList* bulletesList);
 
     // getters
     bool getIsBoss();

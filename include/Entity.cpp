@@ -1,7 +1,9 @@
 #include "Entity.hpp"
 
     // costruttore
-    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon){
+    Entity::Entity(){}
+
+    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, BulletList* bulletslist){
         this->positionX = positionX;
         this->positionY = positionY;
         this->HP = HP;
@@ -9,6 +11,7 @@
         this->dungeon = dungeon;
         this->xMax = getmaxx(this->dungeon->retrive_dungeon());
         this->yMax = getmaxy(this->dungeon->retrive_dungeon());
+        this->bulletsList = bulletslist;
         
     }
 
@@ -96,4 +99,13 @@
             dead = true;
         }
         return dead;
+    }
+
+    void Entity::isHit(int bulletX, int bulletY, int dmg){
+    if(bulletX == this->positionX && bulletY == this->positionY)
+        setHP(dmg);
+    }
+
+    void Entity::addBullets(int direction, bool isEnemy){
+        this->bulletsList->addBullet(damage, direction, positionX, positionY, character, '+', isEnemy);
     }

@@ -24,7 +24,7 @@ struct bullets{
 class BulletList{
     protected:
         engine* dungeon;
-        Bul bulletHead = NULL;
+        Bul bulletHead;
         int EnemyDamage;
         int PlayerDamage;
         int prjct;

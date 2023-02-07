@@ -12,9 +12,12 @@ BulletList::BulletList(engine* dungeon){
 }
 
 void BulletList::addBullet(int damage, int direction, int positionX, int positionY, char character, char projectile, bool isEnemy){
-    Bullet bul(this->dungeon, damage, positionX, positionY, direction, '+', character);
+    Bullet bul(this->dungeon, damage, positionX, positionY, direction, projectile, character);
     bullets* tmp = new bullets(bul, NULL, NULL);
-
+    tmp->bullet = bul;
+    tmp->next = NULL;
+    tmp->prev = NULL;
+    
     if(bulletHead == NULL){
         bulletHead = tmp;
     }

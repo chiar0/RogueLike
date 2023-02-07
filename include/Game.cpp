@@ -6,8 +6,8 @@ Game::Game(){
     this->dungeon = new engine();
     BulletList tmpB(this->dungeon);
     this->bulletsList = tmpB;
-    this->enemies = new List(4, 4, dungeon, &bulletsList);
-    Player tmpP(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, '@', &this->bulletsList);
+    this->enemies = new List(4, 4, dungeon, 4, &bulletsList);
+    Player tmpP(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, &this->bulletsList);
     this->p = tmpP;
     
 
