@@ -11,17 +11,7 @@ private:
     int range; // distanza massima di attacco
     int collectedArtifacts; // numero di artefatti raccolti
     int bulletsRemaining; // numero di proiettili rimanenti
-    int maxId;
-
-    struct listOfLists {
-        List list;
-        listOfLists* next;
-        listOfLists* prev;
-        listOfLists(List l) : list(l), next(NULL), prev(NULL) {}
-    };
-    listOfLists* head;
-    listOfLists* current;
-
+    
 public:
 
     Player();
@@ -31,7 +21,6 @@ public:
     int getRange();
     int getScore();
     int getCollectedArtifacts();
-    int getMaxId();
 
     // setters
     void setScore(int increase);
@@ -39,19 +28,14 @@ public:
     void setRange(int range);
 
     // metodi per il movimento
-    void moveUp();
-    void moveDown();
-    void moveLeft();
-    void moveRight();
+    bool moveUp();
+    bool moveDown();
+    bool moveLeft();
+    bool moveRight();
     void shoot(int direction);
 
-    // metodi per il cambio lista di nemici
-    void nextList();
-    void prevList();
-    void newList(int nMeelee, int nRanged, engine* dungeon);
-
     // metodo cambio stanza
-    void changeRoom(int direction);
+    bool changeRoom(int direction);
 
     // metodo invocato quando viene affrontato un nemico
     void defeatedEnemy(bool isBoss);

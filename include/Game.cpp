@@ -9,6 +9,13 @@ Game::Game(){
     this->enemies = new List(4, 4, dungeon, 4, &bulletsList);
     Player tmpP(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, &this->bulletsList);
     this->p = tmpP;
+
+    //generazione lista di liste
+    this->head = new listOfLists(List(4, 4, dungeon, 0, &bulletsList));
+    this->head->next = new listOfLists(List(4, 4, dungeon, 1, &bulletsList));
+    this->head->next->prev = head;
+    this->current = head;
+    this->maxId = 1;
     
 
     //generazione finestra di debug
@@ -28,6 +35,29 @@ Game::Game(){
     keypad(dungeon->retrive_dungeon(), true);
 
 };
+
+void Game::nextList() {
+        if (current->next != NULL) {
+            current = current->next;
+        }
+    }
+
+void Game::prevList() {
+    if (current->prev != NULL) {
+        current = current->prev;
+    }
+}
+
+void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
+    listOfLists *tmp = head;
+    maxId += 1;
+    List new_list(nMeelee, nRanged, dungeon, maxId, &bulletsList);
+    while(tmp->next != NULL) {
+        tmp = tmp->next;
+    }
+    tmp->next = new listOfLists(new_list);
+    tmp->next->prev = tmp;
+}
 
 //gestisce il gioco e il tempo
 void Game::gameLoop(){

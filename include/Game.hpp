@@ -18,13 +18,28 @@ class Game{
         List* enemies;
         engine* dungeon;
 
-        //
+        int maxId;
+
+        struct listOfLists {
+            List list;
+            listOfLists* next;
+            listOfLists* prev;
+            listOfLists(List l) : list(l), next(NULL), prev(NULL) {}
+        };
+        listOfLists* head;
+        listOfLists* current;
+
         BulletList bulletsList;
         
     public:
         //costruttore
         Game();
         
+        int getMaxId();
+        void nextList();
+        void prevList();
+        void newList(int nMeelee, int nRanged, engine* dungeon);
+
         //funzioni per la gestione del gioco
         void gameLoop();
         void shoot();
