@@ -191,7 +191,7 @@
                 ;break;
         }
         display();
-        current->list.updateAll(positionX, positionY);
+        //current->list.updateAll(positionX, positionY);
         dungeon->refresh_dungeon();
         return move;
     }

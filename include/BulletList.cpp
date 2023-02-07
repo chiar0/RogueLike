@@ -13,19 +13,7 @@ BulletList::BulletList(engine* dungeon){
 
 void BulletList::addBullet(int damage, int direction, int positionX, int positionY, char character, char projectile, bool isEnemy){
     Bullet bul(this->dungeon, damage, positionX, positionY, direction, projectile, character);
-    bullets* tmp = new bullets(bul, NULL, NULL);
-    tmp->bullet = bul;
-    tmp->next = NULL;
-    tmp->prev = NULL;
-    
-    if(bulletHead == NULL){
-        bulletHead = tmp;
-    }
-    else{
-        tmp->next = bulletHead;
-        bulletHead->prev = tmp;
-        bulletHead = tmp;
-    }
+    addToList(bul);
 }
 
 
@@ -179,5 +167,21 @@ int BulletList::isHit(int directionX, int directionY){
     return damageTaken;
 }
 
+void BulletList::addToList(Bullet bullet){
+    //bullets* tmp = new bullets(bullet, NULL, NULL);
+    bullets *tmp = (bullets*) malloc(sizeof(bullets));
+    tmp->bullet = bullet;
+    tmp->next = NULL;
+    tmp->prev = NULL;
+    if(bulletHead != NULL){
+        tmp->next = bulletHead;
+        bulletHead->prev = tmp;
+        bulletHead = tmp;
+        
+    }
+    else{
+        bulletHead = tmp;
+    }
+}
 
 

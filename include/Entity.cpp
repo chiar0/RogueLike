@@ -107,5 +107,5 @@
     }
 
     void Entity::addBullets(int direction, bool isEnemy){
-        this->bulletsList->addBullet(damage, direction, positionX, positionY, character, '+', isEnemy);
+        this->bulletsList->addBullet(this->damage, direction, this->positionX, this->positionY, this->character, '+', isEnemy);
     }
