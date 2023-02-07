@@ -56,11 +56,8 @@ public:
     void moveLeft();
     void moveRight();
 
-    // metodo invocato per controllare se l'entità ha raggiunto 0 hp
+    // metodi per il combattimento
     bool isDead();
-
-    //verifico se l'entità è stata colpita
     void isHit(int bulletX, int bulletY, int dmg);
-    //
     void addBullets(int direction, bool isEnemy);
 };

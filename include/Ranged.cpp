@@ -4,6 +4,7 @@
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
         this->range = range;
         this->isBoss = isBoss;
+        this->character = 'R';
     }
 
     // getters

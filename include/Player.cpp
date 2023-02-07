@@ -9,8 +9,11 @@
         this->collectedArtifacts = 0;
         this->bulletsRemaining = 0;
         this->character = '@';
-        //this->head = new listOfLists(List(5, 5, dungeon, 0));
-        //this->current = &(head->list);
+        this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList));
+        this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList));
+        this->head->next->prev = head;
+        this->current = head;
+        this->maxId = 1;
         updateNearby();
     }
 
@@ -38,7 +41,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == 0) { /*changeRoom(0);*/ }
+        if (positionY == 0) { changeRoom(0); }
     }
 
     void Player::moveDown() {
@@ -50,7 +53,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == yMax-1) { /*changeRoom(1);*/ }
+        if (positionY == yMax-1) { changeRoom(1); }
     }
 
     void Player::moveLeft() {
@@ -62,7 +65,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == 0) { /*changeRoom(2);*/ }
+        if (positionX == 0) { changeRoom(2); }
     }
 
     void Player::moveRight() {
@@ -74,7 +77,37 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == xMax-1) { /*changeRoom(3);*/ }
+        if (positionX == xMax-1) { changeRoom(3); }
+    }
+
+    void Player::shoot(int direction){
+        Entity::addBullets(direction, true);
+    }
+
+
+    // metodo per impostare il puntatore alla lista di nemici corrente
+    // non effettuo il controllo se la lista esiste perchè nella head c'è sempre una lista di nemici
+    void Player::nextList() {
+        if (current->next != NULL) {
+            current = current->next;
+        }
+    }
+
+    void Player::prevList() {
+        if (current->prev != NULL) {
+            current = current->prev;
+        }
+    }
+
+    void Player::newList(int nMeelee, int nRanged, engine* dungeon) {
+        listOfLists *tmp = head;
+        maxId += 1;
+        List new_list(nMeelee, nRanged, dungeon, maxId, bulletsList);
+        while(tmp->next != NULL) {
+            tmp = tmp->next;
+        }
+        tmp->next = new listOfLists(new_list);
+        tmp->next->prev = tmp;
     }
 
     // metodo per cambiare stanza
@@ -82,7 +115,7 @@
     // si chiama la funzione next_level() se la porta è di uscita, prev_level() se la porta è di entrata
     // si aggiorna la posizione del giocatore con quella dell'entrata/uscita confrontando la posizione del giocatore con quella delle porte
     // della stanza successiva in maniera duale (se si è entrati in un uscita allora si confronta con l'entrata della stanza successiva e viceversa)
-/*   
+  
     void Player::changeRoom(int direction) {
 
         int entry_NSWE = dungeon->retrive_entry_NSWE();
@@ -91,10 +124,10 @@
         if (direction == exit_NSWE) {
             wmove(dungeon->retrive_dungeon(), positionY, positionX);
             waddch(dungeon->retrive_dungeon(), ' ');
-            current->hideAll();
+            current->list.hideAll();
             dungeon->next_level();
-            if (dungeon->retrive_level_number() > maxId) { newList(5, 5, this->dungeon); }
-            setCurrent(dungeon->retrive_level_number());
+            if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
+            nextList();
 
             display::point_list *tmp = dungeon->retrive_entry();
             while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
@@ -102,13 +135,13 @@
             }
             positionX = tmp->p.x;
             positionY = tmp->p.y;
-        } else if (direction == entry_NSWE) {
 
+        } else if (direction == entry_NSWE) {
             wmove(dungeon->retrive_dungeon(), positionY, positionX);
             waddch(dungeon->retrive_dungeon(), ' ');
-            current->hideAll();
+            current->list.hideAll();
             dungeon->prev_level();
-            setCurrent(dungeon->retrive_level_number());
+            prevList();
 
             display::point_list *tmp = dungeon->retrive_exit();
             while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
@@ -117,31 +150,8 @@
             positionX = tmp->p.x;
             positionY = tmp->p.y;
         }
-
     }
 
-    void Player::setCurrent(int id) {
-        listOfLists *tmp = head;
-        while (head->list.getId() != id) {
-            head = head->next;
-        }
-        current = &(head->list);
-        head = tmp;
-    }
-
-    void Player::newList(int nMeelee, int nRanged, engine* dungeon) {
-        listOfLists *tmp = head;
-        maxId += 1;
-        List new_list(nMeelee, nRanged, dungeon, maxId);
-        while(head->next != NULL) {
-            head = head->next;
-        }
-        head->next = new listOfLists(new_list);
-        head = head->next;
-        head->next = NULL;
-        head = tmp;
-    }
-*/
     // metodo invocato quando viene sconfitto un nemico
     void Player::defeatedEnemy(bool isBoss) {
         if (isBoss) { setScore(1500); }
@@ -181,11 +191,7 @@
                 ;break;
         }
         display();
-        //current->updateAll(positionX, positionY);
+        current->list.updateAll(positionX, positionY);
         dungeon->refresh_dungeon();
         return move;
-    }
-
-    void Player::shoot(int direction){
-        Entity::addBullets(direction, true);
     }

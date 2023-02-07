@@ -7,16 +7,16 @@
 #include "engine.hpp"
 
 struct meeleeList {
-        Meelee meelee;
-        meeleeList* next;
-        meeleeList(Meelee m) : meelee(m), next(NULL) {}
-    };
+    Meelee meelee;
+    meeleeList* next;
+    meeleeList(Meelee m) : meelee(m), next(NULL) {}
+};
 
-    struct rangedList {
-        Ranged ranged;
-        rangedList* next;
-        rangedList(Ranged r) : ranged(r), next(NULL) {}
-    };
+struct rangedList {
+    Ranged ranged;
+    rangedList* next;
+    rangedList(Ranged r) : ranged(r), next(NULL) {}
+};
 
 class List {
 
@@ -24,6 +24,7 @@ protected:
     
     meeleeList* meeleeHead;
     rangedList* rangedHead;
+    BulletList* bulletsList;
     Items artifact;
     engine* dungeon;
     int id;
@@ -33,8 +34,6 @@ protected:
     int defeatedEnemies;
     bool artifactDisplayed;
     bool artifactTaken;
-
-    BulletList* bulletsList;
 
 public:
 
