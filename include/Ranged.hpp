@@ -16,7 +16,7 @@ protected:
 public:
 
     // costruttore
-    Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id);
+    Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, char character, int id, BulletList* bullets);
 
     // getters
     int getId();
@@ -30,4 +30,7 @@ public:
     // attacco se in range e se su stessa riga o colonna
     void update(int playerX, int playerY);
 
+    
+    int updateBullet(int PlayerX, int PlayerY);
+    void shoot(int direction);
 };

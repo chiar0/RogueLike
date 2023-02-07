@@ -12,8 +12,10 @@ private:
     int bulletsRemaining; // numero di proiettili rimanenti
     // level room; // stanza in cui si trova il player
 
+
 public:
-    Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
+    Player();
+    Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character, BulletList* bulletsList);
 
     // getters
     int getRange();
@@ -48,5 +50,12 @@ public:
     void defeatedEnemy(bool isBoss);
 
     // update si occupa di modificare lo stato (come posizione e altro) dell'entità
-    int update();
+    int update(int move);
+
+
+
+
+    //aggiornamento della lista dei proiettili
+    int updateBullet();
+    void shoot(int direction);
 };

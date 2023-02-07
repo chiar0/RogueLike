@@ -1,5 +1,7 @@
 #include "main.hpp"
 
+
+/*
 void controller(engine *dungeon, Player p, List l) { //gestisce l'input
     char ch = ' ';
     while(ch != 'x') {
@@ -7,8 +9,10 @@ void controller(engine *dungeon, Player p, List l) { //gestisce l'input
         l.updateAll(p.getPositionX(), p.getPositionY());
     }
 }
+*/
 
 int main() {
+    /*
     
     engine *dungeon=new engine();
     
@@ -23,5 +27,9 @@ int main() {
         controller(dungeon, p, l);
         break;
     }
+    */
+    Game* game = new Game();
+    game->gameLoop();
+
     return 0;
 }

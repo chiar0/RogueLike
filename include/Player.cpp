@@ -1,7 +1,9 @@
 #include "Player.hpp"
 
-    Player::Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character)
-    :Entity(positionX, positionY, HP, damage, dungeon, character) {
+    Player::Player() : Entity(){};
+
+    Player::Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character, BulletList* bulletsList)
+    :Entity(positionX, positionY, HP, damage, dungeon, character, bulletsList) {
         this->score = 0;
         this->collectedArtifacts = 0;
         this->bulletsRemaining = 0;
@@ -132,9 +134,8 @@
     }
  
     // update si occupa di modificare lo stato (come posizione, matrice delle adiacenze ed altro) dell'entità
-    int Player::update() {
+    int Player::update(int move) {
         updateNearby();
-        int move = getch();
         switch (move){
             case 'w':
                 moveUp();
@@ -149,22 +150,88 @@
                 moveRight();
                 ;break;
             
-            /*
             case KEY_UP:
-                attackUp();
+                shoot(1);
+                ;break;
             case KEY_DOWN:
-                attackDown();
+                shoot(3);
+                ;break;
             case KEY_LEFT:
-                attackLeft();
+                shoot(2);
                 ;break;
             case KEY_RIGHT:
-                attackRight();
+                shoot(4);
                 ;break;
-            */
+            
             default:
                 ;break;
         }
-        display();
-        dungeon->refresh_dungeon();
         return move;
+    }
+
+    /*
+    int Player::updateBullet(){
+        Bul aux = first, prev = first;
+        bool alive = false;
+        int hit = 0;
+
+        prev = first;
+
+        if(first != NULL){
+            while(aux != NULL){
+                //rimuovo il proiettile dalla posizione attuale
+                display::point p{aux->bullet.gety(), aux->bullet.getx()};
+                dungeon->write_char(p, ' ');
+                //mvwprintw(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx(), "%c", ' ');
+                //lo muovo e verifico se è finito su qualche entità/muro
+                alive = aux->bullet.move();
+
+                //lo tengo se colpisco il personaggio oppure niente
+                if(alive == true || (aux->bullet.getx() == Player::getPositionX() && aux->bullet.gety() == Player::getPositionY())){
+                    display::point p{aux->bullet.gety(), aux->bullet.getx()};
+                    dungeon->write_char(p, aux->bullet.getChar());
+                    //mvwprintw(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx(), "%c", aux->bullet.getChar());
+                    //aux->bullet.display();
+                    prev = aux;
+                    aux = aux->next;
+                }
+
+                else{
+                    //verifico se colpisco un nemico e in caso affermativo lo aggiorno
+                    char mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx());
+                    if(mapChar == 'R' || mapChar == 'M'){
+                        enemys->isHit(aux->bullet.getx(), aux->bullet.gety(), damage);
+                        hit = 1;
+                    }
+
+                    //altrimenti lo elimino dalla lista
+                    if(aux == first && first->next == NULL){
+                        delete aux;
+                        first = NULL;
+                        aux = NULL; 
+                    }
+                    else if(aux == first && first->next != NULL){
+                        first = first->next;
+                        delete aux;
+                        aux = NULL;
+                        aux = first;
+                    }
+                    else{
+                        prev->next = aux->next;
+                        delete aux;
+                        aux = NULL;
+                        aux = prev->next;
+                    }
+                    
+                }
+            }
+        }
+        display();
+
+        return hit;
+    }; 
+    */
+
+    void Player::shoot(int direction){
+        Entity::addBullets(direction, true);
     }

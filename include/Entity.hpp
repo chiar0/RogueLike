@@ -4,7 +4,9 @@
 #include <ncurses.h>
 #include <string.h>
 #include "engine.hpp"
+#include "BulletList.hpp"
 // #include "Misc.hpp"
+
 
 // Superclasse di tutte le entità che si trovano su schermo, quali player, nemici e artefatti/potenziamenti
 class Entity {
@@ -22,9 +24,15 @@ protected:
     int HP; // punti vita
     int damage; // danno che infligge
 
+    //puntatori per la gestione della lista di proiettili
+    BulletList* bulletsList;
+
+
+
 public:
     // costruttore
-    Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
+    Entity();
+    Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character, BulletList* bulletsList);
 
     // getters
     int getPositionX();
@@ -56,4 +64,12 @@ public:
 
     // metodo che controlla se ci sono nemici nelle vicinanze
     void isTouched(char *nearbyEntities);
+
+
+
+
+    //verifico se l'entità è stata colpita
+    void isHit(int bulletX, int bulletY, int dmg);
+    //
+    void addBullets(int direction, bool isEnemy);
 };
