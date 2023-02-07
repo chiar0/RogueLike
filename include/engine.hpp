@@ -48,15 +48,16 @@ public: //===================// =======
     bool ok_next_level();                   //controlla se esiste un livello successivo al livello corrente, se esiste ritorna true, altrimenti ritorna false
     void prev_level();                      //setta il livello precedente, se esiste, come livello corrente
     void next_level();                      //setta il livello successivo, se non esiste lo crea, come livello corrente
+    void clear_exit();                      //cancella i muri d'uscita
     WINDOW *retrive_scoreboard();           //ritorna il puntatore alla finestra del punteggio
     WINDOW *retrive_dungeon();              //ritorna il puntatore alla finestra del dungeon
     point_list *retrive_entry();            //ritorna il puntatore alla lista di coordinate dell'entrata
     point_list *retrive_exit();             //ritorna il puntatore alla lista di coordinate dell'uscita
     int retrive_entry_NSWE();               //ritorna la direzione del muro in cui si trova l'entrata
     int retrive_exit_NSWE();                //ritorna la direzione del muro in cui si trova l'uscita
-    int retrive_level_number();                    //ritorna il punteggio
-    int retrive_columns(); //restituisce il numero di colonne del dungeon
-    int retrive_rows(); //restituisce il numero di righe del dungeon
+    int retrive_level_number();             //ritorna il punteggio
+    int retrive_columns();                  //restituisce il numero di colonne del dungeon
+    int retrive_rows();                     //restituisce il numero di righe del dungeon
     void refresh_scoreboard();              //aggiorna la finestra del punteggio
     void refresh_dungeon();                 //aggiorna la finestra del dungeon
 };

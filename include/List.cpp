@@ -1,30 +1,41 @@
 #include "List.hpp"
 
-    List::List(int nMeelee, int nRanged, engine* dungeon, BulletList* bulletsList) {
+    List::List(int nMeelee, int nRanged, engine* dungeon, int id) {
         meeleeHead = NULL;
         rangedHead = NULL;
+        this->id = id;
+        this->meeleeNumber = nMeelee;
+        this->rangedNumber = nRanged;
+        this->defeatedEnemies = 0;
         this->dungeon = dungeon;
-        this->bulletsList = bulletsList;
-        for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee(i)); }
-        for (int i = 0; i < nRanged; i++) { addRanged(randomRanged(i)); }
+        for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee()); }
+        for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
+        display::point artifactPoint = dungeon->random_clear_point();
+        this->artifact = Items(artifactPoint.x, artifactPoint.y, dungeon, 'a');
+        this->artifactDisplayed = false;
+        this->artifactTaken = false;
     }
 
     // getters
-    meeleeList* List::getMeeleeHead() { return meeleeHead; }
-    rangedList* List::getRangedHead() { return rangedHead; }
+    List::meeleeList* List::getMeeleeHead() { return meeleeHead; }
+    List::rangedList* List::getRangedHead() { return rangedHead; }
+    int List::getId() { return id; }
+
+    // setters
+    void List::setDefeatedEnemies() { defeatedEnemies++; }
 
     // list functions
 
     // generazione di nemici meelee casuali
-    Meelee List::randomMeelee(int id) {
+    Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon, 'M', id, this->bulletsList);
+        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon);
         return generated;
     }
 
-    Ranged List::randomRanged(int id) {
+    Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
-        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon, 'R', id, this->bulletsList);
+        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon);
         return generated;
     }
 
@@ -46,22 +57,22 @@
 
     // rimozione di nemici meelee
     void List::removeMeelee(int x, int y) {
+        
+        defeatedEnemies++;
         meeleeList* current = meeleeHead;
         meeleeList* previous = NULL;
+
         while (current != NULL) {
+
             if (current->meelee.getPositionX() == x
                 && current->meelee.getPositionY() == y) {
                 if (previous == NULL) {
-                    display::point p{current->meelee.getPositionY(), current->meelee.getPositionY()};
-                    dungeon->write_char(p, ' ');
-                    //wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
-                    //waddch(dungeon->retrive_dungeon(), ' ');
+                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     meeleeHead = current->next;
                 } else {
-                    display::point p{current->meelee.getPositionY(), current->meelee.getPositionY()};
-                    dungeon->write_char(p, ' ');
-                    //wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
-                    //waddch(dungeon->retrive_dungeon(), ' ');
+                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     previous->next = current->next;
                 }
                 delete current;
@@ -69,27 +80,28 @@
             }
             previous = current;
             current = current->next;
+
         }
     }
 
     // rimozione di nemici ranged
     void List::removeRanged(int x, int y) {
+
+        defeatedEnemies++;
         rangedList* current = rangedHead;
         rangedList* previous = NULL;
+
         while (current != NULL) {
+
             if (current->ranged.getPositionX() == x
                 && current->ranged.getPositionY() == y) {
                 if (previous == NULL) {
-                    display::point p{current->ranged.getPositionY(), current->ranged.getPositionY()};
-                    dungeon->write_char(p, ' ');
-                    //wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
-                    //waddch(dungeon->retrive_dungeon(), ' ');
+                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     rangedHead = current->next;
                 } else {
-                    display::point p{current->ranged.getPositionY(), current->ranged.getPositionY()};
-                    dungeon->write_char(p, ' ');
-                    //wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
-                    //waddch(dungeon->retrive_dungeon(), ' ');
+                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
+                    waddch(dungeon->retrive_dungeon(), ' ');
                     previous->next = current->next;
                 }
                 delete current;
@@ -97,49 +109,83 @@
             }
             previous = current;
             current = current->next;
+
         }
-    }
-    
-    void List::updateAll(int playerX, int playerY) {
-        meeleeList *tempMeelee = meeleeHead;
-        rangedList *tempRanged = rangedHead;
-        int killedX, killedY;
-        while(tempMeelee != NULL) {
-            if(tempMeelee->meelee.getHP() > 0){
-                tempMeelee->meelee.update(playerX, playerY);
-                tempMeelee = tempMeelee->next;
-            }
-            else{
-                killedX = tempMeelee->meelee.getPositionX();
-                killedY = tempMeelee->meelee.getPositionY();
-                tempMeelee = tempMeelee->next;
-                removeMeelee(killedY, killedX);
-            }
-        }
-        while(tempRanged != NULL) {
-            if(tempRanged->ranged.getHP() > 0){
-                tempRanged->ranged.update(playerX, playerY);
-                tempRanged = tempRanged->next;
-            }
-            else{
-                killedX = tempRanged->ranged.getPositionX();
-                killedY = tempRanged->ranged.getPositionY();
-                tempRanged= tempRanged->next;
-                removeRanged(killedY, killedX);
-            }
-        }
+
     }
 
-    void List::isHit(int bulletX, int bulletY, int damage) {
+    // controllo se un nemico è morto
+
+    void List::checkDeads() {
+
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
+
         while(tempMeelee != NULL) {
-            tempMeelee->meelee.isHit(bulletX, bulletY, damage);
+            if (tempMeelee->meelee.isDead()) {
+                removeMeelee(tempMeelee->meelee.getPositionX(), tempMeelee->meelee.getPositionY());
+            }
             tempMeelee = tempMeelee->next;
         }
+
         while(tempRanged != NULL) {
-            tempRanged->ranged.isHit(bulletX, bulletY, damage);
+            if (tempRanged->ranged.isDead()) {
+                removeRanged(tempRanged->ranged.getPositionX(), tempRanged->ranged.getPositionY());
+            }
             tempRanged = tempRanged->next;
         }
+
     }
 
+    // aggiornamento di tutti i nemici
+    void List::updateAll(int playerX, int playerY) {
+
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        checkDeads();
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.update(playerX, playerY);
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            tempRanged->ranged.update(playerX, playerY);
+            tempRanged = tempRanged->next;
+        }
+        
+        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed) {
+            artifact.display();
+            artifactDisplayed = true;
+        }
+
+        if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
+            artifactTaken = true;
+            wmove(dungeon->retrive_dungeon(), artifact.getPositionY(), artifact.getPositionX());
+            waddch(dungeon->retrive_dungeon(), ' ');
+        }
+
+    }
+
+    void List::hideAll() {
+
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.hide();
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            tempRanged->ranged.hide();
+            tempRanged = tempRanged->next;
+        }
+
+        if (artifactDisplayed) {
+            artifact.hide();
+            artifactDisplayed = false;
+        }
+
+    }

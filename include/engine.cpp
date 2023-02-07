@@ -193,7 +193,7 @@ void engine::create_exit() { //creo un uscita casuale nel livello corrente
     }
     point_list *temp = current->exit->pointList;
     while (temp != nullptr) { //scrivo l'uscita sul dungeon corrente
-        write_char(temp->p, ' ');
+        write_char(temp->p, 'x');
         temp = temp->next;
     }
 }
@@ -340,6 +340,14 @@ void engine::next_level() { //setta il livello successivo come livello corrente 
     }
     refresh_dungeon(); //aggiorno la finestra del dungeon
     refresh_scoreboard(); //aggiorno la finestra del punteggio
+}
+
+void engine::clear_exit() { //sostituisce le x dell'uscita con spazi
+    display::point_list *p = current->exit->pointList;
+    while (p != nullptr) {
+        write_char(p->p, ' ');
+        p = p->next;
+    }
 }
 
 WINDOW *engine::retrive_scoreboard() { //restituisce il puntatore alla finestra del punteggio
