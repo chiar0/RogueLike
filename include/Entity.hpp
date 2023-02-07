@@ -4,7 +4,6 @@
 #include <ncurses.h>
 #include <string.h>
 #include "engine.hpp"
-// #include "Misc.hpp"
 
 // Superclasse di tutte le entità che si trovano su schermo, quali player, nemici e artefatti/potenziamenti
 class Entity {
@@ -24,7 +23,7 @@ protected:
 
 public:
     // costruttore
-    Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
+    Entity(int positionX, int positionY, int HP, int damage, engine* dungeon);
 
     // getters
     int getPositionX();
@@ -42,18 +41,19 @@ public:
     void setHP(int lostHPs);
     void setDamage();
 
-    // metodi di movimento
+    // metodi che aggiornano lo stato grafico dell'entità
     void display();
+    void hide();
     void update();
     void updateNearby();
+
+    // metodi di movimento
     void moveUp();
     void moveDown();
     void moveLeft();
     void moveRight();
 
     // metodo invocato per controllare se l'entità ha raggiunto 0 hp
-    void isDead();
+    bool isDead();
 
-    // metodo che controlla se ci sono nemici nelle vicinanze
-    void isTouched(char *nearbyEntities);
 };

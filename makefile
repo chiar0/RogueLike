@@ -1,5 +1,5 @@
-test: main.o display.o engine.o Entity.o Player.o Meelee.o Ranged.o List.o
-	g++ -o test main.o display.o engine.o Entity.o Player.o Meelee.o Ranged.o List.o -lncurses
+test: main.o display.o engine.o Entity.o Player.o Meelee.o Ranged.o Items.o List.o
+	g++ -o test main.o display.o engine.o Entity.o Player.o Meelee.o Ranged.o Items.o List.o -lncurses
 
 main.o: main.cpp include/engine.hpp include/display.hpp
 	g++ -c main.cpp -fno-stack-protector
@@ -22,8 +22,11 @@ Meelee.o: include/Meelee.cpp include/Meelee.hpp
 Ranged.o: include/Ranged.cpp include/Ranged.hpp 
 	g++ -c include/Ranged.cpp -fno-stack-protector
 
+Items.o: include/Items.cpp include/Items.hpp 
+	g++ -c include/Items.cpp -fno-stack-protector
+
 List.o: include/List.cpp include/List.hpp 
 	g++ -c include/List.cpp -fno-stack-protector
 
 clean:
-	rm *.o a.out
+	rm *.o a.out log.txt

@@ -1,29 +1,41 @@
 #include "List.hpp"
 
-    List::List(int nMeelee, int nRanged, engine* dungeon) {
+    List::List(int nMeelee, int nRanged, engine* dungeon, int id) {
         meeleeHead = NULL;
         rangedHead = NULL;
+        this->id = id;
+        this->meeleeNumber = nMeelee;
+        this->rangedNumber = nRanged;
+        this->defeatedEnemies = 0;
         this->dungeon = dungeon;
-        for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee(i)); }
-        for (int i = 0; i < nRanged; i++) { addRanged(randomRanged(i)); }
+        for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee()); }
+        for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
+        display::point artifactPoint = dungeon->random_clear_point();
+        this->artifact = Items(artifactPoint.x, artifactPoint.y, dungeon, 'a');
+        this->artifactDisplayed = false;
+        this->artifactTaken = false;
     }
 
     // getters
     List::meeleeList* List::getMeeleeHead() { return meeleeHead; }
     List::rangedList* List::getRangedHead() { return rangedHead; }
+    int List::getId() { return id; }
+
+    // setters
+    void List::setDefeatedEnemies() { defeatedEnemies++; }
 
     // list functions
 
     // generazione di nemici meelee casuali
-    Meelee List::randomMeelee(int id) {
+    Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon, 'M', id);
+        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon);
         return generated;
     }
 
-    Ranged List::randomRanged(int id) {
+    Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
-        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon, 'R', id);
+        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon);
         return generated;
     }
 
@@ -46,6 +58,7 @@
     // rimozione di nemici meelee
     void List::removeMeelee(int x, int y) {
         
+        defeatedEnemies++;
         meeleeList* current = meeleeHead;
         meeleeList* previous = NULL;
 
@@ -74,6 +87,7 @@
     // rimozione di nemici ranged
     void List::removeRanged(int x, int y) {
 
+        defeatedEnemies++;
         rangedList* current = rangedHead;
         rangedList* previous = NULL;
 
@@ -97,12 +111,39 @@
             current = current->next;
 
         }
+
     }
 
+    // controllo se un nemico è morto
+
+    void List::checkDeads() {
+
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        while(tempMeelee != NULL) {
+            if (tempMeelee->meelee.isDead()) {
+                removeMeelee(tempMeelee->meelee.getPositionX(), tempMeelee->meelee.getPositionY());
+            }
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            if (tempRanged->ranged.isDead()) {
+                removeRanged(tempRanged->ranged.getPositionX(), tempRanged->ranged.getPositionY());
+            }
+            tempRanged = tempRanged->next;
+        }
+
+    }
+
+    // aggiornamento di tutti i nemici
     void List::updateAll(int playerX, int playerY) {
 
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
+
+        checkDeads();
 
         while(tempMeelee != NULL) {
             tempMeelee->meelee.update(playerX, playerY);
@@ -114,4 +155,37 @@
             tempRanged = tempRanged->next;
         }
         
+        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed) {
+            artifact.display();
+            artifactDisplayed = true;
+        }
+
+        if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
+            artifactTaken = true;
+            wmove(dungeon->retrive_dungeon(), artifact.getPositionY(), artifact.getPositionX());
+            waddch(dungeon->retrive_dungeon(), ' ');
+        }
+
+    }
+
+    void List::hideAll() {
+
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.hide();
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            tempRanged->ranged.hide();
+            tempRanged = tempRanged->next;
+        }
+
+        if (artifactDisplayed) {
+            artifact.hide();
+            artifactDisplayed = false;
+        }
+
     }

@@ -1,18 +1,14 @@
 #include "Entity.hpp"
 
     // costruttore
-    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, char character){\
-
+    Entity::Entity(int positionX, int positionY, int HP, int damage, engine* dungeon){
         this->positionX = positionX;
         this->positionY = positionY;
-
         this->HP = HP;
         this->damage = damage;
         this->dungeon = dungeon;
-        this->character = character;
-
-        this-> xMax = getmaxx(this->dungeon->retrive_dungeon());
-        this-> yMax = getmaxy(this->dungeon->retrive_dungeon());
+        this->xMax = getmaxx(this->dungeon->retrive_dungeon());
+        this->yMax = getmaxy(this->dungeon->retrive_dungeon());
         
     }
 
@@ -35,6 +31,12 @@
     void Entity::display(){
         wmove(dungeon->retrive_dungeon(), getPositionY(), getPositionX());
         waddch(dungeon->retrive_dungeon(), character);
+    };
+
+    // metodo che oscura l'entità dalla finestra
+    void Entity::hide(){
+        wmove(dungeon->retrive_dungeon(), getPositionY(), getPositionX());
+        waddch(dungeon->retrive_dungeon(), ' ');
     };
 
     // metodo che aggiorna la matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
@@ -87,10 +89,11 @@
         display();
     }
 
-    void Entity::isDead() {
+    bool Entity::isDead() {
+        bool dead = false;
         if (HP <= 0) {
-            wmove(dungeon->retrive_dungeon(), positionY, positionX);
-            waddch(dungeon->retrive_dungeon(), ' ');
+            hide();
+            dead = true;
         }
-        display();
+        return dead;
     }

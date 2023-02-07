@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.hpp"
+#include "List.hpp"
 
 // Classe usata per il player
 class Player: public Entity{
@@ -10,15 +11,24 @@ private:
     int range; // distanza massima di attacco
     int collectedArtifacts; // numero di artefatti raccolti
     int bulletsRemaining; // numero di proiettili rimanenti
-    // level room; // stanza in cui si trova il player
+    int maxId;
+
+    struct listOfLists {
+        List list;
+        listOfLists* next;
+        listOfLists(List l) : list(l), next(NULL) {}
+    };
+    listOfLists* head;
+    List* current;
 
 public:
-    Player(int positionX, int positionY, int HP, int damage, engine* dungeon, char character);
+    Player(int positionX, int positionY, int HP, int damage, engine* dungeon);
 
     // getters
     int getRange();
     int getScore();
     int getCollectedArtifacts();
+    int getMaxId();
 
     // setters
     void setScore(int increase);
@@ -41,12 +51,13 @@ public:
     void attackLeft();
     void attackRight();
 
-    // metodo invocato quando si colleziona un artefatto
-    void artifactCollected();
+    // list of List functions
+    void setCurrent(int id);                    // imposta la lista corrente
+    void newList(int nMeelee, int nRanged, engine* dungeon);                   // aggiunge una lista alla lista di liste
 
     // metodo invocato quando viene affrontato un nemico
     void defeatedEnemy(bool isBoss);
 
     // update si occupa di modificare lo stato (come posizione e altro) dell'entità
-    int update();
+    char update();
 };
