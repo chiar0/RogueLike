@@ -1,5 +1,5 @@
-test: main.o display.o engine.o Bullet.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o
-	g++ -o test main.o display.o engine.o Bullet.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -lncurses
+test: main.o display.o engine.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o
+	g++ -o test main.o display.o engine.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -lncurses
 
 main.o: main.cpp include/engine.hpp include/display.hpp include/Game.hpp
 	g++ -c main.cpp -fno-stack-protector
@@ -11,10 +11,13 @@ engine.o: include/engine.cpp include/engine.hpp
 	g++ -c include/engine.cpp -fno-stack-protector
 
 Bullet.o: include/Bullet.cpp include/Bullet.hpp
-	g++ -c include/Bullet.cpp -fno-stack-protector
+	g++ -c include/Bullet.cpp
+
+Items.o: include/Items.cpp include/Items.hpp
+	g++ -c include/Items.cpp -fno-stack-protector
 
 BulletList.o: include/BulletList.cpp include/BulletList.hpp
-	g++ -c include/BulletList.cpp -fno-stack-protector
+	g++ -c include/BulletList.cpp
 
 Entity.o: include/Entity.cpp include/Entity.hpp 
 	g++ -c include/Entity.cpp -fno-stack-protector
