@@ -1,6 +1,6 @@
 #pragma once
 #include <ctime>
-#include "Player.hpp"
+#include "Player.hpp"   
 #include "List.hpp"
 #include "BulletList.hpp"
 
@@ -14,7 +14,7 @@ class Game{
 
         //classi e liste necessarie per il programma
         WINDOW* debug;
-        Player p;
+        Player* p;
         List* enemies;
         engine* dungeon;
 
@@ -29,7 +29,7 @@ class Game{
         listOfLists* head;
         listOfLists* current;
 
-        BulletList bulletsList;
+        BulletList *bulletsList;
         
     public:
         //costruttore
@@ -48,6 +48,5 @@ class Game{
         void checkMeelee();
         void checkRanged();
         void checkPlayer();
-        void checkPlayerOnly();
 
 };

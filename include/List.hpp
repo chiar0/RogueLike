@@ -59,5 +59,5 @@ public:
     void checkDeads();
     void updateAll(int playerX, int playerY);   // aggiorna tutti i nemici della lista
     void hideAll();                             // nasconde tutti i nemici, artefatti e potenziamenti della lista
-
+    void displayAll();
 };

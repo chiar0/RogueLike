@@ -1,6 +1,6 @@
 #include "Ranged.hpp"
 
-    Ranged::Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, BulletList* bullets)
+    Ranged::Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, BulletList* bulletsList)
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
         this->range = range;
         this->isBoss = isBoss;
