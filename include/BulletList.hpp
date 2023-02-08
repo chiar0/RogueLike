@@ -41,7 +41,7 @@ class BulletList{
         bullets* getBulletHead();
         void display();
         int listLength();
-        int isHit(int directionX, int directionY);
+        int isHit(int directionX, int directionY, char character);
         void addToList(Bullet* b);
 
 };

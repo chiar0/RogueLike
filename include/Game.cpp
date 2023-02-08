@@ -68,9 +68,9 @@ void Game::gameLoop(){
     bool end = true;
     int ch;
     int tps1 = time(0), cps, tps2;
-    updateCounter = 1;
+    updateCounter = 2;
     int copia;
-    int updateProjectile = 0;
+    int updateProjectile = 1;
 
 
     while(end){
@@ -78,7 +78,7 @@ void Game::gameLoop(){
         halfdelay(1);
 
         tps2 = time(0);
-        cps = abs(tps2 - tps1)*1000/(tick+100);
+        cps = abs(tps2 - tps1)*1000/(tick+50);
 
         if(ch == 'x')
             end = false;
@@ -86,24 +86,25 @@ void Game::gameLoop(){
             copia = ch; //la uso per vedere cosa ottiene in input
             p->update(ch);
             checkPlayer();
-            p->display();
             bulletsList->display();
+            p->display();
             //enemys->updateAll(p->getPositionX(), p->getPositionY());
         }
         
         if(cps > updateCounter){
             enemies->updateAll(p->getPositionX(), p->getPositionY());
-            //checkBullets(true);
-            bulletsList->display();
-            bulletsList->update();
-            checkBullets();
-            //updateCounter += 20;
             tps1 = time(0);
 
         }
         if(cps > updateProjectile){
-            updateProjectile += 5;
+            checkBullets();
+            //checkBullets(true);
+            bulletsList->update();
+            bulletsList->display();
+            enemies->displayAll();
+            p->display();
         }
+
         this->dungeon->refresh_dungeon();
         
         
@@ -143,7 +144,7 @@ void Game::checkMeelee(){
     auxMeelee = enemies->getMeeleeHead();
     bool hit = false;
     while(auxMeelee != NULL){
-        hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
+        hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
         auxMeelee = auxMeelee->next;
     }
 }
@@ -153,14 +154,14 @@ void Game::checkRanged(){
     auxRanged = enemies->getRangedHead();
     bool hit = false;
     while(auxRanged != NULL){
-        hit = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
+        hit = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
         auxRanged = auxRanged->next;
    }
    
 }
 
 void Game::checkPlayer(){
-   bulletsList->isHit(p->getPositionX(), p->getPositionY());
+   bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@');
 }
 
 

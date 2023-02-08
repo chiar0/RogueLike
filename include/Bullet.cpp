@@ -37,25 +37,18 @@ bool Bullet::move(){
             return false;
         break;
     }
-    //verifico se effettivamente il proiettile si muove porcoddio
+    //verifico se effettivamente il proiettile si muove 
     //dungeon->write_char(dungeon->random_clear_point(), 'q');
     //dungeon->refresh_dungeon();
     
     //verifico se sulla mappa è presente qualcosa su quella posiizone
-    display::point p{yLoc, xLoc};
     char mapChar = mvwinch(dungeon->retrive_dungeon(), yLoc, xLoc);
-    /*
-    if(mapChar == ' ' || mapChar == '+'){
-    //if(dungeon->is_point_clear(dungeon->retrive_dungeon(), p)){
+    if(mapChar == ' ' || mapChar == '+' || mapChar == character){
         return true;
     }
     else{
         return false;
     } 
-    */
-
-    return (mapChar == ' ' || mapChar == '+');
-
     //return false;
 }
 
@@ -73,7 +66,7 @@ char Bullet::getProjectile(){
     return this->bullet;
 }
 
-char Bullet::getChar(){
+char Bullet::getCharacter(){
     return this->character;
 }
 

@@ -191,3 +191,24 @@
         }
 
     }
+
+    void List::displayAll(){
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.display();
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            tempRanged->ranged.display();
+            tempRanged = tempRanged->next;
+        }
+
+        if (artifactDisplayed) {
+            artifact.display();
+        }
+
+
+    }

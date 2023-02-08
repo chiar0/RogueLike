@@ -25,7 +25,7 @@ class Bullet{
         int getx();                             
         int gety();
         char getProjectile();
-        char getChar();
+        char getCharacter();
         int dir();
         bool getIsEnemy();
         int getDamage();
