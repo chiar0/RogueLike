@@ -163,8 +163,8 @@
         
         if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
             artifactTaken = true;
-            wmove(dungeon->retrive_dungeon(), artifact.getPositionY(), artifact.getPositionX());
-            waddch(dungeon->retrive_dungeon(), ' ');
+            artifact.hide();
+            dungeon->clear_exit();
         }
         
 
@@ -193,6 +193,7 @@
     }
 
     void List::displayAll(){
+
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
 
@@ -206,9 +207,8 @@
             tempRanged = tempRanged->next;
         }
 
-        if (artifactDisplayed) {
-            artifact.display();
-        }
-
+        // if (artifactDisplayed) {
+        //     artifact.display();
+        // }
 
     }

@@ -48,7 +48,7 @@
             positionY = positionY + 1;
         } else if (nearby[2][1] == 'a') {
             hide();
-            positionY = positionY - 1;
+            positionY = positionY + 1;
             setCollectedArtifacts();
         }
         if (positionY == yMax-1) { flag = changeRoom(1); }
@@ -62,7 +62,7 @@
             positionX = positionX - 1;
         } else if (nearby[1][0] == 'a') {
             hide();
-            positionY = positionY - 1;
+            positionX = positionX - 1;
             setCollectedArtifacts();
         }
         if (positionX == 0) { flag = changeRoom(2); }
@@ -76,7 +76,7 @@
             positionX = positionX + 1;
         } else if (nearby[1][2] == 'a') {
             hide();
-            positionY = positionY - 1;
+            positionX = positionX + 1;
             setCollectedArtifacts();
         }
         if (positionX == xMax-1) { flag = changeRoom(3); }
