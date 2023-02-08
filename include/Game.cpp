@@ -6,13 +6,13 @@ Game::Game(){
     this->dungeon = new engine();
     BulletList tmpB(this->dungeon);
     this->bulletsList = tmpB;
-    this->enemies = new List(4, 4, dungeon, 4, &bulletsList);
+    this->enemies = new List(4, 4, dungeon, 4, &bulletsList, &p);
     Player tmpP(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, &this->bulletsList);
     this->p = tmpP;
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 4, dungeon, 0, &bulletsList));
-    this->head->next = new listOfLists(List(4, 4, dungeon, 1, &bulletsList));
+    this->head = new listOfLists(List(4, 4, dungeon, 0, &bulletsList, &p));
+    this->head->next = new listOfLists(List(4, 4, dungeon, 1, &bulletsList, &p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
@@ -51,7 +51,7 @@ void Game::prevList() {
 void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;
-    List new_list(nMeelee, nRanged, dungeon, maxId, &bulletsList);
+    List new_list(nMeelee, nRanged, dungeon, maxId, &bulletsList, &p);
     while(tmp->next != NULL) {
         tmp = tmp->next;
     }

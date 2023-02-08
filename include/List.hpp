@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "Ranged.hpp"
 #include "Meelee.hpp"
+#include "Player.hpp"
 #include "Items.hpp"
 #include "engine.hpp"
 
@@ -25,6 +26,7 @@ protected:
     meeleeList* meeleeHead;
     rangedList* rangedHead;
     BulletList* bulletsList;
+    Player* p;
     Items artifact;
     engine* dungeon;
     int id;
@@ -37,7 +39,7 @@ protected:
 
 public:
 
-    List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList) ;
+    List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player* p) ;
 
     // getters
     meeleeList* getMeeleeHead();
