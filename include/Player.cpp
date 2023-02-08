@@ -34,6 +34,7 @@
             positionY = positionY - 1;
         } else if (nearby[0][1] == 'a') {
             hide();
+            dungeon->clear_exit();
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
@@ -48,6 +49,7 @@
             positionY = positionY + 1;
         } else if (nearby[2][1] == 'a') {
             hide();
+            dungeon->clear_exit();
             positionY = positionY + 1;
             setCollectedArtifacts();
         }
@@ -62,6 +64,7 @@
             positionX = positionX - 1;
         } else if (nearby[1][0] == 'a') {
             hide();
+            dungeon->clear_exit();
             positionX = positionX - 1;
             setCollectedArtifacts();
         }
@@ -76,6 +79,7 @@
             positionX = positionX + 1;
         } else if (nearby[1][2] == 'a') {
             hide();
+            dungeon->clear_exit();
             positionX = positionX + 1;
             setCollectedArtifacts();
         }

@@ -13,12 +13,11 @@ Game::Game(){
     this->bulletsList =  new BulletList(this->dungeon);
     this->bulletsList->startDungeon(dungeon);
     this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, this->bulletsList);
-    this->enemies = new List(4, 4, dungeon, 4, this->bulletsList, p);
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 0, dungeon, 0, bulletsList, p));
-    this->head->next = new listOfLists(List(0, 0, dungeon, 1, bulletsList, p));
+    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
@@ -75,6 +74,7 @@ void Game::gameLoop(){
 
 
     while(end){
+        int changedRoom = 0;
         ch = getch();
         halfdelay(1);
 
@@ -85,15 +85,47 @@ void Game::gameLoop(){
             end = false;
         if(ch != ERR){
             copia = ch; //la uso per vedere cosa ottiene in input
-            p->update(ch);
+            changedRoom = p->update(ch);
+            if (changedRoom != 0) {
+                wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
+                waddch(dungeon->retrive_dungeon(), ' ');
+                current->list.hideAll();
+                switch (changedRoom) {
+                    case 1:
+                        {dungeon->next_level();
+                        if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
+                        nextList();
+
+                        display::point_list *entryPoints = dungeon->retrive_entry();
+                        while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {
+                            entryPoints = entryPoints->next;
+                        }
+                        p->setPositionX(entryPoints->p.x);
+                        p->setPositionY(entryPoints->p.y);}
+                        ;break;
+                    case 2:
+                        {dungeon->prev_level();
+                        prevList();
+
+                        display::point_list *exitPoints = dungeon->retrive_exit();
+                        while(exitPoints->p.x != p->getPositionX() && exitPoints->p.y != p->getPositionY()) {
+                            exitPoints = exitPoints->next;
+                        }
+                        p->setPositionX(exitPoints->p.x);
+                        p->setPositionY(exitPoints->p.y);}
+                        ;break;
+                    default:
+                        break;
+                }
+            }
             checkPlayer();
             bulletsList->display();
             p->display();
-            enemies->displayAll();
+            current->list.displayAll();
         }
         
         if(cps > updateCounter){
-            enemies->updateAll(p->getPositionX(), p->getPositionY());
+            current->list.updateAll(p->getPositionX(), p->getPositionY());
             tps1 = time(0);
 
         }
@@ -102,7 +134,7 @@ void Game::gameLoop(){
             //checkBullets(true);
             bulletsList->update();
             bulletsList->display();
-            enemies->displayAll();
+            current->list.displayAll();
             p->display();
         }
 
@@ -124,12 +156,12 @@ void Game::checkBullets(){
 
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
-    auxMeelee = enemies->getMeeleeHead();
+    auxMeelee = current->list.getMeeleeHead();
     int hit = 0;
     while(auxMeelee != NULL){
         hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
         if(hit > 0)
-            enemies->removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
+            current->list.removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
         else
             auxMeelee = auxMeelee->next;
     }
@@ -137,12 +169,12 @@ void Game::checkMeelee(){
 
 void Game::checkRanged(){
     rangedList* auxRanged;
-    auxRanged = enemies->getRangedHead();
+    auxRanged = current->list.getRangedHead();
     int damageTaken = 0;
     while(auxRanged != NULL){
         damageTaken = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
         if(damageTaken > 0)
-            enemies->removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
+            current->list.removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
         else
             auxRanged = auxRanged->next;
    }

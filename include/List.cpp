@@ -45,7 +45,6 @@
         meeleeList* newMeelee = new meeleeList(meelee);
         newMeelee->next = meeleeHead;
         meeleeHead = newMeelee;
-        newMeelee->meelee.display();
     }
 
     // aggiunta di nemici ranged
@@ -53,7 +52,6 @@
         rangedList* newRanged = new rangedList(ranged);
         newRanged->next = rangedHead;
         rangedHead = newRanged;
-        newRanged->ranged.display();
     }
 
     // rimozione di nemici meelee
@@ -156,7 +154,7 @@
             tempRanged = tempRanged->next;
         }
         
-        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed) {
+        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed && !artifactTaken) {
             artifact.display();
             artifactDisplayed = true;
         }
@@ -164,7 +162,6 @@
         if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
             artifactTaken = true;
             artifact.hide();
-            dungeon->clear_exit();
         }
         
 

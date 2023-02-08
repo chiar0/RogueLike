@@ -15,7 +15,7 @@ class Game{
         //classi e liste necessarie per il programma
         WINDOW* debug;
         Player* p;
-        List* enemies;
+        // List* enemies;
         engine* dungeon;
 
         int maxId;
