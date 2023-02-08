@@ -5,7 +5,7 @@
 
 class Bullet{
     private:
-        engine* dungeon;
+        engine* dungeon = NULL;
         int damage;
         int xLoc, yLoc;
         int direction;
@@ -16,7 +16,7 @@ class Bullet{
 
     public:
         Bullet(engine *dungeon, int damage, int xLoc, int yLoc, int direction, char bullet, char character);
-
+        
         void genb(int xLoc, int yLoc);          //genera il proiettile
         bool move();                            //aggiorna la posizione e controlla cosa ha colpito
         void display();                         //riposiziona il proiettile dopo averlo mosso(attualmente non in uso)

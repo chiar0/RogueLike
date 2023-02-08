@@ -8,13 +8,13 @@
         this->rangedNumber = nRanged;
         this->defeatedEnemies = 0;
         this->dungeon = dungeon;
+        this->bulletsList = bulletsList;
         for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee()); }
         for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
         display::point artifactPoint = dungeon->random_clear_point();
-        this->artifact = Items(artifactPoint.x, artifactPoint.y, dungeon, 'a');
+        this->artifact = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'a');
         this->artifactDisplayed = false;
         this->artifactTaken = false;
-        this->bulletsList = bulletsList;
     }
 
     // getters
