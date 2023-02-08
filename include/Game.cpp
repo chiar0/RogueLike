@@ -12,12 +12,13 @@ Game::Game(){
     this->dungeon = new engine();
     this->bulletsList =  new BulletList(this->dungeon);
     this->bulletsList->startDungeon(dungeon);
-    this->enemies = new List(4, 4, dungeon, 4, this->bulletsList);
     this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, this->bulletsList);
+    this->enemies = new List(4, 4, dungeon, 4, this->bulletsList, p);
+    
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 0, dungeon, 0, bulletsList));
-    this->head->next = new listOfLists(List(0, 0, dungeon, 1, bulletsList));
+    this->head = new listOfLists(List(0, 0, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(0, 0, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
@@ -54,7 +55,7 @@ void Game::prevList() {
 void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;
-    List new_list(nMeelee, nRanged, dungeon, maxId, bulletsList);
+    List new_list(nMeelee, nRanged, dungeon, maxId, bulletsList, this->p);
     while(tmp->next != NULL) {
         tmp = tmp->next;
     }
@@ -88,7 +89,7 @@ void Game::gameLoop(){
             checkPlayer();
             bulletsList->display();
             p->display();
-            //enemys->updateAll(p->getPositionX(), p->getPositionY());
+            enemies->displayAll();
         }
         
         if(cps > updateCounter){
@@ -106,24 +107,6 @@ void Game::gameLoop(){
         }
 
         this->dungeon->refresh_dungeon();
-        
-        
-        //gestione finestra di debug
-        /*
-        bullets* tmp = bulletsList->getBulletHead();
-        if(false){
-            int ver = 0;
-            if(tmp == NULL) ver = 1;
-            werase(debug);
-            mvwprintw(debug, 1, 1, "xp = %d, yp = %d", tmp->bullet.getx(), tmp->bullet.gety());
-            mvwprintw(debug, 2, 1, "upc = %d\t, clock = %d\t, tps2 = %d",  updateCounter, tps, ver);
-            mvwprintw(debug, 3, 1, "click = %c, length = %d\n, hit = %d",  (char)copia, bulletsList->listLength(), hacolpito);
-        }
-        int ver = 0;
-        
-        wrefresh(debug);
-        */
-        
     }
 };
 
@@ -142,26 +125,32 @@ void Game::checkBullets(){
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
     auxMeelee = enemies->getMeeleeHead();
-    bool hit = false;
+    int hit = 0;
     while(auxMeelee != NULL){
         hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
-        auxMeelee = auxMeelee->next;
+        if(hit > 0)
+            enemies->removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
+        else
+            auxMeelee = auxMeelee->next;
     }
 }
 
 void Game::checkRanged(){
     rangedList* auxRanged;
     auxRanged = enemies->getRangedHead();
-    bool hit = false;
+    int damageTaken = 0;
     while(auxRanged != NULL){
-        hit = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
-        auxRanged = auxRanged->next;
+        damageTaken = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
+        if(damageTaken > 0)
+            enemies->removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
+        else
+            auxRanged = auxRanged->next;
    }
    
 }
 
 void Game::checkPlayer(){
-   bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@');
+   p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
 }
 
 

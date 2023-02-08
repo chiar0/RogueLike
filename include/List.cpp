@@ -1,6 +1,6 @@
 #include "List.hpp"
 
-    List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList) {
+    List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player*p) {
         meeleeHead = NULL;
         rangedHead = NULL;
         this->id = id;

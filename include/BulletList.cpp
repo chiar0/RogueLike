@@ -21,7 +21,7 @@ BulletList::BulletList(engine* dungeon){
 
 void BulletList::addBullet(engine* dun, int damage, int positionX, int positionY, int direction, char character, char projectile, bool isEnemy){
     Bullet* bul = new Bullet(dun, damage, positionX, positionY, direction, projectile, character);
-    bul->move();
+    //bul->move();
     bul->display();
     addToList(bul);
 }
@@ -172,7 +172,6 @@ void BulletList::addToList(Bullet* bul){
         bulletHead = tmp;
     }
     
-    //tmp->bullet->move();
 }
 
 

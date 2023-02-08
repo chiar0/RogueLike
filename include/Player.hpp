@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "List.hpp"
 
 // Classe usata per il player
 class Player: public Entity{
