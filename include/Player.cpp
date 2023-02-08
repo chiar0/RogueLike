@@ -92,12 +92,8 @@
     // non effettuo il controllo se la lista esiste perchè nella head c'è sempre una lista di nemici
 
     // metodo per cambiare stanza
-    // se la direction corrisponde al campo NSWE di un'uscita/entrata, allora (dato che si è arrivati alla fine della stanza) la flag è 1,
-    // altrimenti (dato che si è arrivati all'inizio della stanza) la flag è 2
-    // a seconda della flag, nel game si chiama la funzione next_level() se la porta è di uscita, prev_level() se la porta è di entrata
-    // si aggiorna la posizione del giocatore con quella dell'entrata/uscita confrontando la posizione del giocatore con quella delle porte
-    // della stanza successiva in maniera duale (se si è entrati in un uscita allora si confronta con l'entrata della stanza successiva e viceversa)
-    // inoltre, prima di cambiare stanza, vengono nascosti tutti i nemici della stanza che si sta per lasciare
+    // se la direction corrisponde al campo NSWE di un'uscita/entrata, allora a seconda di dove si sta cercando di entrare
+    // la flag assume valore di 1 (uscita) o 2 (entrata)
   
     int Player::changeRoom(int direction) {
 
