@@ -14,8 +14,8 @@ class Timer {
         static Timer* Instance();
         static void release();
         void reset();
-        float DeltaTime();
-        void TimeScale(float t = 1.0f);
-        float TimeScale();
+        float getDeltaTime();
+        void setTimeScale(float t = 1.0f);
+        float getTimeScale();
         void tick();
 };

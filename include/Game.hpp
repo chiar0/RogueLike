@@ -3,6 +3,7 @@
 #include "Player.hpp"   
 #include "List.hpp"
 #include "BulletList.hpp"
+#include "Timer.hpp"
 
 
 class Game{
@@ -30,6 +31,8 @@ class Game{
         listOfLists* current;
 
         BulletList *bulletsList;
+        Timer* enemyTimer = Timer::Instance();
+        Timer* bulletTimer = Timer::Instance();
         
     public:
         //costruttore
@@ -48,5 +51,7 @@ class Game{
         void checkMeelee();
         void checkRanged();
         void checkPlayer();
+
+        void updatePlayer(int move);
 
 };

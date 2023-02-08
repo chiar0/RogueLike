@@ -16,7 +16,7 @@ Game::Game(){
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
+    this->head = new listOfLists(List(4, 1, dungeon, 0, bulletsList, p));
     this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
@@ -71,12 +71,15 @@ void Game::gameLoop(){
     updateCounter = 2;
     int copia;
     int updateProjectile = 1;
+    float enemyFrameRate = 3.0f;
+    float bulletFrameRate = 9.0f;
 
 
     while(end){
         int changedRoom = 0;
         ch = getch();
-        halfdelay(1);
+        
+        enemyTimer->tick();
 
         tps2 = time(0);
         cps = abs(tps2 - tps1)*1000/(tick+50);
@@ -85,57 +88,27 @@ void Game::gameLoop(){
             end = false;
         if(ch != ERR){
             copia = ch; //la uso per vedere cosa ottiene in input
-            changedRoom = p->update(ch);
-            if (changedRoom != 0) {
-                wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
-                waddch(dungeon->retrive_dungeon(), ' ');
-                current->list.hideAll();
-                switch (changedRoom) {
-                    case 1:
-                        {dungeon->next_level();
-                        if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
-                        nextList();
-
-                        display::point_list *entryPoints = dungeon->retrive_entry();
-                        while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {
-                            entryPoints = entryPoints->next;
-                        }
-                        p->setPositionX(entryPoints->p.x);
-                        p->setPositionY(entryPoints->p.y);}
-                        ;break;
-                    case 2:
-                        {dungeon->prev_level();
-                        prevList();
-
-                        display::point_list *exitPoints = dungeon->retrive_exit();
-                        while(exitPoints->p.x != p->getPositionX() && exitPoints->p.y != p->getPositionY()) {
-                            exitPoints = exitPoints->next;
-                        }
-                        p->setPositionX(exitPoints->p.x);
-                        p->setPositionY(exitPoints->p.y);}
-                        ;break;
-                    default:
-                        break;
-                }
-            }
+            updatePlayer(ch);
             checkPlayer();
             bulletsList->display();
             p->display();
             current->list.displayAll();
         }
-        
-        if(cps > updateCounter){
+        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             current->list.updateAll(p->getPositionX(), p->getPositionY());
             tps1 = time(0);
-
+            enemyTimer->reset();
+            bulletFrameRate = 9.0f;
         }
-        if(cps > updateProjectile){
+
+        if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
             checkBullets();
             //checkBullets(true);
             bulletsList->update();
             bulletsList->display();
             current->list.displayAll();
             p->display();
+            bulletFrameRate -= enemyFrameRate;
         }
 
         this->dungeon->refresh_dungeon();
@@ -183,6 +156,42 @@ void Game::checkRanged(){
 
 void Game::checkPlayer(){
    p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
+}
+
+void Game::updatePlayer(int move){
+    int changedRoom = p->update(move);
+    if (changedRoom != 0) {
+        wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
+        waddch(dungeon->retrive_dungeon(), ' ');
+        current->list.hideAll();
+        switch (changedRoom) {
+            case 1:
+                {dungeon->next_level();
+                if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
+                nextList();
+
+                display::point_list *entryPoints = dungeon->retrive_entry();
+                while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {
+                    entryPoints = entryPoints->next;
+                }
+                p->setPositionX(entryPoints->p.x);
+                p->setPositionY(entryPoints->p.y);}
+                ;break;
+            case 2:
+                {dungeon->prev_level();
+                prevList();
+
+                display::point_list *exitPoints = dungeon->retrive_exit();
+                while(exitPoints->p.x != p->getPositionX() && exitPoints->p.y != p->getPositionY()) {
+                    exitPoints = exitPoints->next;
+                }
+                p->setPositionX(exitPoints->p.x);
+                p->setPositionY(exitPoints->p.y);}
+                ;break;
+            default:
+                break;
+        }
+    }
 }
 
 

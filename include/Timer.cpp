@@ -25,15 +25,15 @@ void Timer::reset(){
     startTime = std::chrono::system_clock::now();
 }
 
-float Timer::DeltaTime(){
+float Timer::getDeltaTime(){
     return deltaTime.count();
 }
 
-void Timer::TimeScale(float t){
+void Timer::setTimeScale(float t){
     timeScale = t;
 }
 
-float Timer::TimeScale(){
+float Timer::getTimeScale(){
     return timeScale;
 }
 
