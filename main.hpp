@@ -8,6 +8,7 @@
 #include "include/Meelee.hpp"
 #include "include/Ranged.hpp"
 #include "include/List.hpp"
+#include "include/Game.hpp"
 
 void controller(engine *dungeon, Player *p); //gestisce l'input
 

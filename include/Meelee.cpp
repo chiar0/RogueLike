@@ -1,8 +1,8 @@
 #include "Meelee.hpp"
 
     // costruttore
-    Meelee::Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon)
-    :Entity(positionX, positionY, HP, damage, dungeon) {
+    Meelee::Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, BulletList* bulletsList)
+    :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
 
         this->isBoss = isBoss;
         this->isTaunted = false; // ogni nemico corpo a corpo di base non è "taunted"
