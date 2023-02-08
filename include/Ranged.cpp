@@ -14,6 +14,9 @@
     // setters
     void Ranged::setRange(int range) { range = range; }
 
+    // metodo per l'aggiornamento dell'entità, in base a quanto è distante dal player decide se sparare o meno
+    // se il player è in range allora spara se si trovano allineati in orizzontale o verticale,
+    // altrimenti si muove verso il player (se in range), altrimenti in maniera casuale
     void Ranged::update(int playerX, int playerY) {
         int dx = playerX - positionX;
         int dy = playerY - positionY;

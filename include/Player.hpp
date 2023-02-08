@@ -7,13 +7,14 @@
 class Player: public Entity{
 
 private: 
-    int score; // punteggio del player
-    int range; // distanza massima di attacco
-    int collectedArtifacts; // numero di artefatti raccolti
-    int bulletsRemaining; // numero di proiettili rimanenti
+    int score;                  // punteggio del player
+    int range;                  // distanza massima di attacco
+    int collectedArtifacts;     // numero di artefatti raccolti
+    int bulletsRemaining;       // numero di proiettili rimanenti
     
 public:
 
+    // costruttore
     Player();
     Player(int positionX, int positionY, int HP, int damage, engine* dungeon, BulletList* bulletsList);
 
@@ -28,21 +29,14 @@ public:
     void setRange(int range);
 
     // metodi per il movimento
-    bool moveUp();
-    bool moveDown();
-    bool moveLeft();
-    bool moveRight();
+    int moveUp();
+    int moveDown();
+    int moveLeft();
+    int moveRight();
     void shoot(int direction);
 
-    // metodo cambio stanza
-    bool changeRoom(int direction);
-
-    // metodo invocato quando viene affrontato un nemico
-    void defeatedEnemy(bool isBoss);
-
-    // update si occupa di modificare lo stato (come posizione e altro) dell'entità
-    char update(int move);
-
-    //aggiornamento della lista dei proiettili
-    int updateBullet();
+    int changeRoom(int direction);      // metodo cambio stanza
+    void defeatedEnemy(bool isBoss);    // metodo invocato quando viene affrontato un nemico
+    int update(int move);               // update si occupa di modificare lo stato (come posizione e altro) dell'entità
+    int updateBullet();                 //aggiornamento della lista dei proiettili
 };

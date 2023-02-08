@@ -12,16 +12,16 @@ class Entity {
 protected:
 
     // attributi necessari alla parte grafica
-    int positionX, xMax; // posizione X nella window e dimensione massima X
-    int positionY, yMax; // posizione Y nella window e dimensione massima Y
-    engine *dungeon; // dungeon in cui si trova l'entità
-    char character; // carattere che rappresenta l'entità
-    char nearby[3][3]; // matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
+    int positionX, xMax;        // posizione X nella window e dimensione massima X
+    int positionY, yMax;        // posizione Y nella window e dimensione massima Y
+    engine *dungeon;            // dungeon in cui si trova l'entità
+    char character;             // carattere che rappresenta l'entità
+    char nearby[3][3];          // matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
 
     // attributi del gioco
-    int HP; // punti vita
-    int damage; // danno che infligge
-    BulletList* bulletsList;
+    int HP;                     // punti vita
+    int damage;                 // danno che infligge
+    BulletList* bulletsList;    // lista di proiettili
 
 public:
     // costruttore

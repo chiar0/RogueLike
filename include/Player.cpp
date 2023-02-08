@@ -23,12 +23,12 @@
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
 
     // metodi per il movimento:
-    // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze), se lo è allora si sposta
-    // se si è arrivati alla fine della stanza si hiama la funzione di cambio stanza con la direzione corrispondente
-    // se non si è arrivati alla fine della stanza si chiama la funzione di display per aggiornare la posizione del giocatore
+    // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile,
+    // se questo si verifica allora si sposta
+    // se si è arrivati alla fine della stanza si chiama la funzione di cambio stanza con la direzione corrispondente
 
-    bool Player::moveUp() {
-        bool flag = false;
+    int Player::moveUp() {
+        int flag = 0;
         if (nearby[0][1] == ' ' || nearby[0][1] == '+') {
             hide();
             positionY = positionY - 1;
@@ -37,12 +37,12 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == 0) { flag = true; changeRoom(0); }
+        if (positionY == 0) { flag = changeRoom(0); }
         return flag;
     }
 
-    bool Player::moveDown() {
-        bool flag = false;
+    int Player::moveDown() {
+        int flag = 0;
         if (nearby[2][1] == ' ' || nearby[2][1] == '+') {
             hide();
             positionY = positionY + 1;
@@ -51,12 +51,12 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionY == yMax-1) { flag = true; changeRoom(1); }
+        if (positionY == yMax-1) { flag = changeRoom(1); }
         return flag;
     }
 
-    bool Player::moveLeft() {
-        bool flag = false;
+    int Player::moveLeft() {
+        int flag = 0;
         if (nearby[1][0] == ' ' || nearby[1][0] == '+') {
             hide();
             positionX = positionX - 1;
@@ -65,12 +65,12 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == 0) { flag = true; changeRoom(2); }
+        if (positionX == 0) { flag = changeRoom(2); }
         return flag;
     }
 
-    bool Player::moveRight() {
-        bool flag = false;
+    int Player::moveRight() {
+        int flag = 0;
         if (nearby[1][2] == ' ' || nearby[1][2] == '+') {
             hide();   
             positionX = positionX + 1;
@@ -79,7 +79,7 @@
             positionY = positionY - 1;
             setCollectedArtifacts();
         }
-        if (positionX == xMax-1) { flag = true; changeRoom(3); }
+        if (positionX == xMax-1) { flag = changeRoom(3); }
         return flag;
     }
 
@@ -92,77 +92,50 @@
     // non effettuo il controllo se la lista esiste perchè nella head c'è sempre una lista di nemici
 
     // metodo per cambiare stanza
-    // se la direction corrisponde al campo NSWE di un'uscita/entrata, allora (dato che si è arrivati alla fine della stanza)
-    // si chiama la funzione next_level() se la porta è di uscita, prev_level() se la porta è di entrata
+    // se la direction corrisponde al campo NSWE di un'uscita/entrata, allora (dato che si è arrivati alla fine della stanza) la flag è 1,
+    // altrimenti (dato che si è arrivati all'inizio della stanza) la flag è 2
+    // a seconda della flag, nel game si chiama la funzione next_level() se la porta è di uscita, prev_level() se la porta è di entrata
     // si aggiorna la posizione del giocatore con quella dell'entrata/uscita confrontando la posizione del giocatore con quella delle porte
     // della stanza successiva in maniera duale (se si è entrati in un uscita allora si confronta con l'entrata della stanza successiva e viceversa)
+    // inoltre, prima di cambiare stanza, vengono nascosti tutti i nemici della stanza che si sta per lasciare
   
-    bool Player::changeRoom(int direction) {
+    int Player::changeRoom(int direction) {
 
         int entry_NSWE = dungeon->retrive_entry_NSWE();
         int exit_NSWE = dungeon->retrive_exit_NSWE();
-        bool flag;
+        int flag;
 
-        if (direction == exit_NSWE) {
-            /*
-            wmove(dungeon->retrive_dungeon(), positionY, positionX);
-            waddch(dungeon->retrive_dungeon(), ' ');
-            current->list.hideAll();
-            dungeon->next_level();
-            if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
-            nextList();
-
-            display::point_list *tmp = dungeon->retrive_entry();
-            while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
-                tmp = tmp->next;
-            }
-            positionX = tmp->p.x;
-            positionY = tmp->p.y;
-            */
-           flag = true;
-
-        } else if (direction == entry_NSWE) {
-            /*
-            wmove(dungeon->retrive_dungeon(), positionY, positionX);
-            waddch(dungeon->retrive_dungeon(), ' ');
-            current->list.hideAll();
-            dungeon->prev_level();
-            prevList();
-
-            display::point_list *tmp = dungeon->retrive_exit();
-            while(tmp->p.x != getPositionX() && tmp->p.y != getPositionY()) {
-                tmp = tmp->next;
-            }
-            positionX = tmp->p.x;
-            positionY = tmp->p.y;
-            */
-           flag = false;
-        }
+        if (direction == exit_NSWE) { flag = 1; }
+        else if (direction == entry_NSWE) { flag = 2; }
 
         return flag;
 
     }
 
-    // metodo invocato quando viene sconfitto un nemico
+    // metodo invocato quando viene sconfitto un nemico e si aggiorna il punteggio
     void Player::defeatedEnemy(bool isBoss) {
         if (isBoss) { setScore(1500); }
         else { setScore(500); }
     }
  
     // update si occupa di modificare lo stato (come posizione, matrice delle adiacenze ed altro) dell'entità
-    char Player::update(int move) { 
+    // in base all'input del giocatore, esso si muove o spara; l'output è la flag che indica se si è cambiata stanza o meno
+    // per appunto segnalarlo al game
+    int Player::update(int move) {
+        updateNearby();
+        int changedRoom = 0;
         switch (move){
             case 'w':
-                moveUp();
+                changedRoom = moveUp();
                 ;break;
             case 's':
-                moveDown();
+                changedRoom = moveDown();
                 ;break;
             case 'a':
-                moveLeft();
+                changedRoom = moveLeft();
                 ;break;
             case 'd':
-                moveRight();
+                changedRoom = moveRight();
                 ;break;
             
             case KEY_UP:
@@ -183,5 +156,5 @@
         }
         display();
         dungeon->refresh_dungeon();
-        return move;
+        return changedRoom;
     }

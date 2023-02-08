@@ -9,8 +9,8 @@ class Ranged: public Entity {
 
 protected:
 
-    int range; // distanza massima di attacco
-    bool isBoss; // = true se è un boss (più forte, più vita, più danno)
+    int range;      // distanza massima di attacco
+    bool isBoss;       // = true se è un boss (più forte, più vita, più danno)
 
 public:
 
@@ -24,8 +24,7 @@ public:
     // setters
     void setRange(int range);
     
-    // update con movimento non certo in direzioni casuali (se non in range), movimento in direzione del player se in range,
-    // attacco se in range e se su stessa riga o colonna
+    // update per l'aggiornamento dell'entità, in base a quanto è distante dal player decide se sparare o meno
     void update(int playerX, int playerY);
 
     void shoot(int direction);
