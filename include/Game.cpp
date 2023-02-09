@@ -12,11 +12,11 @@ Game::Game(){
     this->dungeon = new engine();
     this->bulletsList =  new BulletList(this->dungeon);
     this->bulletsList->startDungeon(dungeon);
-    this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, this->bulletsList);
+    this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 5, dungeon, this->bulletsList);
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
+    this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList, p));
     this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
@@ -158,7 +158,9 @@ void Game::updatePlayer(int move){
             case 1:
                 {;
                 dungeon->next_level();
-                if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
+                int nMeelee = 4 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
+                int nRanged = 4 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
+                if (dungeon->retrive_level_number() > maxId) { newList(nMeelee, nRanged, this->dungeon); }
                 nextList();
 
                 display::point_list *entryPoints = dungeon->retrive_entry();

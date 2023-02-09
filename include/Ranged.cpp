@@ -5,6 +5,7 @@
         this->range = range;
         this->isBoss = isBoss;
         this->character = 'R';
+        updateNearby();
     }
 
     // getters
@@ -18,6 +19,7 @@
     // se il player è in range allora spara se si trovano allineati in orizzontale o verticale,
     // altrimenti si muove verso il player (se in range), altrimenti in maniera casuale
     void Ranged::update(int playerX, int playerY) {
+        updateNearby();
         int dx = playerX - positionX;
         int dy = playerY - positionY;
         int distance = sqrt(dx * dx + dy * dy);

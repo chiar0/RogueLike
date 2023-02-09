@@ -26,6 +26,8 @@ public:
     void setScore(int increase);
     void setCollectedArtifacts();
     void setRange(int range);
+    void powerUpDamage(int increase);
+    void powerUpHP(int increase);
 
     // metodi per il movimento
     int moveUp();

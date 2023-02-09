@@ -21,6 +21,8 @@
     void Player::setRange(int increase) { range += increase; }
     void Player::setScore(int increase) { score += increase; }
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
+    void Player::powerUpDamage(int increase) { damage += increase; }
+    void Player::powerUpHP(int increase) { HP += increase; }
 
     // metodi per il movimento:
     // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile,
@@ -37,6 +39,15 @@
             dungeon->clear_exit();
             positionY = positionY - 1;
             setCollectedArtifacts();
+        } else if (nearby[0][1] == 'p') {
+            hide();
+            positionY = positionY - 1;
+            int r = rand() % 2;
+            if (r == 0) {
+                powerUpDamage(3);
+            } else {
+                powerUpHP(10);
+            }
         }
         if (positionY == 0) { flag = changeRoom(0); }
         return flag;
@@ -52,6 +63,15 @@
             dungeon->clear_exit();
             positionY = positionY + 1;
             setCollectedArtifacts();
+        } else if (nearby[2][1] == 'p') {
+            hide();
+            positionY = positionY + 1;
+            int r = rand() % 2;
+            if (r == 0) {
+                powerUpDamage(3);
+            } else {
+                powerUpHP(10);
+            }
         }
         if (positionY == yMax-1) { flag = changeRoom(1); }
         return flag;
@@ -67,6 +87,15 @@
             dungeon->clear_exit();
             positionX = positionX - 1;
             setCollectedArtifacts();
+        } else if (nearby[1][0] == 'p') {
+            hide();
+            positionX = positionX - 1;
+            int r = rand() % 2;
+            if (r == 0) {
+                powerUpDamage(3);
+            } else {
+                powerUpHP(10);
+            }
         }
         if (positionX == 0) { flag = changeRoom(2); }
         return flag;
@@ -82,6 +111,15 @@
             dungeon->clear_exit();
             positionX = positionX + 1;
             setCollectedArtifacts();
+        } else if (nearby[1][2] == 'p') {
+            hide();
+            positionX = positionX + 1;
+            int r = rand() % 2;
+            if (r == 0) {
+                powerUpDamage(3);
+            } else {
+                powerUpHP(10);
+            }
         }
         if (positionX == xMax-1) { flag = changeRoom(3); }
         return flag;

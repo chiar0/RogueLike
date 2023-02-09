@@ -28,6 +28,7 @@ protected:
     BulletList* bulletsList;
     Player* p;
     Items artifact;
+    Items powerUp;
     engine* dungeon;
     int id;
 
@@ -36,6 +37,8 @@ protected:
     int defeatedEnemies;
     bool artifactDisplayed;
     bool artifactTaken;
+    bool powerUpDisplayed;
+    bool powerUpTaken;
 
 public:
 

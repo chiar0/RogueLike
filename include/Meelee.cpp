@@ -9,6 +9,7 @@
         this->chaseBlocks = chaseBlocks;
         this->currentChaseBlocks = chaseBlocks;
         this->character = 'M';
+        updateNearby(); // aggiorno le entità vicine
     }
 
     // getters

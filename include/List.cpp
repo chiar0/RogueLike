@@ -13,8 +13,11 @@
         for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
         display::point artifactPoint = dungeon->random_clear_point();
         this->artifact = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'a');
+        this->powerUp = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'p');
         this->artifactDisplayed = false;
         this->artifactTaken = false;
+        this->powerUpDisplayed = false;
+        this->powerUpTaken = false;
     }
 
     // getters
@@ -30,13 +33,14 @@
     // generazione di nemici meelee casuali
     Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15, 3, false, 3, dungeon, bulletsList);
+        while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
+        Meelee generated = Meelee(p.x, p.y, 15+(id*3/2), 3+id, false, 3, dungeon, bulletsList);
         return generated;
     }
 
     Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
-        Ranged generated = Ranged(p.x, p.y, 10, 5, 7, false, dungeon, bulletsList);
+        Ranged generated = Ranged(p.x, p.y, 10+(id*3/2), 5+id, 7, false, dungeon, bulletsList);
         return generated;
     }
 
@@ -153,18 +157,27 @@
             tempRanged = tempRanged->next;
         }
         
-        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed && !artifactTaken) {
+        if (defeatedEnemies >= (meeleeNumber + rangedNumber)/2 && !artifactDisplayed && !artifactTaken) {
             artifact.display();
             artifactDisplayed = true;
         }
         
-        if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
+        if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed && !artifactTaken) {
             artifactTaken = true;
             artifact.hide();
             artifactDisplayed = false;
         }
         
+        if (!powerUpDisplayed && !powerUpTaken) {
+            powerUp.display();
+            powerUpDisplayed = true;
+        }
 
+        if (playerX == powerUp.getPositionX() && playerY == powerUp.getPositionY() && powerUpDisplayed && !powerUpTaken) {
+            powerUpTaken = true;
+            powerUp.hide();
+            powerUpDisplayed = false;
+        }
     }
 
     void List::hideAll() {
@@ -182,6 +195,11 @@
             tempRanged = tempRanged->next;
         }
 
+        if (powerUpDisplayed) {
+            powerUp.hide();
+            powerUpDisplayed = false;
+        }
+
     }
 
     void List::displayAll(){
@@ -197,6 +215,11 @@
         while(tempRanged != NULL) {
             tempRanged->ranged.display();
             tempRanged = tempRanged->next;
+        }
+
+        if (!powerUpDisplayed && !powerUpTaken) {
+            powerUp.display();
+            powerUpDisplayed = true;
         }
 
     }
