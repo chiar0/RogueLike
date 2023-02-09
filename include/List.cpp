@@ -161,6 +161,7 @@
         if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
             artifactTaken = true;
             artifact.hide();
+            artifactDisplayed = false;
         }
         
 
@@ -181,11 +182,6 @@
             tempRanged = tempRanged->next;
         }
 
-        if (artifactDisplayed) {
-            artifact.hide();
-            artifactDisplayed = false;
-        }
-
     }
 
     void List::displayAll(){
@@ -202,9 +198,5 @@
             tempRanged->ranged.display();
             tempRanged = tempRanged->next;
         }
-
-        // if (artifactDisplayed) {
-        //     artifact.display();
-        // }
 
     }
