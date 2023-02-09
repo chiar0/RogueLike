@@ -16,8 +16,8 @@ Game::Game(){
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList, p));
-    this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
+    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(0, 1, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;

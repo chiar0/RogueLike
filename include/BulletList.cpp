@@ -172,30 +172,37 @@ void BulletList::addToList(Bullet* bul){
 }
 
 void BulletList::resetList(){
-    
+    hideAll(); 
     if(bulletHead != NULL){
-        
         if(bulletHead->bullet != NULL){
-            
             //bulletHead->bullet->hideBullet();
         }
         if(bulletHead->next != NULL){
             
-        bullets* aux = bulletHead->next;
-        bullets* tmp = NULL;
-        
-        while(aux != NULL){
-            aux->bullet->hideBullet();
-            aux = removeBullet(aux);
+            bullets* aux = bulletHead->next; 
+            bullets* tmp = NULL;
+             
+            while(aux->next != NULL){
+                tmp = aux;
+                aux = aux->next;
+                delete tmp;
             }
-        }
-        
+            delete aux->next;
+        }      
         //delete aux;
-    
-        this->bulletHead = NULL;   
+        this->bulletHead = NULL;  
     }  
-    
-    
+}
+
+
+void BulletList::hideAll(){
+    if(this->bulletHead != NULL){
+        bullets* tmp = bulletHead;
+        while(tmp != NULL){
+            tmp->bullet->hideBullet();
+            tmp = tmp->next;
+        }
+    }
 }
 
 
