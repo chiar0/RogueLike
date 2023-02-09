@@ -151,8 +151,7 @@ void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
         bulletsList->resetList();
-        wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
-        waddch(dungeon->retrive_dungeon(), ' ');
+        p->hide();
         current->list.hideAll();
         switch (changedRoom) {
             case 1:
