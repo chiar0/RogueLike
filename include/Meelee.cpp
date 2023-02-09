@@ -19,7 +19,7 @@
     // setters
     void Meelee::setIsTaunted(bool isTaunted) { this->isTaunted = isTaunted; }
 
-    // update con movimento non certo in direzioni casuali (dx, sx, up, down)
+    // update con movimento non certo in direzioni casuali (dx, sx, up, down), altrimenti segue il player se è "taunted"
     void Meelee::update(int playerX, int playerY) {
 
         int direction;

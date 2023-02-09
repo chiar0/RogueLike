@@ -1,23 +1,27 @@
 #include "Game.hpp"
 
+/*
+endwin();
+printf();
+exit();
+*/
+
 
 Game::Game(){
     //generazione dungeon e nemici
     this->dungeon = new engine();
-    BulletList tmpB(this->dungeon);
-    this->bulletsList = tmpB;
-    this->enemies = new List(4, 4, dungeon, 4, &bulletsList);
-    Player tmpP(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, &this->bulletsList);
-    this->p = tmpP;
+    this->bulletsList =  new BulletList(this->dungeon);
+    this->bulletsList->startDungeon(dungeon);
+    this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, this->bulletsList);
+    
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 4, dungeon, 0, &bulletsList));
-    this->head->next = new listOfLists(List(4, 4, dungeon, 1, &bulletsList));
+    this->head = new listOfLists(List(4, 1, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
     
-
     //generazione finestra di debug
     /*
     this->debug = newwin(7, 120, 1, 10);
@@ -26,7 +30,6 @@ Game::Game(){
     wrefresh(debug);
     */
     
-
     //varie funzioni di libreria di ncurses
     nodelay(dungeon->retrive_dungeon(), true);
     nodelay(stdscr, true);
@@ -51,7 +54,7 @@ void Game::prevList() {
 void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;
-    List new_list(nMeelee, nRanged, dungeon, maxId, &bulletsList);
+    List new_list(nMeelee, nRanged, dungeon, maxId, bulletsList, this->p);
     while(tmp->next != NULL) {
         tmp = tmp->next;
     }
@@ -65,63 +68,50 @@ void Game::gameLoop(){
     bool end = true;
     int ch;
     int tps1 = time(0), cps, tps2;
-    updateCounter = 1;
+    updateCounter = 2;
     int copia;
-    int updateProjectile = 0;
+    int updateProjectile = 1;
+    float enemyFrameRate = 3.0f;
+    float bulletFrameRate = 9.0f;
 
 
     while(end){
+        int changedRoom = 0;
         ch = getch();
-        halfdelay(1);
+        
+        enemyTimer->tick();
 
         tps2 = time(0);
-        cps = abs(tps2 - tps1)*1000/(tick+100);
+        cps = abs(tps2 - tps1)*1000/(tick+50);
 
         if(ch == 'x')
             end = false;
         if(ch != ERR){
             copia = ch; //la uso per vedere cosa ottiene in input
-            p.update(ch);
-            checkPlayerOnly();
-            p.display();
-            //bulletsList->display();
-            //enemys->updateAll(p->getPositionX(), p->getPositionY());
+            updatePlayer(ch);
+            checkPlayer();
+            bulletsList->display();
+            p->display();
+            current->list.displayAll();
         }
-        
-        if(cps > updateCounter){
-            enemies->updateAll(p.getPositionX(), p.getPositionY());
-            //checkBullets(true);
-            bulletsList.update();
-            //checkBullets(true);
-            //bulletsList.display();
-            updateCounter += 10;
-
-        }
-        if(cps > updateProjectile){
-            updateProjectile += 5;
+        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
+            current->list.updateAll(p->getPositionX(), p->getPositionY());
+            tps1 = time(0);
+            enemyTimer->reset();
+            bulletFrameRate = 9.0f;
         }
 
+        if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
+            checkBullets();
+            //checkBullets(true);
+            bulletsList->update();
+            bulletsList->display();
+            current->list.displayAll();
+            p->display();
+            bulletFrameRate -= enemyFrameRate;
+        }
 
         this->dungeon->refresh_dungeon();
-        
-
-        bullets* tmp = bulletsList.getBulletHead();
-        //finestra di debug
-        /*
-        if(false){
-            int ver = 0;
-            if(tmp == NULL) ver = 1;
-            werase(debug);
-            mvwprintw(debug, 1, 1, "xp = %d, yp = %d", tmp->bullet.getx(), tmp->bullet.gety());
-            mvwprintw(debug, 2, 1, "upc = %d\t, clock = %d\t, tps2 = %d",  updateCounter, tps, ver);
-            mvwprintw(debug, 3, 1, "click = %c, length = %d\n, hit = %d",  (char)copia, bulletsList->listLength(), hacolpito);
-        }
-        int ver = 0;
-        
-        wrefresh(debug);
-        */
-        
-        //napms(50);
     }
 };
 
@@ -139,32 +129,71 @@ void Game::checkBullets(){
 
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
-    auxMeelee = enemies->getMeeleeHead();
-    bool hit = false;
+    auxMeelee = current->list.getMeeleeHead();
+    int hit = 0;
     while(auxMeelee != NULL){
-        hit = bulletsList.isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
-        auxMeelee = auxMeelee->next;
+        hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
+        if(hit > 0)
+            current->list.removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
+        else
+            auxMeelee = auxMeelee->next;
     }
 }
 
 void Game::checkRanged(){
     rangedList* auxRanged;
-    auxRanged = enemies->getRangedHead();
-    bool hit = false;
+    auxRanged = current->list.getRangedHead();
+    int damageTaken = 0;
     while(auxRanged != NULL){
-        hit = bulletsList.isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
-        auxRanged = auxRanged->next;
+        damageTaken = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
+        if(damageTaken > 0)
+            current->list.removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
+        else
+            auxRanged = auxRanged->next;
    }
    
 }
 
 void Game::checkPlayer(){
-   bulletsList.isHit(p.getPositionX(), p.getPositionY());
+   p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
 }
 
-void Game::checkPlayerOnly(){
-   bulletsList.isHit(p.getPositionX(), p.getPositionY());
+void Game::updatePlayer(int move){
+    int changedRoom = p->update(move);
+    if (changedRoom != 0) {
+        wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
+        waddch(dungeon->retrive_dungeon(), ' ');
+        current->list.hideAll();
+        switch (changedRoom) {
+            case 1:
+                {dungeon->next_level();
+                if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
+                nextList();
+
+                display::point_list *entryPoints = dungeon->retrive_entry();
+                while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {
+                    entryPoints = entryPoints->next;
+                }
+                p->setPositionX(entryPoints->p.x);
+                p->setPositionY(entryPoints->p.y);}
+                ;break;
+            case 2:
+                {dungeon->prev_level();
+                prevList();
+
+                display::point_list *exitPoints = dungeon->retrive_exit();
+                while(exitPoints->p.x != p->getPositionX() && exitPoints->p.y != p->getPositionY()) {
+                    exitPoints = exitPoints->next;
+                }
+                p->setPositionX(exitPoints->p.x);
+                p->setPositionY(exitPoints->p.y);}
+                ;break;
+            default:
+                break;
+        }
+    }
 }
+
 
 
 

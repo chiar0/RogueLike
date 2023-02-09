@@ -1,8 +1,9 @@
 #pragma once
 #include <ctime>
-#include "Player.hpp"
+#include "Player.hpp"   
 #include "List.hpp"
 #include "BulletList.hpp"
+#include "Timer.hpp"
 
 
 class Game{
@@ -14,8 +15,8 @@ class Game{
 
         //classi e liste necessarie per il programma
         WINDOW* debug;
-        Player p;
-        List* enemies;
+        Player* p;
+        // List* enemies;
         engine* dungeon;
 
         int maxId;
@@ -29,7 +30,9 @@ class Game{
         listOfLists* head;
         listOfLists* current;
 
-        BulletList bulletsList;
+        BulletList *bulletsList;
+        Timer* enemyTimer = Timer::Instance();
+        Timer* bulletTimer = Timer::Instance();
         
     public:
         //costruttore
@@ -48,6 +51,7 @@ class Game{
         void checkMeelee();
         void checkRanged();
         void checkPlayer();
-        void checkPlayerOnly();
+
+        void updatePlayer(int move);
 
 };

@@ -27,7 +27,7 @@ public:
     int getMaxY();
 
     // metodi per la gestione su schermo
-    void hide();
-    void display();
+    void hide();        // nasconde l'entità
+    void display();     // mostra l'entità
 
 };

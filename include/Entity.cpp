@@ -101,11 +101,13 @@
         return dead;
     }
 
+    // metodo che controlla se l'entità è stata colpita da un bullet
     void Entity::isHit(int bulletX, int bulletY, int dmg){
     if(bulletX == this->positionX && bulletY == this->positionY)
         setHP(dmg);
     }
 
+    // metodo che aggiunge un bullet alla lista di proiettili
     void Entity::addBullets(int direction, bool isEnemy){
-        this->bulletsList->addBullet(damage, direction, positionX, positionY, character, '+', isEnemy);
+        this->bulletsList->addBullet(this->dungeon, this->damage, this->positionX, this->positionY, direction, this->character, (char)'+', isEnemy);
     }

@@ -1,74 +1,69 @@
 #include "BulletList.hpp"
 
-BulletList::BulletList() {
-  this->bulletHead = NULL;
-  this->dungeon = NULL;
+
+BulletList::BulletList(){
+    this->bulletHead = NULL;
+    this->dungeon = NULL;
 }
 
+bullets::bullets(){
+    bullet = NULL;
+    prev = NULL;
+    next = NULL;
+}
 
 BulletList::BulletList(engine* dungeon){
+    bullets* tmp = NULL;
     this->bulletHead = NULL;
+    bulletHead->length();
     this->dungeon = dungeon;
 }
 
-void BulletList::addBullet(int damage, int direction, int positionX, int positionY, char character, char projectile, bool isEnemy){
-    Bullet bul(this->dungeon, damage, positionX, positionY, direction, projectile, character);
-    bullets* tmp = new bullets(bul, NULL, NULL);
-    tmp->bullet = bul;
-    tmp->next = NULL;
-    tmp->prev = NULL;
-    
-    if(bulletHead == NULL){
-        bulletHead = tmp;
-    }
-    else{
-        tmp->next = bulletHead;
-        bulletHead->prev = tmp;
-        bulletHead = tmp;
-    }
+void BulletList::addBullet(engine* dun, int damage, int positionX, int positionY, int direction, char character, char projectile, bool isEnemy){
+    Bullet* bul = new Bullet(dun, damage, positionX, positionY, direction, projectile, character);
+    //bul->move();
+    bul->display();
+    addToList(bul);
 }
 
+void BulletList::startDungeon(engine* dungeon){
+    this->dungeon = dungeon;
+}
 
 void BulletList::update(){
     bullets* aux = this->bulletHead;
     bullets* prev = this->bulletHead;
     bool alive;
-
-
     if(bulletHead != NULL){
         while(aux != NULL){
-            display::point p{aux->bullet.gety(), aux->bullet.getx()};
+            display::point p{aux->bullet->gety(), aux->bullet->getx()};
             dungeon->write_char(p, ' ');
-            alive = aux->bullet.move();
-
-            char mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx());
-            if(alive == true){
-                display::point p{aux->bullet.gety(), aux->bullet.getx()};
-                dungeon->write_char(p, aux->bullet.getChar());
-                aux->bullet.display();
+            alive = aux->bullet->move();
+            char mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet->gety(), aux->bullet->getx());
+            if(alive == true || mapChar == '@' || mapChar == 'R' || mapChar == 'M'){
+                //aux->bullet->display();
                 prev = aux;
-                aux->next;
+                aux = aux->next;
             }
             else{
                 if(aux == bulletHead && bulletHead->next == NULL){
-                        delete aux;
-                        bulletHead = NULL;
-                        aux = NULL; 
-                    }
-                    else if(aux == bulletHead && bulletHead->next != NULL){
-                        bulletHead = bulletHead->next;
-                        delete aux;
-                        aux = NULL;
-                        aux = bulletHead;
-                    }
-                    else{
-                        prev->next = aux->next;
-                        delete aux;
-                        aux = NULL;
-                        aux = prev->next;
+                    delete aux;
+                    bulletHead = NULL;
+                    aux = NULL; 
+                }
+                else if(aux == bulletHead && bulletHead->next != NULL){
+                    bulletHead = bulletHead->next;
+                    delete aux;
+                    aux = NULL;
+                    aux = bulletHead;
+                }
+                else{
+                    prev->next = aux->next;
+                    delete aux;
+                    aux = NULL;
+                    aux = prev->next;
                 }
             }
-            //dungeon->refresh_dungeon();
         }
     }
 }
@@ -76,30 +71,12 @@ void BulletList::update(){
 bullets* BulletList::removeBullet(bullets* bullet){
     bullets* aux;
     bullets* tmp;
-    /*
-    if(bullet != bulletHead){
-        bullets* aux = bullet->prev;
-        aux->next = bullet->next;
-        aux = bullet;
-        bullet = bullet->next;
-        bullet->prev = aux->prev;
-        delete aux;
-    }
-    else{
-        bullets* aux = bulletHead;
-        bulletHead = bulletHead->next;
-        bulletHead->prev = NULL;
-        delete aux;
-        bulletHead = NULL;
-        aux = ;
-    }
-    */
-
     if(bullet != bulletHead){
         aux = bullet->prev;
         aux->next = bullet->next;
         aux = bullet;
         bullet->prev = aux->prev;
+        delete aux->bullet;
         delete aux;
     }
     else{
@@ -115,42 +92,42 @@ bullets* BulletList::getBulletHead(){
 }
 
 void BulletList::display(){
-    bullets* aux = this->bulletHead;
-
-
+    bullets* aux = bulletHead;
     if(bulletHead != NULL){
         while(aux != NULL){
-            display::point p{aux->bullet.gety(), aux->bullet.getx()};
-            this->dungeon->write_char(p, aux->bullet.getChar());
-            if(mvwinch(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx()) == '+'){
-                dungeon->write_char(dungeon->random_clear_point(), 'q');
-                dungeon->refresh_dungeon();
+            //display::point p{aux->bullet.gety(), aux->bullet.getx()};
+            //this->dungeon->write_char(p, aux->bullet.getChar());
+            aux->bullet->display();
+            if(mvwinch(dungeon->retrive_dungeon(), aux->bullet->gety(), aux->bullet->getx()) == '+'){
+                //dungeon->write_char(dungeon->random_clear_point(), 'q');
+                //dungeon->refresh_dungeon();
             }
             aux = aux->next;
         }
     }
-    //dungeon->refresh_dungeon();
+    dungeon->refresh_dungeon();
 }
 
 int BulletList::listLength(){
     return bulletHead->length();
 }
 
-int BulletList::isHit(int directionX, int directionY){
-    bullets* aux = this->bulletHead;
-    bullets* prev = this->bulletHead;
+int BulletList::isHit(int directionX, int directionY, char character){
+    bullets* aux = NULL;
+    aux = bulletHead;
+    bullets* prev = bulletHead;
     bool alive;
     int damageTaken = 0;
-
-
-    if(bulletHead != NULL){
+    int bulletX;
+    int bulletY;
+    
+    if(aux != NULL){
+        //this->dungeon->write_char(this->dungeon->random_clear_point(), 'l');
         while(aux != NULL){
-            int bulletX = aux->bullet.getx();
-            int bulletY = aux->bullet.gety();
-
-            //char mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet.gety(), aux->bullet.getx());
-            if(bulletX == directionX && directionY == bulletY){
-                damageTaken += aux->bullet.getDamage();
+            bulletX = aux->bullet->getx();
+            bulletY = aux->bullet->gety();
+            if(bulletX == directionX && directionY == bulletY && character != aux->bullet->getCharacter()){
+                damageTaken += aux->bullet->getDamage();
                 if(aux == bulletHead && bulletHead->next == NULL){
                     delete aux;
                     bulletHead = NULL;
@@ -171,13 +148,30 @@ int BulletList::isHit(int directionX, int directionY){
             }
             else{
                 prev = aux;
-                aux->next;
+                aux = aux->next;
+                3;
             }
         }
-        //dungeon->refresh_dungeon();
     }
+
     return damageTaken;
 }
 
+void BulletList::addToList(Bullet* bul){
+    bullets* tmp = new bullets();
+    tmp->bullet = bul;
+    tmp->next = NULL;
+    tmp->prev = NULL;
+
+    if(bulletHead != NULL){
+        tmp->next = bulletHead;
+        bulletHead->prev = tmp;
+        bulletHead = tmp;
+    }
+    else{
+        bulletHead = tmp;
+    }
+    
+}
 
 

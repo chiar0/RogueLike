@@ -14,13 +14,13 @@
     int Items::getMaxX() { return xMax; }
     int Items::getMaxY() { return yMax; }
 
-    // display
+    // si sposta sulla posizione dell'entità e aggiunge il carattere relativo
     void Items::display() {
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
         waddch(dungeon->retrive_dungeon(), character);
     }
 
-    // hide
+    // si sposta sulla posizione dell'entità e aggiunge il carattere vuoto
     void Items::hide() {
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
         waddch(dungeon->retrive_dungeon(), ' ');

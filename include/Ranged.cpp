@@ -1,6 +1,6 @@
 #include "Ranged.hpp"
 
-    Ranged::Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, BulletList* bullets)
+    Ranged::Ranged(int positionX, int positionY, int HP, int damage, int range, bool isBoss, engine* dungeon, BulletList* bulletsList)
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
         this->range = range;
         this->isBoss = isBoss;
@@ -14,6 +14,9 @@
     // setters
     void Ranged::setRange(int range) { range = range; }
 
+    // metodo per l'aggiornamento dell'entità, in base a quanto è distante dal player decide se sparare o meno
+    // se il player è in range allora spara se si trovano allineati in orizzontale o verticale,
+    // altrimenti si muove verso il player (se in range), altrimenti in maniera casuale
     void Ranged::update(int playerX, int playerY) {
         int dx = playerX - positionX;
         int dy = playerY - positionY;

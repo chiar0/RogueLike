@@ -1,6 +1,6 @@
 #include "Bullet.hpp"
 
-Bullet::Bullet(engine *dungeon, int damage, int xLoc, int yLoc, int direction, char bullet, char character){
+Bullet::Bullet(engine* dungeon, int damage, int xLoc, int yLoc, int direction, char bullet, char character){
     this->dungeon = dungeon;
     this->damage = damage;
     this->xLoc = xLoc;
@@ -19,7 +19,7 @@ void Bullet::genb(int xLoc, int yLoc){
 bool Bullet::move(){
     bool alive = true;
     //muovo in base alla direzione con la quale è stato generato il proiettile
-    switch(this->direction){
+    switch(direction){
         case 1: //up
             yLoc = yLoc - 1;
         break;
@@ -37,26 +37,27 @@ bool Bullet::move(){
             return false;
         break;
     }
-    //verifico se effettivamente il proiettile si muove porcoddio
+    //verifico se effettivamente il proiettile si muove 
     //dungeon->write_char(dungeon->random_clear_point(), 'q');
     //dungeon->refresh_dungeon();
     
     //verifico se sulla mappa è presente qualcosa su quella posiizone
-    display::point p{yLoc, xLoc};
     char mapChar = mvwinch(dungeon->retrive_dungeon(), yLoc, xLoc);
-    if(mapChar == ' ' || mapChar == '+'){
-            return true;
-        }
-        else{
-            return false;
-        }
+    if(mapChar == ' ' || mapChar == '+' || mapChar == character){
+        return true;
+    }
+    else{
+        return false;
+    } 
+    //return false;
 }
 
 void Bullet::display(){
-    wmove(dungeon->retrive_dungeon(), this->yLoc, this->xLoc);
-    waddch(dungeon->retrive_dungeon(), '+');
-    //mvwprintw(win, 0, 0, "%d %d", yLoc, xLoc);
-    //mvwprintw(this->win, this->yLoc, this->xLoc, "%c", this->bullet);
+    //wmove(dungeon->retrive_dungeon(), this->yLoc, this->xLoc);
+    //waddch(dungeon->retrive_dungeon(), '+');
+    display::point p{yLoc, xLoc};
+    dungeon->write_char(p, '+');
+    dungeon->refresh_dungeon();
 }
 
 
@@ -65,7 +66,7 @@ char Bullet::getProjectile(){
     return this->bullet;
 }
 
-char Bullet::getChar(){
+char Bullet::getCharacter(){
     return this->character;
 }
 

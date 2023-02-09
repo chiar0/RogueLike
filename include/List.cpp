@@ -1,6 +1,6 @@
 #include "List.hpp"
 
-    List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList) {
+    List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player*p) {
         meeleeHead = NULL;
         rangedHead = NULL;
         this->id = id;
@@ -8,13 +8,13 @@
         this->rangedNumber = nRanged;
         this->defeatedEnemies = 0;
         this->dungeon = dungeon;
+        this->bulletsList = bulletsList;
         for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee()); }
         for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
         display::point artifactPoint = dungeon->random_clear_point();
-        this->artifact = Items(artifactPoint.x, artifactPoint.y, dungeon, 'a');
+        this->artifact = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'a');
         this->artifactDisplayed = false;
         this->artifactTaken = false;
-        this->bulletsList = bulletsList;
     }
 
     // getters
@@ -45,7 +45,6 @@
         meeleeList* newMeelee = new meeleeList(meelee);
         newMeelee->next = meeleeHead;
         meeleeHead = newMeelee;
-        newMeelee->meelee.display();
     }
 
     // aggiunta di nemici ranged
@@ -53,7 +52,6 @@
         rangedList* newRanged = new rangedList(ranged);
         newRanged->next = rangedHead;
         rangedHead = newRanged;
-        newRanged->ranged.display();
     }
 
     // rimozione di nemici meelee
@@ -156,15 +154,14 @@
             tempRanged = tempRanged->next;
         }
         
-        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed) {
+        if (defeatedEnemies == meeleeNumber + rangedNumber && !artifactDisplayed && !artifactTaken) {
             artifact.display();
             artifactDisplayed = true;
         }
         
         if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed) {
             artifactTaken = true;
-            wmove(dungeon->retrive_dungeon(), artifact.getPositionY(), artifact.getPositionX());
-            waddch(dungeon->retrive_dungeon(), ' ');
+            artifact.hide();
         }
         
 
@@ -189,5 +186,26 @@
             artifact.hide();
             artifactDisplayed = false;
         }
+
+    }
+
+    void List::displayAll(){
+
+        meeleeList *tempMeelee = meeleeHead;
+        rangedList *tempRanged = rangedHead;
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.display();
+            tempMeelee = tempMeelee->next;
+        }
+
+        while(tempRanged != NULL) {
+            tempRanged->ranged.display();
+            tempRanged = tempRanged->next;
+        }
+
+        // if (artifactDisplayed) {
+        //     artifact.display();
+        // }
 
     }
