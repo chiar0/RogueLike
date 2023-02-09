@@ -2,6 +2,8 @@
 #define GAME_CPP_ENGINE_HPP
 
 #include "display.hpp"
+#include "math.h"
+
 
 class engine: public display{
 protected:
