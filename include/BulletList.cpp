@@ -190,6 +190,7 @@ void BulletList::resetList(){
         aux = NULL;
         this->bulletHead = NULL;   
     }  
+    
 }
 
 

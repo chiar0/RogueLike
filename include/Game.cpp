@@ -2,10 +2,9 @@
 
 /*
 endwin();
-printf();
-exit();
+printf("test");
+exit(1);
 */
-
 
 Game::Game(){
     //generazione dungeon e nemici
@@ -21,14 +20,6 @@ Game::Game(){
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
-    
-    //generazione finestra di debug
-    /*
-    this->debug = newwin(7, 120, 1, 10);
-    box(debug, 0, 0);
-    refresh();
-    wrefresh(debug);
-    */
     
     //varie funzioni di libreria di ncurses
     nodelay(dungeon->retrive_dungeon(), true);
@@ -67,7 +58,7 @@ void Game::gameLoop(){
     //molte sono usare per debuggare
     bool end = true;
     int ch;
-    float enemyFrameRate = 8.0f;
+    float enemyFrameRate = 4.0f;
     float bulletFrameRate = enemyFrameRate * 3;
 
 
@@ -103,7 +94,6 @@ void Game::gameLoop(){
         this->dungeon->refresh_dungeon();
     }
 };
-
 
 void Game::genEnemys(int nMeelee, int nRanged){
 
@@ -153,6 +143,7 @@ void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
         bulletsList->resetList();
+        bulletsList->getBulletHead();
         p->hide();
         current->list.hideAll();
         switch (changedRoom) {
