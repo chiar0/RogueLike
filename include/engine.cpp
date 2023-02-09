@@ -39,8 +39,9 @@ void engine::gameover() { //termina il gioco
     clear();
     printw("Game Over");
     printw("\nyour score is %d", score);
-    printw("\nPRESS ANY KEY TO CLOSE THE PROGRAM");
-    getch();
+    printw("\nPRESS x TO CLOSE THE PROGRAM");
+    int ch = 0;
+    while (ch != 'x') { ch = getch(); }
     end();  //termina ncurses
 }
 
