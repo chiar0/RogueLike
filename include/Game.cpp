@@ -81,7 +81,7 @@ void Game::gameLoop(){
             current->list.displayAll();
         }
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
-            current->list.updateAll(p->getPositionX(), p->getPositionY());
+            current->list.updateAll();
             enemyTimer->reset();
             bulletFrameRate = enemyFrameRate * 3;
         }
