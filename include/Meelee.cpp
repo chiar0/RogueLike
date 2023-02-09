@@ -60,13 +60,21 @@
                 direction = rand()% 4+1;
                 switch (direction) {
                     case 1:
-                        moveRight(); break;
+                        moveRight();
+                        attack(4, playerX, playerY);
+                        break;
                     case 2:
-                        moveLeft(); break;
+                        moveLeft();
+                        attack(2, playerX, playerY);
+                        break;
                     case 3:
-                        moveUp(); break;
+                        moveUp();
+                        attack(1, playerX, playerY);
+                        break;
                     case 4:
-                        moveDown(); break;
+                        moveDown();
+                        attack(3, playerX, playerY);
+                        break;
                     default:
                         break;
                 }
@@ -77,27 +85,58 @@
 
     int Meelee::attack(int direction, int playerX, int playerY){
         char mapChar;
-        int dimension = 3;
+        int dimension = 3, bossBoost = 0;
         int directionX = 0, directionY = 0;
-        int isBossBoost = 0;
+        int attackX = 0, attackY = 0;
+        int damageDealt = 0;
+
         if(isBoss){
-            isBossBoost = isBossBoost + 2;
+            bossBoost = bossBoost + 2;
         }
         switch(direction){
             case 1:
-                directionX -= (dimension + isBossBoost); 
-                directionY -= (dimension + isBossBoost);
-                directionY               
+                directionY -= (dimension + bossBoost); 
+                directionX -= (dimension + bossBoost);
+                directionX /= 2;              
                 ;break;
             case 2:
-
+                directionX -= (dimension + bossBoost);
+                directionY -= (dimension + bossBoost);
+                directionY /= 2;
+                ;break;
+            case 3:
+                directionY += 1;
+                directionX -= (dimension + bossBoost);
+                directionX /= 2;
+                ;break;
+            case 4:
+                directionX += 1;
+                directionY -= (dimension + bossBoost);
+                directionY /= 2;
+                ;break;
+            default:
+                ;break;
         }
-        for(int i = 0; i < dimension; i++){
-            for(int j = 0; j < dimension; i++){
-                mapChar = mvwinch(dungeon->retrive_dungeon(), positionY, positionX)
+        display::point p;
+        for(int i = 0; i < (dimension + bossBoost); i++){
+            for(int j = 0; j < (dimension + bossBoost); j++){
+                attackX = positionX + directionX + i;
+                attackY = positionY + directionY + j;
+                mapChar = mvwinch(dungeon->retrive_dungeon(), attackX, attackY);
+                p = {attackY, attackX};
+                if(mapChar == '@'){
+                    damageDealt += this->damage;
+                if(mapChar == ' ')
+                    dungeon->write_char(p, '#');
+                }
             }
         }
-
+        if(mvwinch(dungeon->retrive_dungeon(),attackY, attackY) == '#'){
+                    endwin();
+                    printf("test");
+                    exit(1);  
+                }
+        return damageDealt;
     }
 
 
