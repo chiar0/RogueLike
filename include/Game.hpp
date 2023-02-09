@@ -39,7 +39,7 @@ class Game{
         Game();
         
         int getMaxId();
-        void nextList();
+        void nextList(int nMeelee, int nRanged, engine *dungeon);
         void prevList();
         void newList(int nMeelee, int nRanged, engine* dungeon);
 

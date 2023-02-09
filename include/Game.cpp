@@ -16,8 +16,8 @@ Game::Game(){
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
-    this->head->next = new listOfLists(List(0, 1, dungeon, 1, bulletsList, p));
+    this->head = new listOfLists(List(1, 1, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(1, 1, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
@@ -31,8 +31,11 @@ Game::Game(){
 
 };
 
-void Game::nextList() {
+void Game::nextList(int nMeelee, int nRanged, engine *dungeon) {
         if (current->next != NULL) {
+            current = current->next;
+        } else {
+            newList(nMeelee, nRanged, dungeon);
             current = current->next;
         }
     }
@@ -47,11 +50,12 @@ void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;
     List new_list(nMeelee, nRanged, dungeon, maxId, bulletsList, this->p);
-    while(tmp->next != NULL) {
-        tmp = tmp->next;
+    while(head->next != NULL) {
+        head = head->next;
     }
-    tmp->next = new listOfLists(new_list);
-    tmp->next->prev = tmp;
+    head->next = new listOfLists(new_list);
+    head->next->prev = head;
+    head = tmp;
 }
 
 //gestisce il gioco e il tempo
@@ -152,13 +156,9 @@ void Game::updatePlayer(int move){
         switch (changedRoom) {
             case 1:
                 {dungeon->next_level();
-                // dungeon->write_char(dungeon->random_clear_point(), 'X');
-                // dungeon->refresh_dungeon();
-                // system("sleep 2");
                 int nMeelee = 4 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
                 int nRanged = 4 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
-                if (dungeon->retrive_level_number() > maxId) { newList(nMeelee, nRanged, this->dungeon); }
-                nextList();
+                nextList(nMeelee, nRanged, this->dungeon);
                 display::point_list *entryPoints = dungeon->retrive_entry();
                 while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {
                     entryPoints = entryPoints->next;
