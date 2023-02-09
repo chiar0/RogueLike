@@ -174,9 +174,6 @@ void BulletList::addToList(Bullet* bul){
 void BulletList::resetList(){
     hideAll(); 
     if(bulletHead != NULL){
-        if(bulletHead->bullet != NULL){
-            //bulletHead->bullet->hideBullet();
-        }
         if(bulletHead->next != NULL){
             
             bullets* aux = bulletHead->next; 

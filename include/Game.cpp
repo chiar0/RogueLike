@@ -147,8 +147,8 @@ void Game::checkPlayer(){
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
-        bulletsList->resetList();
-        bulletsList->getBulletHead();
+        //bulletsList->resetList();
+        //bulletsList->getBulletHead();
         p->hide();
         current->list.hideAll();
         switch (changedRoom) {
