@@ -136,7 +136,8 @@ void Game::checkRanged(){
 }
 
 void Game::checkPlayer(){
-   p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
+    p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
+    if(p->isDead()){ dungeon->gameover(); }
 }
 
 void Game::updatePlayer(int move){
