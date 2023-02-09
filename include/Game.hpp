@@ -18,7 +18,8 @@ class Game{
         Player* p;
         // List* enemies;
         engine* dungeon;
-
+        List* enemies;
+        
         int maxId;
 
         struct listOfLists {

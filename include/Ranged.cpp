@@ -127,5 +127,26 @@
     */
 
     void Ranged::shoot(int direction){
-        Entity::addBullets(direction, false);
+        int firstBulletX, firstBulletY;
+        int secondBulletX, secondBulletY;
+        int positionX = Entity::getPositionX(), positionY = Entity::getPositionY();
+        if(this->isBoss == true){
+            if(direction == 1 || direction == 3){
+                firstBulletX = positionX - 1;
+                firstBulletY = positionY;
+                secondBulletX = positionX + 1;
+                secondBulletY = positionY;
+            }
+            else{
+                firstBulletX = positionX;
+                firstBulletY = positionY - 1;
+                secondBulletX = positionX;
+                secondBulletY = positionY + 1;
+            }
+            Entity::addBullets(direction, true, firstBulletX, firstBulletY);
+            Entity::addBullets(direction, true, secondBulletX, secondBulletY);
+
+
+        }
+        Entity::addBullets(direction, true, Entity::getPositionX(), Entity::getPositionY());
     }

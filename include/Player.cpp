@@ -126,7 +126,7 @@
     }
 
     void Player::shoot(int direction){
-        Entity::addBullets(direction, true);
+        Entity::addBullets(direction, false, Entity::getPositionX(), Entity::getPositionY());
     }
 
 
