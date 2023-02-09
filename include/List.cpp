@@ -114,7 +114,6 @@
     }
 
     // controllo se un nemico è morto
-
     void List::checkDeads() {
 
         meeleeList *tempMeelee = meeleeHead;

@@ -58,6 +58,6 @@ public:
 
     // metodi per il combattimento
     bool isDead();
-    void isHit(int bulletX, int bulletY, int dmg);
+    // void isHit(int bulletX, int bulletY, int dmg);
     void addBullets(int direction, bool isEnemy);
 };
