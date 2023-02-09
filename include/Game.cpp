@@ -12,11 +12,11 @@ Game::Game(){
     this->bulletsList =  new BulletList(this->dungeon);
     this->bulletsList->startDungeon(dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
-    this->p = new Player(playerSpawn.x, playerSpawn.y, 10000, 100, dungeon, this->bulletsList);
+    this->p = new Player(playerSpawn.x, playerSpawn.y, 10000000000, 100, dungeon, this->bulletsList);
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(0, 2, dungeon, 0, bulletsList, p));
+    this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList, p));
     this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
@@ -145,14 +145,16 @@ void Game::checkPlayer(){
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
+        bulletsList->resetList();
+        bulletsList->getBulletHead();
+        p->hide();
+        current->list.hideAll();
         switch (changedRoom) {
             case 1:
-                {bulletsList->resetList();
-                bulletsList->getBulletHead();
-                p->hide();
-                current->list.hideAll();
-                dungeon->refresh_dungeon();
-                dungeon->next_level();
+                {dungeon->next_level();
+                // dungeon->write_char(dungeon->random_clear_point(), 'X');
+                // dungeon->refresh_dungeon();
+                // system("sleep 2");
                 int nMeelee = 4 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
                 int nRanged = 4 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
                 if (dungeon->retrive_level_number() > maxId) { newList(nMeelee, nRanged, this->dungeon); }
@@ -165,12 +167,7 @@ void Game::updatePlayer(int move){
                 p->setPositionY(entryPoints->p.y);
                 break;}
             case 2:
-                {bulletsList->resetList();
-                bulletsList->getBulletHead();
-                p->hide();
-                current->list.hideAll();
-                dungeon->refresh_dungeon();
-                dungeon->prev_level();
+                {dungeon->prev_level();
                 prevList();
                 display::point_list *exitPoints = dungeon->retrive_exit();
                 while(exitPoints->p.x != p->getPositionX() && exitPoints->p.y != p->getPositionY()) {
@@ -184,3 +181,7 @@ void Game::updatePlayer(int move){
         }
     }
 }
+
+
+
+
