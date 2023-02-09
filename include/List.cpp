@@ -38,7 +38,7 @@
     Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
         while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15+(id*3/2), 3+id, true, dungeon, bulletsList);
+        Meelee generated = Meelee(p.x, p.y, 15, 3+id, true, dungeon, bulletsList);
         if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
@@ -46,7 +46,7 @@
     Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
         while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
-        Ranged generated = Ranged(p.x, p.y, 10+(id*3/2), 5+id, 7, true, dungeon, bulletsList);
+        Ranged generated = Ranged(p.x, p.y, 10, 5+id, 7, true, dungeon, bulletsList);
         if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
@@ -98,8 +98,7 @@
 
         while (current != NULL && !deleted) {
 
-            if (current->ranged.getPositionX() == x
-                && current->ranged.getPositionY() == y) {
+            if (current->ranged.getPositionX() == x && current->ranged.getPositionY() == y) {
                 if (previous == NULL) { rangedHead = current->next; }
                 else { previous->next = current->next; }
                 delete current;
@@ -137,6 +136,8 @@
 
     // aggiornamento di tutti i nemici
     void List::updateAll() {
+
+        checkDeads();
 
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
