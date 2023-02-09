@@ -12,11 +12,11 @@ Game::Game(){
     this->dungeon = new engine();
     this->bulletsList =  new BulletList(this->dungeon);
     this->bulletsList->startDungeon(dungeon);
-    this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 5, dungeon, this->bulletsList);
+    this->p = new Player(dungeon->random_clear_point().x, dungeon->random_clear_point().y, 50, 50, dungeon, this->bulletsList);
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList, p));
+    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
     this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
@@ -92,8 +92,8 @@ void Game::gameLoop(){
         }
 
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
-            checkBullets();
             bulletsList->update();
+            checkBullets();
             bulletsList->display();
             current->list.displayAll();
             p->display();
@@ -151,11 +151,12 @@ void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
         bulletsList->resetList();
-        p->hide();
+        wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
+        waddch(dungeon->retrive_dungeon(), ' ');
         current->list.hideAll();
         switch (changedRoom) {
             case 1:
-                {
+                {;
                 dungeon->next_level();
                 if (dungeon->retrive_level_number() > maxId) { newList(4, 4, this->dungeon); }
                 nextList();
@@ -165,11 +166,10 @@ void Game::updatePlayer(int move){
                     entryPoints = entryPoints->next;
                 }
                 p->setPositionX(entryPoints->p.x);
-                p->setPositionY(entryPoints->p.y);
-                }
+                p->setPositionY(entryPoints->p.y);}
                 ;break;
             case 2:
-                {
+                {;
                 dungeon->prev_level();
                 prevList();
 
@@ -178,8 +178,7 @@ void Game::updatePlayer(int move){
                     exitPoints = exitPoints->next;
                 }
                 p->setPositionX(exitPoints->p.x);
-                p->setPositionY(exitPoints->p.y);
-                }
+                p->setPositionY(exitPoints->p.y);}
                 ;break;
             default:
                 break;

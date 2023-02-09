@@ -182,15 +182,14 @@ void BulletList::resetList(){
         while(aux != NULL){
             aux->bullet->hideBullet();
             tmp = aux->prev;
-            aux = aux->next;
+            aux = aux->next;   
             delete tmp;
             tmp = NULL;
         }
         delete aux;
         aux = NULL;
-        this->bulletHead = NULL;
-
-    }
-
+        this->bulletHead = NULL;   
+    }  
 }
+
 
