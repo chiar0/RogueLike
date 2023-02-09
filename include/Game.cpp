@@ -16,8 +16,8 @@ Game::Game(){
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 4, dungeon, 0, bulletsList, p));
-    this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
+    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
+    this->head->next = new listOfLists(List(0, 1, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
@@ -59,8 +59,8 @@ void Game::gameLoop(){
     //molte sono usare per debuggare
     bool end = true;
     int ch;
-    float enemyFrameRate = 4.0f;
-    float bulletFrameRate = enemyFrameRate * 3;
+    float enemyFrameRate = 3.0f;
+    float bulletFrameRate = enemyFrameRate * 4;
 
 
     while(end){
@@ -83,7 +83,7 @@ void Game::gameLoop(){
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             current->list.updateAll();
             enemyTimer->reset();
-            bulletFrameRate = enemyFrameRate * 3;
+            bulletFrameRate = enemyFrameRate * 4;
         }
 
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){

@@ -44,5 +44,6 @@ class BulletList{
         int isHit(int directionX, int directionY, char character);
         void addToList(Bullet* b);
         void resetList();
+        void hideAll();
 
 };
