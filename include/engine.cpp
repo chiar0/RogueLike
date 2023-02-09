@@ -21,7 +21,7 @@ engine::engine() { //costruttore della classe engine (inizializza il gioco)
 	last_col = d_width - 1;         //l'ultima colonna del dungeon è pari alla larghezza del dungeon meno 1
 
     ////////////////////////// creo il primo livello
-    life = 10;                          //vite iniziali del giocatore
+    life = 2.0;                          //vite iniziali del giocatore
     score = 0;                          //punteggio iniziale del giocatore
     current = new level;
     current->number = score;
@@ -393,7 +393,12 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
     int i = 1;
     mvwprintw(scoreboard, i, 1, "score: %d", score); i++; //stampa il punteggio
     mvwprintw(scoreboard, i, 1, "level: %d", current->number); i++; //stampa il numero del livello corrente
-    mvwprintw(scoreboard, i, 1, "life: %f", life); i++; //stampa il numero del livello corrente
+    mvwprintw(scoreboard, i, 1, "life: "); i++;
+    //voglio arrotondare life sempre per eccesso
+    int tmp = (int)ceil(life);
+    for (int j = 0; j < tmp; j++) {
+        waddch(scoreboard, ACS_DIAMOND);
+    }
     if (debug){
         if (i<lines) { mvwprintw(scoreboard, i, 1, "prev:"); i++; } //stampa il puntatore al livello precedente
         if (i<lines) { if (ok_prev_level()) mvwprintw(scoreboard, i, 1, "%p", current->prev->dungeon); else mvwprintw(scoreboard, i, 1, "NULL"); i++; }
@@ -414,39 +419,11 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
             tmp = tmp->next; //passa all'elemento successivo
         }
     }
-    touchwin(scoreboard); //aggiorno la finestra del punteggio
-    wrefresh(scoreboard); //aggiorno la finestra del punteggio
+    touchwin(scoreboard); 
+    wrefresh(scoreboard); 
 }
 
 void engine::refresh_dungeon() { //stampa il dungeon corrente
-    touchwin(current->dungeon); //aggiorno il dungeon
-    wrefresh(current->dungeon); //aggiorno la finestra del dungeon
+    touchwin(current->dungeon); 
+    wrefresh(current->dungeon); 
 }
-
-/*
-┌────────────────────────────      ────────────────────────┐┌──────────────────┐
-│                                                          ││score: 364        │
-│                                                          ││level: 363        │
-│                                                          ││life: 10.000000   │
-│                                                          ││prev:             │
-│                                                          ││0x564e0b020810    │
-│                                                          ││current:          │
-│                                                          ││0x564e0b0223b0    │
-│                                                          ││next:             │
-├──────────      ──────────────────┼──────────────      ───┤│0x564e0b023f50    │
-│                                  │                       ││entry NSWE: 0     │
-│                                  │                       ││entry 0 29        │
-│                                  │                       ││entry 0 30        │
-│                                  │                       ││entry 0 31        │
-│                                  │                       ││entry 0 32        │
-│                                  │                       ││entry 0 33        │
-│                                  │                       ││entry 0 34        │
-│                                  │                       ││exit NSWE: 3      │
-│                                  │                       ││exit 19 60        │
-│                                  │                       ││exit 20 60        │
-│                                  │                       ││exit 21 60        │
-│                                  │                       ││                  │
-│                                  │                       ││                  │
-└──────────────────────────────────┴───────────────────────┘└──────────────────
- 
- */

@@ -7,6 +7,7 @@ void display::init(){ //inizializza ncurses
     keypad(stdscr, TRUE);                       //abilita la lettura dei tasti freccia
     curs_set(0);                                //nasconde il cursore
     srand(time(nullptr));            //inizializza il generatore di numeri casuali
+
     //start_color();
     //init_pair(1, COLOR_WHITE, COLOR_BLACK);
     //init_pair(2, COLOR_RED, COLOR_BLACK);

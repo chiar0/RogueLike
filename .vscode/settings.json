@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "type_traits": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "cstdlib": "cpp",
+        "ctime": "cpp"
     }
 }
