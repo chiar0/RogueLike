@@ -122,8 +122,10 @@ void Game::checkMeelee(){
     int hit = 0;
     while(auxMeelee != NULL){
         hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
-        if(hit > 0)
-            current->list.removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
+        if(hit > 0) {
+            auxMeelee->meelee.setHP(hit);
+            auxMeelee->meelee.setIsTaunted(true);
+        }
         else
             auxMeelee = auxMeelee->next;
     }
@@ -136,7 +138,7 @@ void Game::checkRanged(){
     while(auxRanged != NULL){
         damageTaken = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
         if(damageTaken > 0)
-            current->list.removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
+            auxRanged->ranged.setHP(damageTaken);
         else
             auxRanged = auxRanged->next;
    }
