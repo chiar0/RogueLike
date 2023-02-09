@@ -59,8 +59,8 @@ void Game::gameLoop(){
     //molte sono usare per debuggare
     bool end = true;
     int ch;
-    float enemyFrameRate = 4.0f;
-    float bulletFrameRate = enemyFrameRate * 3;
+    float enemyFrameRate = 3.0f;
+    float bulletFrameRate = enemyFrameRate * 4;
 
 
     while(end){
@@ -83,7 +83,7 @@ void Game::gameLoop(){
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             current->list.updateAll(p->getPositionX(), p->getPositionY());
             enemyTimer->reset();
-            bulletFrameRate = enemyFrameRate * 3;
+            bulletFrameRate = enemyFrameRate * 4;
         }
 
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){

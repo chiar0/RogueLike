@@ -33,7 +33,6 @@ class Game{
 
         BulletList *bulletsList;
         Timer* enemyTimer = Timer::Instance();
-        Timer* bulletTimer = Timer::Instance();
         
     public:
         //costruttore
