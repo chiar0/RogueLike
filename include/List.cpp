@@ -149,10 +149,10 @@
     // aggiornamento di tutti i nemici
     void List::updateAll(int playerX, int playerY) {
 
+        checkDeads();
+
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
-
-        checkDeads();
 
         while(tempMeelee != NULL) {
             tempMeelee->meelee.update(playerX, playerY);

@@ -165,32 +165,32 @@
         switch (move){
             case 'w':
                 changedRoom = moveUp();
-                ;break;
+                break;
             case 's':
                 changedRoom = moveDown();
-                ;break;
+                break;
             case 'a':
                 changedRoom = moveLeft();
-                ;break;
+                break;
             case 'd':
                 changedRoom = moveRight();
-                ;break;
+                break;
             
             case KEY_UP:
                 shoot(1);
-                ;break;
+                break;
             case KEY_DOWN:
                 shoot(3);
-                ;break;
+                break;
             case KEY_LEFT:
                 shoot(2);
-                ;break;
+                break;
             case KEY_RIGHT:
                 shoot(4);
-                ;break;
+                break;
             
             default:
-                ;break;
+                break;
         }
         display();
         dungeon->refresh_dungeon();

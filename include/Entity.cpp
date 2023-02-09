@@ -32,13 +32,13 @@
 
     // metodo che stampa l'entità sulla finestra
     void Entity::display(){
-        wmove(dungeon->retrive_dungeon(), getPositionY(), getPositionX());
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         waddch(dungeon->retrive_dungeon(), character);
     };
 
     // metodo che oscura l'entità dalla finestra
     void Entity::hide(){
-        wmove(dungeon->retrive_dungeon(), getPositionY(), getPositionX());
+        wmove(dungeon->retrive_dungeon(), positionY, positionX);
         waddch(dungeon->retrive_dungeon(), ' ');
     };
 
@@ -47,7 +47,7 @@
     void Entity::updateNearby(){
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                nearby[i][j] = mvwinch(dungeon->retrive_dungeon(), getPositionY() + i - 1, getPositionX() + j - 1);
+                nearby[i][j] = mvwinch(dungeon->retrive_dungeon(), positionY + i - 1, positionX + j - 1);
             }
         }
     }
