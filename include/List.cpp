@@ -1,19 +1,23 @@
 #include "List.hpp"
 
     List::List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player*p) {
+        this->dungeon = dungeon;
         meeleeHead = NULL;
         rangedHead = NULL;
+        this->bulletsList = bulletsList;
+        this->p = p;
+        display::point artifactPoint = dungeon->random_clear_point();
+        this->artifact = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'a');
+        display::point powerUpPoint = dungeon->random_clear_point();
+        while(powerUpPoint.x == artifactPoint.x && powerUpPoint.y == artifactPoint.y) powerUpPoint = dungeon->random_clear_point();
+        this->powerUp = Items(powerUpPoint.x, powerUpPoint.y, this->dungeon, 'p');
         this->id = id;
+
         this->meeleeNumber = nMeelee;
         this->rangedNumber = nRanged;
         this->defeatedEnemies = 0;
-        this->dungeon = dungeon;
-        this->bulletsList = bulletsList;
         for (int i = 0; i < nMeelee; i++) { addMeelee(randomMeelee()); }
         for (int i = 0; i < nRanged; i++) { addRanged(randomRanged()); }
-        display::point artifactPoint = dungeon->random_clear_point();
-        this->artifact = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'a');
-        this->powerUp = Items(artifactPoint.x, artifactPoint.y, this->dungeon, 'p');
         this->artifactDisplayed = false;
         this->artifactTaken = false;
         this->powerUpDisplayed = false;
@@ -34,13 +38,16 @@
     Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
         while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
-        Meelee generated = Meelee(p.x, p.y, 15+(id*3/2), 3+id, false, 3, dungeon, bulletsList);
+        Meelee generated = Meelee(p.x, p.y, 15+(id*3/2), 3+id, false, dungeon, bulletsList);
+        if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
 
     Ranged List::randomRanged() {
         display::point p = dungeon->random_clear_point();
+        while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
         Ranged generated = Ranged(p.x, p.y, 10+(id*3/2), 5+id, 7, false, dungeon, bulletsList);
+        if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
 

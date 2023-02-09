@@ -1,12 +1,12 @@
 #include "Meelee.hpp"
 
     // costruttore
-    Meelee::Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, BulletList* bulletsList)
+    Meelee::Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, engine* dungeon, BulletList* bulletsList)
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
 
         this->isBoss = isBoss;
         this->isTaunted = false; // ogni nemico corpo a corpo di base non è "taunted"
-        this->chaseBlocks = chaseBlocks;
+        this->chaseBlocks = 7; // ogni nemico corpo a corpo di base segue il player per 7 mosse se taunted
         this->currentChaseBlocks = chaseBlocks;
         this->character = 'M';
         updateNearby(); // aggiorno le entità vicine

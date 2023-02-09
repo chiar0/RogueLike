@@ -14,7 +14,7 @@ protected:
     int currentChaseBlocks; // numero di caselle per le quali il nemico deve ancora seguire il player prima di smettere di essere "taunted"
 
 public:
-    Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, int chaseBlocks, engine* dungeon, BulletList* bulletesList);
+    Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, engine* dungeon, BulletList* bulletesList);
 
     // getters
     bool getIsBoss();
