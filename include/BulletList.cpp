@@ -15,7 +15,6 @@ bullets::bullets(){
 BulletList::BulletList(engine* dungeon){
     bullets* tmp = NULL;
     this->bulletHead = NULL;
-    bulletHead->length();
     this->dungeon = dungeon;
 }
 
@@ -71,6 +70,9 @@ void BulletList::update(){
 bullets* BulletList::removeBullet(bullets* bullet){
     bullets* aux;
     bullets* tmp;
+    display::point p{aux->bullet->gety(), aux->bullet->getx()};
+    dungeon->write_char(p, ' ');
+
     if(bullet != bulletHead){
         aux = bullet->prev;
         aux->next = bullet->next;
@@ -95,12 +97,8 @@ void BulletList::display(){
     bullets* aux = bulletHead;
     if(bulletHead != NULL){
         while(aux != NULL){
-            //display::point p{aux->bullet.gety(), aux->bullet.getx()};
-            //this->dungeon->write_char(p, aux->bullet.getChar());
             aux->bullet->display();
             if(mvwinch(dungeon->retrive_dungeon(), aux->bullet->gety(), aux->bullet->getx()) == '+'){
-                //dungeon->write_char(dungeon->random_clear_point(), 'q');
-                //dungeon->refresh_dungeon();
             }
             aux = aux->next;
         }
@@ -170,6 +168,26 @@ void BulletList::addToList(Bullet* bul){
     }
     else{
         bulletHead = tmp;
+    }
+}
+
+void BulletList::resetList(){
+    if(bulletHead != NULL){
+        bullets* aux = bulletHead->next;
+        bullets* tmp = NULL;
+
+        while(aux != NULL){
+            aux->bullet->hideBullet();
+            tmp = aux->prev;
+            aux = aux->next;   
+            delete tmp;
+            //tmp = NULL;
+        }
+        delete aux;
+        aux = NULL;
+
+        this->bulletHead->bullet->hideBullet();
+        this->bulletHead = NULL;
     }
     
 }

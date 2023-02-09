@@ -60,7 +60,13 @@ void Bullet::display(){
     dungeon->refresh_dungeon();
 }
 
-
+void Bullet::hideBullet(){
+    display::point p{yLoc, xLoc};
+    dungeon->write_char(p, ' ');
+    wmove(dungeon->retrive_dungeon(), this->yLoc, this->xLoc);
+    waddch(dungeon->retrive_dungeon(), ' ');
+    dungeon->refresh_dungeon();
+}
 
 char Bullet::getProjectile(){
     return this->bullet;
