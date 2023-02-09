@@ -74,3 +74,31 @@
         }
         display();
     }
+
+    int Meelee::attack(int direction, int playerX, int playerY){
+        char mapChar;
+        int dimension = 3;
+        int directionX = 0, directionY = 0;
+        int isBossBoost = 0;
+        if(isBoss){
+            isBossBoost = isBossBoost + 2;
+        }
+        switch(direction){
+            case 1:
+                directionX -= (dimension + isBossBoost); 
+                directionY -= (dimension + isBossBoost);
+                directionY               
+                ;break;
+            case 2:
+
+        }
+        for(int i = 0; i < dimension; i++){
+            for(int j = 0; j < dimension; i++){
+                mapChar = mvwinch(dungeon->retrive_dungeon(), positionY, positionX)
+            }
+        }
+
+    }
+
+
+
