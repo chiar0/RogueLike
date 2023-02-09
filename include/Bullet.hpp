@@ -19,7 +19,8 @@ class Bullet{
         
         void genb(int xLoc, int yLoc);          //genera il proiettile
         bool move();                            //aggiorna la posizione e controlla cosa ha colpito
-        void display();                         //riposiziona il proiettile dopo averlo mosso(attualmente non in uso)
+        void display(); 
+        void hideBullet();                        //riposiziona il proiettile dopo averlo mosso(attualmente non in uso)
         
         //getter
         int getx();                             
