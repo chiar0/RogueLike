@@ -16,7 +16,7 @@ Game::Game(){
     
 
     //generazione lista di liste
-    this->head = new listOfLists(List(4, 1, dungeon, 0, bulletsList, p));
+    this->head = new listOfLists(List(0, 1, dungeon, 0, bulletsList, p));
     this->head->next = new listOfLists(List(4, 4, dungeon, 1, bulletsList, p));
     this->head->next->prev = head;
     this->current = head;
@@ -92,8 +92,8 @@ void Game::gameLoop(){
         }
 
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
-            checkBullets();
             bulletsList->update();
+            checkBullets();
             bulletsList->display();
             current->list.displayAll();
             p->display();
