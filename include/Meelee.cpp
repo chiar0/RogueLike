@@ -89,6 +89,7 @@
         int directionX = 0, directionY = 0;
         int attackX = 0, attackY = 0;
         int damageDealt = 0;
+        int enemyX = Entity::getPositionX(), enemyY = Entity::getPositionY();
 
         if(isBoss){
             bossBoost = bossBoost + 2;
@@ -120,9 +121,9 @@
         display::point p;
         for(int i = 0; i < (dimension + bossBoost); i++){
             for(int j = 0; j < (dimension + bossBoost); j++){
-                attackX = positionX + directionX + i;
-                attackY = positionY + directionY + j;
-                mapChar = mvwinch(dungeon->retrive_dungeon(), attackX, attackY);
+                attackX = enemyX + directionX + i;
+                attackY = enemyY + directionY + j;
+                mapChar = mvwinch(dungeon->retrive_dungeon(), attackY, attackX);
                 p = {attackY, attackX};
                 if(mapChar == '@'){
                     damageDealt += this->damage;

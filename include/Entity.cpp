@@ -110,6 +110,6 @@
     */
 
     // metodo che aggiunge un bullet alla lista di proiettili
-    void Entity::addBullets(int direction, bool isEnemy){
-        this->bulletsList->addBullet(this->dungeon, this->damage, this->positionX, this->positionY, direction, this->character, (char)'+', isEnemy);
+    void Entity::addBullets(int direction, bool isEnemy, int entityX, int entityY){
+        this->bulletsList->addBullet(this->dungeon, this->damage, entityX, entityY, direction, this->character, (char)'+', isEnemy);
     }
