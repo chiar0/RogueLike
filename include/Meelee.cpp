@@ -84,7 +84,6 @@
     }
 
     int Meelee::attack(int direction, int playerX, int playerY){
-        /*
         char mapChar;
         int dimension = 3, bossBoost = 0;
         int startAttackX = 0, startAttackY = 0;
@@ -119,7 +118,6 @@
             default:
                 ;break;
         }
-        display::point p;
         for(int i = 0; i < (dimension + bossBoost); i++){
             for(int j = 0; j < (dimension + bossBoost); j++){
                 attackX = enemyX + startAttackX + i;
@@ -134,14 +132,26 @@
                 }
             }
         }
-
-        if(mvwinch(dungeon->retrive_dungeon(), attackY, attackY) == '#'){
-                    endwin();
-                    printf("test");
-                    exit(1);  
-                }
         return damageDealt;
-        */
+    }
+
+    void Meelee::clearAttack() {
+        int bossBoost = 0;
+        int attackX = 0, attackY = 0;
+        char mapChar;
+        if (isBoss) { bossBoost = bossBoost + 2; }
+        for(int i = 0; i < (3 + bossBoost); i++){
+            for(int j = 0; j < (3 + bossBoost); j++){
+                attackX = positionX + startAttackX + i;
+                attackY = positionY + startAttackY + j;
+                mapChar = mvwinch(Entity::getDungeonWindow(), attackY, attackX);
+                if(mapChar == '#'){
+                    wmove(Entity::getDungeonWindow(), attackY, attackX);
+                    waddch(Entity::getDungeonWindow(), ' ');
+                    Entity::updateDungeon();
+                }
+            }
+        }
     }
 
 
