@@ -143,10 +143,10 @@
                 secondBulletX = positionX;
                 secondBulletY = positionY + 1;
             }
-            Entity::addBullets(direction, true, firstBulletX, firstBulletY);
-            Entity::addBullets(direction, true, secondBulletX, secondBulletY);
+            // Entity::addBullets(direction, true, firstBulletX, firstBulletY);
+            // Entity::addBullets(direction, true, secondBulletX, secondBulletY);
 
 
         }
-        Entity::addBullets(direction, true, Entity::getPositionX(), Entity::getPositionY());
+        // Entity::addBullets(direction, true, Entity::getPositionX(), Entity::getPositionY());
     }

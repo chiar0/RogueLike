@@ -84,6 +84,7 @@
     }
 
     int Meelee::attack(int direction, int playerX, int playerY){
+        /*
         char mapChar;
         int dimension = 3, bossBoost = 0;
         int startAttackX = 0, startAttackY = 0;
@@ -140,6 +141,7 @@
                     exit(1);  
                 }
         return damageDealt;
+        */
     }
 
 
