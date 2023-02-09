@@ -29,5 +29,5 @@ public:
     // update con movimento non certo in direzioni casuali (dx, sx, up, down)
     void update(int playerX, int playerY);
     int attack(int direction,int playerX, int playerY);
-    void hideAttack();
+    void clearAttack();
 };
