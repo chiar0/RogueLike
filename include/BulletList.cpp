@@ -21,7 +21,7 @@ BulletList::BulletList(engine* dungeon){
 void BulletList::addBullet(engine* dun, int damage, int positionX, int positionY, int direction, char character, char projectile, bool isEnemy){
     Bullet* bul = new Bullet(dun, damage, positionX, positionY, direction, projectile, character);
     //bul->move();
-    bul->display();
+    //bul->display();
     addToList(bul);
 }
 
@@ -33,10 +33,14 @@ void BulletList::update(){
     bullets* aux = this->bulletHead;
     bullets* prev = this->bulletHead;
     bool alive;
+    char mapChar;
     if(bulletHead != NULL){
         while(aux != NULL){
             display::point p{aux->bullet->gety(), aux->bullet->getx()};
-            dungeon->write_char(p, ' ');
+            mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet->gety(), aux->bullet->getx());
+            if(mapChar == ' ' || mapChar == '@' || mapChar == 'P' || mapChar == 'M' || mapChar == 'a' || mapChar == 'p' || mapChar == '+'){
+                dungeon->write_char(p, ' ');
+            }
             alive = aux->bullet->move();
             char mapChar = mvwinch(dungeon->retrive_dungeon(), aux->bullet->gety(), aux->bullet->getx());
             if(alive == true || mapChar == '@' || mapChar == 'R' || mapChar == 'M'){
@@ -104,10 +108,6 @@ void BulletList::display(){
         }
     }
     dungeon->refresh_dungeon();
-}
-
-int BulletList::listLength(){
-    return bulletHead->length();
 }
 
 int BulletList::isHit(int directionX, int directionY, char character){

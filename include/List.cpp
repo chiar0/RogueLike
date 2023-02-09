@@ -76,7 +76,7 @@
 
             if (current->meelee.getPositionX() == x
                 && current->meelee.getPositionY() == y) {
-                if (previous == NULL) {
+                if(previous == NULL) {
                     wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
                     waddch(dungeon->retrive_dungeon(), ' ');
                     meeleeHead = current->next;

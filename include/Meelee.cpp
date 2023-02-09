@@ -86,7 +86,7 @@
     int Meelee::attack(int direction, int playerX, int playerY){
         char mapChar;
         int dimension = 3, bossBoost = 0;
-        int directionX = 0, directionY = 0;
+        int startAttackX = 0, startAttackY = 0;
         int attackX = 0, attackY = 0;
         int damageDealt = 0;
         int enemyX = Entity::getPositionX(), enemyY = Entity::getPositionY();
@@ -96,24 +96,24 @@
         }
         switch(direction){
             case 1:
-                directionY -= (dimension + bossBoost); 
-                directionX -= (dimension + bossBoost);
-                directionX /= 2;              
+                startAttackY -= (dimension + bossBoost); 
+                startAttackX -= (dimension + bossBoost);
+                startAttackX /= 2;              
                 ;break;
             case 2:
-                directionX -= (dimension + bossBoost);
-                directionY -= (dimension + bossBoost);
-                directionY /= 2;
+                startAttackX -= (dimension + bossBoost);
+                startAttackY -= (dimension + bossBoost);
+                startAttackY /= 2;
                 ;break;
             case 3:
-                directionY += 1;
-                directionX -= (dimension + bossBoost);
-                directionX /= 2;
+                startAttackY += 1;
+                startAttackX -= (dimension + bossBoost);
+                startAttackX /= 2;
                 ;break;
             case 4:
-                directionX += 1;
-                directionY -= (dimension + bossBoost);
-                directionY /= 2;
+                startAttackX += 1;
+                startAttackY -= (dimension + bossBoost);
+                startAttackY /= 2;
                 ;break;
             default:
                 ;break;
@@ -121,18 +121,20 @@
         display::point p;
         for(int i = 0; i < (dimension + bossBoost); i++){
             for(int j = 0; j < (dimension + bossBoost); j++){
-                attackX = enemyX + directionX + i;
-                attackY = enemyY + directionY + j;
-                mapChar = mvwinch(dungeon->retrive_dungeon(), attackY, attackX);
-                p = {attackY, attackX};
+                attackX = enemyX + startAttackX + i;
+                attackY = enemyY + startAttackY + j;
+                mapChar = mvwinch(Entity::getDungeonWindow(), attackY, attackX);
                 if(mapChar == '@'){
                     damageDealt += this->damage;
                 if(mapChar == ' ')
-                    dungeon->write_char(p, '#');
+                    wmove(Entity::getDungeonWindow(), attackY, attackX);
+                    waddch(Entity::getDungeonWindow(), '#');
+                    Entity::updateDungeon();
                 }
             }
         }
-        if(mvwinch(dungeon->retrive_dungeon(),attackY, attackY) == '#'){
+
+        if(mvwinch(dungeon->retrive_dungeon(), attackY, attackY) == '#'){
                     endwin();
                     printf("test");
                     exit(1);  

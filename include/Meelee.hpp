@@ -12,7 +12,9 @@ protected:
     bool isTaunted;         // se = true, il nemico si muove verso il player per n = chaseBlocks mosse
     int chaseBlocks; 
     int currentChaseBlocks; // numero di caselle per le quali il nemico deve ancora seguire il player prima di smettere di essere "taunted"
-
+    int startAttackX;
+    int startAttackY;
+    
 public:
     Meelee(int positionX, int positionY, int HP, int damage, bool isBoss, engine* dungeon, BulletList* bulletesList);
 

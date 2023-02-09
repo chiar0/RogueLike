@@ -37,6 +37,7 @@ public:
     int getDamage();
     char getCharacter();
     char getNearby(int x, int y);
+    WINDOW* getDungeonWindow();
 
     // setters
     void setPositionX(int x);
@@ -50,6 +51,7 @@ public:
     void update();
     void updateNearby();
 
+
     // metodi di movimento
     void moveUp();
     void moveDown();
@@ -60,4 +62,5 @@ public:
     bool isDead();
     // void isHit(int bulletX, int bulletY, int dmg);
     void addBullets(int direction, bool isEnemy, int entityX, int entityY);
+    void updateDungeon();
 };

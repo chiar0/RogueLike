@@ -24,6 +24,7 @@
     int Entity::getDamage() { return this->damage; }
     char Entity::getCharacter() { return character; }
     char Entity::getNearby(int x, int y) { return nearby[x][y]; }
+    WINDOW* Entity::getDungeonWindow()  {return dungeon->retrive_dungeon();}
 
     // setters
     void Entity::setHP(int lostHPs) { HP = HP - lostHPs; }
@@ -112,4 +113,8 @@
     // metodo che aggiunge un bullet alla lista di proiettili
     void Entity::addBullets(int direction, bool isEnemy, int entityX, int entityY){
         this->bulletsList->addBullet(this->dungeon, this->damage, entityX, entityY, direction, this->character, (char)'+', isEnemy);
+    }
+
+    void Entity::updateDungeon(){
+        dungeon->retrive_dungeon();
     }

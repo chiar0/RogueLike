@@ -11,11 +11,6 @@ Bullet::Bullet(engine* dungeon, int damage, int xLoc, int yLoc, int direction, c
     this->isEnemy = isEnemy;
 }
 
-void Bullet::genb(int xLoc, int yLoc){
-    this->xLoc = xLoc;
-    this->yLoc = yLoc;
-}
-
 bool Bullet::move(){
     bool alive = true;
     //muovo in base alla direzione con la quale è stato generato il proiettile

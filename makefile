@@ -20,7 +20,7 @@ Items.o: include/Items.cpp include/Items.hpp
 	g++ -c include/Items.cpp -fno-stack-protector
 
 BulletList.o: include/BulletList.cpp include/BulletList.hpp
-	g++ -c include/BulletList.cpp
+	g++ -c include/BulletList.cpp -fno-stack-protector
 
 Entity.o: include/Entity.cpp include/Entity.hpp 
 	g++ -c include/Entity.cpp -fno-stack-protector
