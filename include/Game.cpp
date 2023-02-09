@@ -119,11 +119,11 @@ void Game::checkBullets(){
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
     auxMeelee = current->list.getMeeleeHead();
-    int hit = 0;
+    int damageTaken = 0;
     while(auxMeelee != NULL){
-        hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
-        if(hit > 0) {
-            auxMeelee->meelee.setHP(hit);
+        damageTaken = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
+        if(damageTaken > 0) {
+            auxMeelee->meelee.setHP(damageTaken);
             auxMeelee->meelee.setIsTaunted(true);
         }
         else
