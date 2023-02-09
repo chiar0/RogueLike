@@ -124,9 +124,9 @@
                 attackX = enemyX + startAttackX + i;
                 attackY = enemyY + startAttackY + j;
                 mapChar = mvwinch(Entity::getDungeonWindow(), attackY, attackX);
-                if(mapChar == '@'){
+                if(mapChar == '@')
                     damageDealt += this->damage;
-                if(mapChar == ' ')
+                if(mapChar == ' '){
                     wmove(Entity::getDungeonWindow(), attackY, attackX);
                     waddch(Entity::getDungeonWindow(), '#');
                     Entity::updateDungeon();

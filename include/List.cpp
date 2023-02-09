@@ -35,6 +35,7 @@
     // list functions
 
     // generazione di nemici meelee casuali
+    
     Meelee List::randomMeelee() {
         display::point p = dungeon->random_clear_point();
         while(p.x == dungeon->retrive_columns() || p.y == dungeon->retrive_rows() || p.x == 0 || p.y == 0) p = dungeon->random_clear_point();
