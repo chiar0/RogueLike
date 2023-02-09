@@ -124,19 +124,17 @@ void Game::checkBullets(){
     checkPlayer();
     checkRanged();
     checkMeelee();
-
 }
 
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
     auxMeelee = current->list.getMeeleeHead();
-    int hit = 0;
+    int damageTaken = 0;
     while(auxMeelee != NULL){
-        hit = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
-        if(hit > 0)
-            current->list.removeMeelee(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY());
-        else
-            auxMeelee = auxMeelee->next;
+        damageTaken = bulletsList->isHit(auxMeelee->meelee.getPositionX(), auxMeelee->meelee.getPositionY(), auxMeelee->meelee.getCharacter());
+        if(damageTaken > 0)
+            auxMeelee->meelee.setHP(damageTaken);
+        auxMeelee = auxMeelee->next;
     }
 }
 
@@ -147,9 +145,8 @@ void Game::checkRanged(){
     while(auxRanged != NULL){
         damageTaken = bulletsList->isHit(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY(), auxRanged->ranged.getCharacter());
         if(damageTaken > 0)
-            current->list.removeRanged(auxRanged->ranged.getPositionX(), auxRanged->ranged.getPositionY());
-        else
-            auxRanged = auxRanged->next;
+            auxRanged->ranged.setHP(damageTaken);
+        auxRanged = auxRanged->next;
    }
    
 }
@@ -161,8 +158,7 @@ void Game::checkPlayer(){
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
-        wmove(dungeon->retrive_dungeon(), p->getPositionY(), p->getPositionX());
-        waddch(dungeon->retrive_dungeon(), ' ');
+        p->hide();
         current->list.hideAll();
         switch (changedRoom) {
             case 1:

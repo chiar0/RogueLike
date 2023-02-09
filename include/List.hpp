@@ -39,7 +39,7 @@ protected:
 
 public:
 
-    List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player* p) ;
+    List(int nMeelee, int nRanged, engine* dungeon, int id, BulletList* bulletsList, Player* p);
 
     // getters
     meeleeList* getMeeleeHead();
