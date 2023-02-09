@@ -71,25 +71,19 @@
         defeatedEnemies++;
         meeleeList* current = meeleeHead;
         meeleeList* previous = NULL;
+        bool deleted = false;
 
-        while (current != NULL) {
+        while (current != NULL && !deleted) {
 
-            if (current->meelee.getPositionX() == x
-                && current->meelee.getPositionY() == y) {
-                if(previous == NULL) {
-                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
-                    waddch(dungeon->retrive_dungeon(), ' ');
-                    meeleeHead = current->next;
-                } else {
-                    wmove(dungeon->retrive_dungeon(), current->meelee.getPositionY(), current->meelee.getPositionX());
-                    waddch(dungeon->retrive_dungeon(), ' ');
-                    previous->next = current->next;
-                }
+            if (current->meelee.getPositionX() == x && current->meelee.getPositionY() == y) {
+                if (previous == NULL) { meeleeHead = current->next; }
+                else { previous->next = current->next; }
                 delete current;
-                return;
+                deleted = true;
+            } else {
+                previous = current;
+                current = current->next;
             }
-            previous = current;
-            current = current->next;
 
         }
     }
@@ -100,25 +94,19 @@
         defeatedEnemies++;
         rangedList* current = rangedHead;
         rangedList* previous = NULL;
+        bool deleted = false;
 
-        while (current != NULL) {
+        while (current != NULL && !deleted) {
 
-            if (current->ranged.getPositionX() == x
-                && current->ranged.getPositionY() == y) {
-                if (previous == NULL) {
-                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
-                    waddch(dungeon->retrive_dungeon(), ' ');
-                    rangedHead = current->next;
-                } else {
-                    wmove(dungeon->retrive_dungeon(), current->ranged.getPositionY(), current->ranged.getPositionX());
-                    waddch(dungeon->retrive_dungeon(), ' ');
-                    previous->next = current->next;
-                }
+            if (current->ranged.getPositionX() == x && current->ranged.getPositionY() == y) {
+                if (previous == NULL) { rangedHead = current->next; }
+                else { previous->next = current->next; }
                 delete current;
-                return;
+                deleted = true;
+            } else {
+                previous = current;
+                current = current->next;
             }
-            previous = current;
-            current = current->next;
 
         }
 
@@ -147,7 +135,7 @@
     }
 
     // aggiornamento di tutti i nemici
-    void List::updateAll(int playerX, int playerY) {
+    void List::updateAll() {
 
         checkDeads();
 
@@ -155,12 +143,12 @@
         rangedList *tempRanged = rangedHead;
 
         while(tempMeelee != NULL) {
-            tempMeelee->meelee.update(playerX, playerY);
+            tempMeelee->meelee.update(p->getPositionX(), p->getPositionY());
             tempMeelee = tempMeelee->next;
         }
 
         while(tempRanged != NULL) {
-            tempRanged->ranged.update(playerX, playerY);
+            tempRanged->ranged.update(p->getPositionX(), p->getPositionY());
             tempRanged = tempRanged->next;
         }
         
@@ -169,7 +157,7 @@
             artifactDisplayed = true;
         }
         
-        if (playerX == artifact.getPositionX() && playerY == artifact.getPositionY() && artifactDisplayed && !artifactTaken) {
+        if (p->getPositionX() == artifact.getPositionX() && p->getPositionY() == artifact.getPositionY() && artifactDisplayed && !artifactTaken) {
             artifactTaken = true;
             artifact.hide();
             artifactDisplayed = false;
@@ -180,7 +168,7 @@
             powerUpDisplayed = true;
         }
 
-        if (playerX == powerUp.getPositionX() && playerY == powerUp.getPositionY() && powerUpDisplayed && !powerUpTaken) {
+        if (p->getPositionX() == powerUp.getPositionX() && p->getPositionY() == powerUp.getPositionY() && powerUpDisplayed && !powerUpTaken) {
             powerUpTaken = true;
             powerUp.hide();
             powerUpDisplayed = false;
