@@ -9,6 +9,7 @@ private:
     int score;                  // punteggio del player
     int range;                  // distanza massima di attacco
     int collectedArtifacts;     // numero di artefatti raccolti
+    int collectedPowerUps;      // numero di powerUp raccolti
     int bulletsRemaining;       // numero di proiettili rimanenti
     
 public:
@@ -21,10 +22,12 @@ public:
     int getRange();
     int getScore();
     int getCollectedArtifacts();
+    int getCollectedPowerUps();
 
     // setters
     void setScore(int increase);
     void setCollectedArtifacts();
+    void setCollectedPowerUps();
     void setRange(int range);
     void powerUpDamage(int increase);
     void powerUpHP(int increase);

@@ -16,11 +16,13 @@
     int Player::getRange() { return range; }
     int Player::getScore() { return score; }
     int Player::getCollectedArtifacts() {return collectedArtifacts; }
+    int Player::getCollectedPowerUps() {return collectedPowerUps; }
 
     // setters
     void Player::setRange(int increase) { range += increase; }
     void Player::setScore(int increase) { score += increase; }
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
+    void Player::setCollectedPowerUps() { collectedPowerUps += 1; }
     void Player::powerUpDamage(int increase) { damage += increase; }
     void Player::powerUpHP(int increase) { HP += increase; }
 
@@ -42,6 +44,7 @@
         } else if (nearby[0][1] == 'p') {
             hide();
             positionY = positionY - 1;
+            setCollectedPowerUps();
             int r = rand() % 2;
             if (r == 0) {
                 powerUpDamage(3);
@@ -66,6 +69,7 @@
         } else if (nearby[2][1] == 'p') {
             hide();
             positionY = positionY + 1;
+            setCollectedPowerUps();
             int r = rand() % 2;
             if (r == 0) {
                 powerUpDamage(3);
@@ -90,6 +94,7 @@
         } else if (nearby[1][0] == 'p') {
             hide();
             positionX = positionX - 1;
+            setCollectedPowerUps();
             int r = rand() % 2;
             if (r == 0) {
                 powerUpDamage(3);
@@ -114,6 +119,7 @@
         } else if (nearby[1][2] == 'p') {
             hide();
             positionX = positionX + 1;
+            setCollectedPowerUps();
             int r = rand() % 2;
             if (r == 0) {
                 powerUpDamage(3);

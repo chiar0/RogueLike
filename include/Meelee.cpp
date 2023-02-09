@@ -84,6 +84,7 @@
     }
 
     int Meelee::attack(int direction, int playerX, int playerY){
+        /*
         char mapChar;
         int dimension = 3, bossBoost = 0;
         int startAttackX = 0, startAttackY = 0;
@@ -124,9 +125,9 @@
                 attackX = enemyX + startAttackX + i;
                 attackY = enemyY + startAttackY + j;
                 mapChar = mvwinch(Entity::getDungeonWindow(), attackY, attackX);
-                if(mapChar == '@'){
+                if(mapChar == '@')
                     damageDealt += this->damage;
-                if(mapChar == ' ')
+                if(mapChar == ' '){
                     wmove(Entity::getDungeonWindow(), attackY, attackX);
                     waddch(Entity::getDungeonWindow(), '#');
                     Entity::updateDungeon();
@@ -140,6 +141,7 @@
                     exit(1);  
                 }
         return damageDealt;
+        */
     }
 
 
