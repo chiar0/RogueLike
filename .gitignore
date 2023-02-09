@@ -1,7 +1,8 @@
 *.out
 *.o
 file.txt
+test.
+test
+test.*
 build/
-test
-test
-test
+
