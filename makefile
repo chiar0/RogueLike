@@ -51,4 +51,4 @@ valgrind:
 	valgrind ./test
 
 clean:
-	rm *.o a.out
+	rm *.o
