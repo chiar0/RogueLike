@@ -27,6 +27,7 @@ public:
     // update per l'aggiornamento dell'entità, in base a quanto è distante dal player decide se sparare o meno
     void update(int playerX, int playerY);
 
-    void shoot(int direction);              //funzione per richiamare la lista dei proiettili e aggiungere un proiettile
+    // metodo per sparare in una certa direzione
+    void shoot(int direction);
 
 };

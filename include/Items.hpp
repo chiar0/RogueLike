@@ -9,10 +9,10 @@ class Items {
 
 protected:
 
-    int positionX, xMax; // posizione X nella window e dimensione massima X
-    int positionY, yMax; // posizione Y nella window e dimensione massima Y
-    engine *dungeon; // dungeon in cui si trova l'entità
-    char character; // carattere che rappresenta l'entità
+    int positionX, xMax;    // posizione X nella window e dimensione massima X
+    int positionY, yMax;    // posizione Y nella window e dimensione massima Y
+    engine *dungeon;        // dungeon in cui si trova l'entità
+    char character;         // carattere che rappresenta l'entità
 
 public:
 

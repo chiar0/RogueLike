@@ -5,11 +5,11 @@
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
 
         this->isBoss = isBoss;
-        this->isTaunted = false; // ogni nemico corpo a corpo di base non è "taunted"
-        this->chaseBlocks = 7; // ogni nemico corpo a corpo di base segue il player per 7 mosse se taunted
+        this->isTaunted = false;    // ogni nemico corpo a corpo di base non è "taunted"
+        this->chaseBlocks = 7;      // ogni nemico corpo a corpo di base segue il player per 7 mosse se taunted
         this->currentChaseBlocks = chaseBlocks;
         this->character = 'M';
-        updateNearby(); // aggiorno le entità vicine
+        updateNearby();             // aggiorno la matrice delle entità vicine
         this->startAttackX = 0;
         this->startAttackY = 0;
     }
@@ -27,18 +27,22 @@
         bool found = false;
         switch (direction) {
             case 1:
+                // sopra
                 if (positionX == x && (positionY-1 == y || positionY-2 == y)) { found = true; }
                 else { found = false; }
                 break;
             case 2:
+                // sotto
                 if (positionX == x && (positionY+1 == y || positionY+2 == y)){found = true; }
                 else{ found = false; }
                 break;
             case 3:
+                // destra
                 if (positionY == y && (positionX+1 == x || positionX+1 == x)){ found = true; }
                 else{ found = false; }
                 break;
             case 4:
+                // sinistra
                 if (positionY == y && (positionX-1 == x-1 || positionX-1 == x)){ found = true; }
                 else{ found = false; }
                 break;
@@ -52,12 +56,15 @@
         int direction;
         updateNearby(); // aggiorno le entità vicine
 
+        // controllo se il nemico è vicino al player, in caso affermativo lo "taunto"
         bool isPlayerNearby = false;
         for (int i = 0; i < 4 && !isPlayerNearby; i++) { isPlayerNearby = isInRange(playerX, playerY, i+1); }
         if (isPlayerNearby) { isTaunted = true; }
 
         // se il nemico è "taunted" allora si muove verso il player
         if (isTaunted) {
+            // controllo la distanza tra il nemico e il player, se il player è in range allora attacco
+            // altrimenti mi muovo verso il player
             int diffX, diffY;
             diffX = getPositionX() - playerX;
             diffY = getPositionY() - playerY;

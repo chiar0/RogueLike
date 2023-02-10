@@ -1,11 +1,9 @@
 #include "Player.hpp"
 
     Player::Player():Entity() {}
-
     Player::Player(int positionX, int positionY, int HP, int damage, engine* dungeon, BulletList* bulletsList)
     :Entity(positionX, positionY, HP, damage, dungeon, bulletsList) {
         this->score = 0;
-        this->range = 4;
         this->collectedArtifacts = 0;
         this->bulletsRemaining = 0;
         this->character = '@';
@@ -13,21 +11,22 @@
     }
 
     // getters
-    int Player::getRange() { return range; }
     int Player::getCollectedArtifacts() {return collectedArtifacts; }
     int Player::getCollectedPowerUps() {return collectedPowerUps; }
 
     // setters
-    void Player::setRange(int increase) { range += increase; }
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
     void Player::setCollectedPowerUps() { collectedPowerUps += 1; }
     void Player::powerUpDamage(int increase) { damage += increase; }
     void Player::powerUpHP(int increase) { HP += increase; if (HP > 100) HP = 100; }
 
     // metodi per il movimento:
-    // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile,
+    // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile, o un rimasuglio di un attacco
+    // di un nemico meelee
     // se questo si verifica allora si sposta
     // se si è arrivati alla fine della stanza si chiama la funzione di cambio stanza con la direzione corrispondente
+    // controllo inoltre se sto per spostarmi su un artefatto o potenziamento, in caso affermativo lo faccio e verranno aggiornati i contatori
+    // e lo stato di artefatto powerUp (quest'ultima cosa viene fatta nella classe List)
 
     int Player::moveUp() {
         int flag = 0;

@@ -33,7 +33,7 @@ Game::Game(){
     keypad(dungeon->retrive_dungeon(), true);
 };
 
-
+// assegna a current la lista di nemici successive se esiste altrimenti ne crea una nuova
 void Game::nextList(int nMeelee, int nRanged, engine *dungeon) {
         if (current->next != NULL) {
             current = current->next;
@@ -44,13 +44,14 @@ void Game::nextList(int nMeelee, int nRanged, engine *dungeon) {
         }
     }
 
-
+// assegna a current la lista di nemici precedente se esiste
 void Game::prevList() {
     if (current->prev != NULL) {
         current = current->prev;
     }
 }
 
+// genera una nuova lista di nemici e la aggiunge alla lista di liste
 void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;
