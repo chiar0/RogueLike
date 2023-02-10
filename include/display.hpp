@@ -17,6 +17,8 @@ public:
         point_list *next;
     };
 
+    display();                                                            //costruttore
+    ~display();
     void init();                                                          //inizializza ncurses
     void end();                                                           //termina ncurses
     void set_dimensions(int h, int w);                                    //imposta le dimensioni della finestra

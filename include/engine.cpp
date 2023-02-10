@@ -2,11 +2,7 @@
 
 extern bool debug = true; //se true, attiva la modalità debug
 
-engine::engine() { //costruttore della classe engine (inizializza il gioco)
-
-    init();                             //inizializza ncurses
-    terminal_check(24, 80);       //controlla se la finestra è abbastanza grande
-    set_dimensions(LINES, COLS);  //imposta le dimensioni della finestra
+engine::engine():display() { //costruttore della classe engine (inizializza il gioco)
 
     ///////////////////////// inizializza i parametri della finestra di gioco
     int h= retrive_height();
