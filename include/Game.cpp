@@ -109,7 +109,6 @@ void Game::checkBullets(){
     checkMeelee();
 }
 
-
 void Game::checkMeelee(){
     meeleeList* auxMeelee;
     auxMeelee = current->list->getMeeleeHead();
@@ -123,7 +122,6 @@ void Game::checkMeelee(){
         auxMeelee = auxMeelee->next;
     }
 }
-
 
 void Game::checkRanged(){
     rangedList* auxRanged;
@@ -146,7 +144,6 @@ void Game::checkPlayer(int damage){
         dungeon->life_update(-damageTaken);
     }
 }
-
 
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
