@@ -14,12 +14,12 @@ Game::Game(){
     BulletList* tmpBullet1 = new BulletList(this->dungeon);
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
-    this->p = new Player(playerSpawn.x, playerSpawn.y, 10000, 1, dungeon, tmpBullet1);
+    this->p = new Player(playerSpawn.x, playerSpawn.y, 100, 3, dungeon, tmpBullet1);
     
 
     //generazione lista di liste
-    List* tmpList1 = new List(1, 1, dungeon, 0, tmpBullet1, p);
-    List* tmpList2 = new List(1, 1, dungeon, 0, tmpBullet1, p);
+    List* tmpList1 = new List(3, 3, dungeon, 0, tmpBullet1, p);
+    List* tmpList2 = new List(3, 3, dungeon, 0, tmpBullet1, p);
     this->head = new listOfLists(tmpBullet1, tmpList1);
     this->head->next = new listOfLists(tmpBullet2, tmpList2);
     this->head->next->prev = head;
@@ -83,9 +83,6 @@ void Game::gameLoop(){
 
         if(ch == 'x')
             end = false;
-        if (ch == 'n') {
-            dungeon->clear_exit();
-        }
         if(ch != ERR){
             updatePlayer(ch);
         }
@@ -166,8 +163,8 @@ void Game::updatePlayer(int move){
         switch (changedRoom) {
             case 1:
                 {dungeon->next_level();
-                int nMeelee = 4 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
-                int nRanged = 4 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
+                int nMeelee = 3 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
+                int nRanged = 3 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
                 nextList(nMeelee, nRanged, this->dungeon);
                 display::point_list *entryPoints = dungeon->retrive_entry();
                 while(entryPoints->p.x != p->getPositionX() && entryPoints->p.y != p->getPositionY()) {

@@ -52,6 +52,10 @@
         int direction;
         updateNearby(); // aggiorno le entità vicine
 
+        bool isPlayerNearby = false;
+        for (int i = 0; i < 4 && !isPlayerNearby; i++) { isPlayerNearby = isInRange(playerX, playerY, i+1); }
+        if (isPlayerNearby) { isTaunted = true; }
+
         // se il nemico è "taunted" allora si muove verso il player
         if (isTaunted) {
             int diffX, diffY;
