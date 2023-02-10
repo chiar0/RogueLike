@@ -14,13 +14,11 @@
 
     // getters
     int Player::getRange() { return range; }
-    int Player::getScore() { return score; }
     int Player::getCollectedArtifacts() {return collectedArtifacts; }
     int Player::getCollectedPowerUps() {return collectedPowerUps; }
 
     // setters
     void Player::setRange(int increase) { range += increase; }
-    void Player::setScore(int increase) { score += increase; }
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
     void Player::setCollectedPowerUps() { collectedPowerUps += 1; }
     void Player::powerUpDamage(int increase) { damage += increase; }
@@ -158,12 +156,6 @@
 
         return flag;
 
-    }
-
-    // metodo invocato quando viene sconfitto un nemico e si aggiorna il punteggio
-    void Player::defeatedEnemy(bool isBoss) {
-        if (isBoss) { setScore(1500); }
-        else { setScore(500); }
     }
  
     // update si occupa di modificare lo stato (come posizione, matrice delle adiacenze ed altro) dell'entità

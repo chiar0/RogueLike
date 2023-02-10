@@ -20,12 +20,10 @@ public:
 
     // getters
     int getRange();
-    int getScore();
     int getCollectedArtifacts();
     int getCollectedPowerUps();
 
     // setters
-    void setScore(int increase);
     void setCollectedArtifacts();
     void setCollectedPowerUps();
     void setRange(int range);
@@ -40,7 +38,6 @@ public:
     void shoot(int direction);
 
     int changeRoom(int direction);      // metodo cambio stanza
-    void defeatedEnemy(bool isBoss);    // metodo invocato quando viene affrontato un nemico
     int update(int move);               // update si occupa di modificare lo stato (come posizione e altro) dell'entità
     int updateBullet();                 //aggiornamento della lista dei proiettili
 };
