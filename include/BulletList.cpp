@@ -155,6 +155,7 @@ int BulletList::isHit(int directionX, int directionY, char character){
     return damageTaken;
 }
 
+//aggiungo un proiettile alla lista
 void BulletList::addToList(Bullet* bul){
     bullets* tmp = new bullets();
     tmp->bullet = bul;
@@ -171,6 +172,7 @@ void BulletList::addToList(Bullet* bul){
     }
 }
 
+
 void BulletList::resetList(){
     hideAll(); 
     if(bulletHead != NULL){
@@ -186,7 +188,6 @@ void BulletList::resetList(){
             }
             delete aux->next;
         }      
-        //delete aux;
         this->bulletHead = NULL;  
     }  
 }

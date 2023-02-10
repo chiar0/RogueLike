@@ -1,7 +1,7 @@
 #ifndef GAME_CPP_MAIN_HPP
 #define GAME_CPP_MAIN_HPP
 
-//#include <iostream>
+#include <iostream>
 #include "include/engine.hpp"
 #include "include/Entity.hpp"
 #include "include/Player.hpp"

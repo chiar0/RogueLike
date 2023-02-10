@@ -5,7 +5,6 @@ menu::menu() {
     menu_win = newwin(height, width, 0, 0);
     refresh();
 
-    //touchwin(menu_win);
     mvwprintw(menu_win, 1, 1, r00);
     mvwprintw(menu_win, 2, 1, r01);
     mvwprintw(menu_win, 3, 1, r02);

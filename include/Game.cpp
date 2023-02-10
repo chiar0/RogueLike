@@ -65,9 +65,8 @@ void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     head = tmp;
 }
 
-
+//gestice il gioco e il tempo
 void Game::gameLoop(){
-    
     int changedRoom = 0;
     int meeleeDamage = 0;
     bool end = true;
@@ -102,6 +101,7 @@ void Game::gameLoop(){
     }
 }
 
+//funzione principaleper la verifica delle entità
 void Game::checkBullets(){
     checkPlayer();
     checkRanged();
@@ -144,6 +144,7 @@ void Game::checkPlayer(int damage){
     }
 }
 
+//gestice lo spostamento del giocatore
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {

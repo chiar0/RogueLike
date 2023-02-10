@@ -246,7 +246,7 @@
 
     }
 
-    // metodo per pulire il residuo di attacco dei nemici meelee
+    // metodo per pulire i char dell'attacco dei nemici meelee
     void List::clearMeeleeAttack(){
         meeleeList *tempMeelee = meeleeHead;
 
