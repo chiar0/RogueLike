@@ -43,7 +43,7 @@ public: //===================// =======
     ~engine();
     void gameover();                        //termina il gioco
     void life_update(double x);             //aggiorna la vita (se x<0 decrementa, se x>0 incrementa) se diventa negativa termina il gioco
-    void score_update(int x);               //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
+    void count_update(int x);               //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
     void write_char(point point, char ch);  //scrive un carattere nel punto
     char read_char(point point);            //ritorna il carattere nel punto
     void clear_point(point point);          //cancella il carattere nel punto

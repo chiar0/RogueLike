@@ -78,6 +78,7 @@
     void List::removeMeelee(int x, int y) {
         
         defeatedEnemies++;
+        dungeon->count_update(1);
         meeleeList* current = meeleeHead;
         meeleeList* previous = NULL;
         bool deleted = false;
@@ -102,6 +103,7 @@
     void List::removeRanged(int x, int y) {
 
         defeatedEnemies++;
+        dungeon->count_update(1);
         rangedList* current = rangedHead;
         rangedList* previous = NULL;
         bool deleted = false;

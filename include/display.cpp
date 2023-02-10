@@ -143,6 +143,8 @@ int display::get_relative_y (int y, int NSWE) { //ritorna la coordinata y relati
             return y;
         case 3: //E
             return y;
+        default:
+            return 0;
     }
 }
 
@@ -156,6 +158,8 @@ int display::get_relative_x (int x, int NSWE) { //ritorna la coordinata x relati
             return x - 1;
         case 3: //E
             return x + 1;
+        default:
+            return 0;
     }
 }
 

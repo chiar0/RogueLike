@@ -1,11 +1,14 @@
-test: main.o display.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o
-	g++ -o test main.o display.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -fno-stack-protector -lncurses
+test: main.o display.o menu.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o
+	g++ -o test main.o display.o menu.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -fno-stack-protector -lncurses
 
 main.o: main.cpp include/engine.hpp include/display.hpp include/Game.hpp
 	g++ -c main.cpp -fno-stack-protector
 
 display.o: include/display.cpp include/display.hpp
 	g++ -c include/display.cpp -fno-stack-protector
+
+menu.o: include/menu.cpp include/menu.hpp
+	g++ -c include/menu.cpp -fno-stack-protector
 
 engine.o: include/engine.cpp include/engine.hpp 
 	g++ -c include/engine.cpp -fno-stack-protector
@@ -42,7 +45,7 @@ Game.o: include/Game.cpp include/Game.hpp
 
 CFLAGS = -Wall -g
 
-all: test main.o display.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -lncurses
+all: test main.o display.o menu.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -lncurses
 
 valgrind:
 	valgrind ./test

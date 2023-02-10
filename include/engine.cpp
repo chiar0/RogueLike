@@ -32,8 +32,9 @@ engine::~engine() {
 
 void engine::gameover() { //termina il gioco
     clear();
-    printw("Game Over");
-    printw("\nyour score is %d", score);
+    printw("Game Over!");
+    printw("\n Max level reached: %d", score);
+    printw("\n Enemy killed: %d", count);
     printw("\nPRESS x TO CLOSE THE PROGRAM");
     int ch = 0;
     while (ch != 'x') { ch = getch(); }
@@ -49,8 +50,8 @@ void engine::life_update(double x) {  //aggiorna la vita (se x<0 decrementa, se 
     refresh_scoreboard();
 }
 
-void engine::score_update(int x) { //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
-    score = score + x;
+void engine::count_update(int x) { //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
+    count = count + x;
     refresh_scoreboard();
 }
 
@@ -396,7 +397,7 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
     
     mvwprintw(scoreboard, i, 1, "life: "); i+=2; //stampa la vita
     int x = (int)ceil(life)/10;
-    if (x > (s_width-8) || x == 1) { wprintw(scoreboard, "%f", life); }
+    if (x > (s_width-8) || x == 1) { wprintw(scoreboard, "%d", (int)ceil(life)); }
     else { 
         for (int j = 0; j < x; j++) { 
             waddch(scoreboard, ACS_DIAMOND);
@@ -412,10 +413,11 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
         if (current->entry->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
         i++;
     }
-    if (current->exit->NSWE == 0) mvwprintw(scoreboard, i, 1, "entry: NORD");
-    if (current->exit->NSWE == 1) mvwprintw(scoreboard, i, 1, "entry: SUD");
-    if (current->exit->NSWE == 2) mvwprintw(scoreboard, i, 1, "entry: OVEST");
-    if (current->exit->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
+    if (current->exit->NSWE == 0) mvwprintw(scoreboard, i, 1, "exit: NORD");
+    if (current->exit->NSWE == 1) mvwprintw(scoreboard, i, 1, "exit: SUD");
+    if (current->exit->NSWE == 2) mvwprintw(scoreboard, i, 1, "exit: OVEST");
+    if (current->exit->NSWE == 3) mvwprintw(scoreboard, i, 1, "exit: EST");
+    i++;
 
     touchwin(scoreboard); 
     wrefresh(scoreboard); 
