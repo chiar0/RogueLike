@@ -24,7 +24,7 @@
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
     void Player::setCollectedPowerUps() { collectedPowerUps += 1; }
     void Player::powerUpDamage(int increase) { damage += increase; }
-    void Player::powerUpHP(int increase) { HP += increase; }
+    void Player::powerUpHP(int increase) { HP += increase; if (HP > 100) HP = 100; }
 
     // metodi per il movimento:
     // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile,

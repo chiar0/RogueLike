@@ -144,9 +144,12 @@ void Game::checkRanged(){
 }
 
 void Game::checkPlayer(){
-    p->setHP(current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
-    p->isDead();
-    //dungeon->life_update((current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@')));
+    int damageTaken = current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@');
+    if (damageTaken > 0) {
+        p->setHP(damageTaken);
+        p->isDead();
+        dungeon->life_update(-damageTaken);
+    }
 }
 
 
