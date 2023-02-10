@@ -13,31 +13,18 @@ Game::Game(){
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
     this->p = new Player(playerSpawn.x, playerSpawn.y, 100, 3, dungeon, tmpBullet1);
-    bool okSpawnPoint = false;
-    do {
-        p->updateNearby();
-        okSpawnPoint = true;
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) {
-                if(p->getNearby(i, j) != ' ' && i != 1 && j != 1) {
-                    playerSpawn = dungeon->random_clear_point();
-                    okSpawnPoint = false;
-                }
-            }
-        }
-    } while (!okSpawnPoint);
     p->setPositionX(playerSpawn.x);
     p->setPositionY(playerSpawn.y);
 
     //generazione lista di liste
     List* tmpList1 = new List(3, 3, dungeon, 0, tmpBullet1, p);
-    List* tmpList2 = new List(3, 3, dungeon, 0, tmpBullet1, p);
+    List* tmpList2 = new List(3, 3, dungeon, 0, tmpBullet2, p);
     this->head = new listOfLists(tmpBullet1, tmpList1);
     this->head->next = new listOfLists(tmpBullet2, tmpList2);
     this->head->next->prev = head;
     this->current = head;
     this->maxId = 1;
-    
+
     //varie funzioni di libreria di ncurses
     nodelay(dungeon->retrive_dungeon(), true);
     nodelay(stdscr, true);
@@ -93,12 +80,8 @@ void Game::gameLoop(){
         ch = getch();
         enemyTimer->tick();
 
-        if(ch == 'x')
-            end = false;
-        if(ch != ERR){
-            updatePlayer(ch);
-        }
-        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
+        if(ch == 'x') end = false;
+        if(ch != ERR) updatePlayer(ch);
 
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             checkPlayer(current->list->updateAll());
@@ -117,7 +100,7 @@ void Game::gameLoop(){
 
         this->dungeon->refresh_dungeon();
     }
-};
+}
 
 void Game::checkBullets(){
     checkPlayer();
@@ -167,8 +150,6 @@ void Game::checkPlayer(int damage){
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
-        //bulletsList->resetList();
-        //bulletsList->getBulletHead();
         p->hide();
         current->bulletsList->hideAll();
         current->list->hideAll();

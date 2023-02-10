@@ -47,17 +47,11 @@ bool Bullet::move(){
 void Bullet::display(){
     wmove(dungeon->retrive_dungeon(), this->locationY, this->locationX);
     waddch(dungeon->retrive_dungeon(), '+');
-    //display::point p{locationY, locationX};
-    //dungeon->write_char(p, '+');
-    //dungeon->refresh_dungeon();
 }
 
 void Bullet::hideBullet(){
-    //display::point p{locationY, locationX};
-    //dungeon->write_char(p, ' ');
     wmove(dungeon->retrive_dungeon(), this->locationY, this->locationX);
     waddch(dungeon->retrive_dungeon(), ' ');
-    dungeon->refresh_dungeon();
 }
 
 char Bullet::getProjectile(){
