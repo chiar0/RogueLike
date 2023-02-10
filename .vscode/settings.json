@@ -3,6 +3,7 @@
         "type_traits": "cpp",
         "*.tcc": "cpp",
         "cstdlib": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "string": "cpp"
     }
 }
