@@ -9,8 +9,6 @@ exit(1);
 Game::Game(){
     //generazione dungeon e nemici
     this->dungeon = new engine();
-    //this->bulletsList =  new BulletList(this->dungeon);
-    //this->bulletsList.startDungeon(dungeon);
     BulletList* tmpBullet1 = new BulletList(this->dungeon);
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
