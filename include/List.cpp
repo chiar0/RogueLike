@@ -44,7 +44,7 @@
         int choice = rand() % 4;
         if (choice == 3) { bossMultiplier = 2; isBoss = true;}
         Meelee generated = Meelee(p.x, p.y, (15+(id*3/2))*bossMultiplier, (3+id)*bossMultiplier, isBoss, dungeon, bulletsList);
-        if (id == dungeon->retrive_level_number()) { generated.display(); }
+        // if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
 
@@ -56,7 +56,7 @@
         int choice = rand() % 4;
         if (choice == 3) { bossMultiplier = 2; isBoss = true;}
         Ranged generated = Ranged(p.x, p.y, (10+(id*3/2))*bossMultiplier, (5+id)*bossMultiplier, 7, isBoss, dungeon, bulletsList);
-        if (id == dungeon->retrive_level_number()) { generated.display(); }
+        // if (id == dungeon->retrive_level_number()) { generated.display(); }
         return generated;
     }
 
