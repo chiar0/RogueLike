@@ -10,6 +10,8 @@
         this->currentChaseBlocks = chaseBlocks;
         this->character = 'M';
         updateNearby(); // aggiorno le entità vicine
+        this->startAttackX = 0;
+        this->startAttackY = 0;
     }
 
     // getters
@@ -61,19 +63,23 @@
                 switch (direction) {
                     case 1:
                         moveRight();
-                        attack(4, playerX, playerY);
+                        if(startAttackX == 0 && startAttackY == 0) attack(4, playerX, playerY);
+                        else clearAttack();
                         break;
                     case 2:
                         moveLeft();
-                        attack(2, playerX, playerY);
+                        if(startAttackX == 0 && startAttackY == 0) attack(2, playerX, playerY);
+                        else clearAttack();
                         break;
                     case 3:
                         moveUp();
-                        attack(1, playerX, playerY);
+                        if(startAttackX == 0 && startAttackY == 0) attack(1, playerX, playerY);
+                        else clearAttack();
                         break;
                     case 4:
                         moveDown();
-                        attack(3, playerX, playerY);
+                        if(startAttackX == 0 && startAttackY == 0) attack(3, playerX, playerY);
+                        else clearAttack();
                         break;
                     default:
                         break;
@@ -84,9 +90,9 @@
     }
 
     int Meelee::attack(int direction, int playerX, int playerY){
+        
         char mapChar;
         int dimension = 3, bossBoost = 0;
-        int startAttackX = 0, startAttackY = 0;
         int attackX = 0, attackY = 0;
         int damageDealt = 0;
         int enemyX = Entity::getPositionX(), enemyY = Entity::getPositionY();
@@ -132,18 +138,21 @@
                 }
             }
         }
+        this->startAttackX += enemyX;
+        this->startAttackY += enemyY;
         return damageDealt;
     }
 
     void Meelee::clearAttack() {
         int bossBoost = 0;
         int attackX = 0, attackY = 0;
+        int dimension = 3;
         char mapChar;
         if (isBoss) { bossBoost = bossBoost + 2; }
-        for(int i = 0; i < (3 + bossBoost); i++){
-            for(int j = 0; j < (3 + bossBoost); j++){
-                attackX = positionX + startAttackX + i;
-                attackY = positionY + startAttackY + j;
+        for(int i = 0; i < (dimension + bossBoost); i++){
+            for(int j = 0; j < (dimension + bossBoost); j++){
+                attackX = startAttackX + i;
+                attackY = startAttackY + j;
                 mapChar = mvwinch(Entity::getDungeonWindow(), attackY, attackX);
                 if(mapChar == '#'){
                     wmove(Entity::getDungeonWindow(), attackY, attackX);
@@ -152,6 +161,8 @@
                 }
             }
         }
+        this->startAttackX = 0;
+        this->startAttackY = 0;
     }
 
 

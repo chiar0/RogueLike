@@ -7,7 +7,7 @@ class Bullet{
     private:
         engine* dungeon = NULL;
         int damage;
-        int xLoc, yLoc;
+        int locationX, locationY;
         int direction;
         char bullet;
         char character;
@@ -15,17 +15,17 @@ class Bullet{
         
 
     public:
-        Bullet(engine *dungeon, int damage, int xLoc, int yLoc, int direction, char bullet, char character);
-        bool move();                            //aggiorna la posizione e controlla cosa ha colpito
-        void display(); 
-        void hideBullet();                        //riposiziona il proiettile dopo averlo mosso(attualmente non in uso)
+        Bullet(engine *dungeon, int damage, int locationX, int locationY, int direction, char bullet, char character);
+        bool move();                //aggiorna la posizione e controlla cosa ha colpito
+        void display();             //riposiziona il proiettile dopo averlo mosso
+        void hideBullet();          //nasconde il proiettile
         
         //getter
         int getx();                             
         int gety();
         char getProjectile();
         char getCharacter();
-        int dir();
+        int getDirection();
         bool getIsEnemy();
         int getDamage();
 

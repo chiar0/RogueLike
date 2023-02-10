@@ -44,7 +44,8 @@ public:
     void setPositionY(int y);
     void setHP(int lostHPs);
     void setDamage();
-
+    void setBulletList(BulletList* b);
+    
     // metodi che aggiornano lo stato grafico dell'entità
     void display();
     void hide();
@@ -62,5 +63,5 @@ public:
     bool isDead();
     // void isHit(int bulletX, int bulletY, int dmg);
     void addBullets(int direction, bool isEnemy, int entityX, int entityY);
-    void updateDungeon();
+    void updateDungeon();                   //setter della nuova BulletList per quando si cambia stanza
 };

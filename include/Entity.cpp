@@ -58,7 +58,7 @@
 
     void Entity::moveUp(){
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
-        if (nearby[0][1] == ' ') {
+        if (nearby[0][1] == ' ' || nearby[0][1] == '#') {
             waddch(dungeon->retrive_dungeon(), ' ');
             if (positionY < 1) { positionY = 1; }
             else { positionY = positionY - 1; } 
@@ -67,7 +67,7 @@
     }
     void Entity::moveDown(){
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
-        if (nearby[2][1] == ' ') {
+        if (nearby[2][1] == ' ' || nearby[2][1] == '#') {
             waddch(dungeon->retrive_dungeon(), ' ');
             if (positionY > yMax - 2) { positionY = yMax - 2; }
             else { positionY = positionY + 1; }
@@ -76,7 +76,7 @@
     }
     void Entity::moveLeft(){
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
-        if (nearby[1][0] == ' ') {
+        if (nearby[1][0] == ' ' || nearby[1][0] == '#') {
             waddch(dungeon->retrive_dungeon(), ' ');
             if (positionX < 1) { positionX = 1; }
             else { positionX = positionX - 1; }
@@ -85,7 +85,7 @@
     }
     void Entity::moveRight(){
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
-        if (nearby[1][2] == ' ') {
+        if (nearby[1][2] == ' ' || nearby[1][2] == '#') {
             waddch(dungeon->retrive_dungeon(), ' ');
             if (positionX > xMax - 2) { positionX = xMax - 2; }
             else { positionX = positionX + 1; }
@@ -117,4 +117,8 @@
 
     void Entity::updateDungeon(){
         dungeon->retrive_dungeon();
+    }
+
+    void Entity::setBulletList(BulletList* b){
+        this->bulletsList = b;
     }

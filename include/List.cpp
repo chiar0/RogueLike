@@ -77,6 +77,7 @@
         while (current != NULL && !deleted) {
 
             if (current->meelee.getPositionX() == x && current->meelee.getPositionY() == y) {
+                current->meelee.clearAttack();
                 if (previous == NULL) { meeleeHead = current->next; }
                 else { previous->next = current->next; }
                 delete current;
@@ -187,6 +188,7 @@
 
         while(tempMeelee != NULL) {
             tempMeelee->meelee.hide();
+            tempMeelee->meelee.clearAttack();
             tempMeelee = tempMeelee->next;
         }
 
@@ -222,4 +224,13 @@
             powerUpDisplayed = true;
         }
 
+    }
+
+    void List::clearMeeleeAttack(){
+        meeleeList *tempMeelee = meeleeHead;
+
+        while(tempMeelee != NULL) {
+            tempMeelee->meelee.clearAttack();
+            tempMeelee = tempMeelee->next;
+        }
     }

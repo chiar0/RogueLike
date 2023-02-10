@@ -63,4 +63,5 @@ public:
     void updateAll();   // aggiorna tutti i nemici della lista
     void hideAll();                             // nasconde tutti i nemici, artefatti e potenziamenti della lista
     void displayAll();
+    void clearMeeleeAttack();
 };

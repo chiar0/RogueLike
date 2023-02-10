@@ -33,10 +33,10 @@
 
     int Player::moveUp() {
         int flag = 0;
-        if (nearby[0][1] == ' ' || nearby[0][1] == '+') {
+        if (nearby[0][1] == ' ' || nearby[0][1] == '+' || nearby[0][1] == '#') {
             hide();
             positionY = positionY - 1;
-        } else if (nearby[0][1] == 'a') {
+        } else if (nearby[0][1] == 'a' ) {
             hide();
             dungeon->clear_exit();
             positionY = positionY - 1;
@@ -58,7 +58,7 @@
 
     int Player::moveDown() {
         int flag = 0;
-        if (nearby[2][1] == ' ' || nearby[2][1] == '+') {
+        if (nearby[2][1] == ' ' || nearby[2][1] == '+' || nearby[2][1] == '#') {
             hide();
             positionY = positionY + 1;
         } else if (nearby[2][1] == 'a') {
@@ -83,7 +83,7 @@
 
     int Player::moveLeft() {
         int flag = 0;
-        if (nearby[1][0] == ' ' || nearby[1][0] == '+') {
+        if (nearby[1][0] == ' ' || nearby[1][0] == '+'|| nearby[1][0] == '#') {
             hide();
             positionX = positionX - 1;
         } else if (nearby[1][0] == 'a') {
@@ -108,7 +108,7 @@
 
     int Player::moveRight() {
         int flag = 0;
-        if (nearby[1][2] == ' ' || nearby[1][2] == '+') {
+        if (nearby[1][2] == ' ' || nearby[1][2] == '+' || nearby[1][2] == '#') {
             hide();   
             positionX = positionX + 1;
         } else if (nearby[1][2] == 'a') {
@@ -194,7 +194,6 @@
             case KEY_RIGHT:
                 shoot(4);
                 break;
-            
             default:
                 break;
         }
