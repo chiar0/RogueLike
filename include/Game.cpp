@@ -9,8 +9,6 @@ exit(1);
 Game::Game(){
     //generazione dungeon e nemici
     this->dungeon = new engine();
-    //this->bulletsList =  new BulletList(this->dungeon);
-    //this->bulletsList.startDungeon(dungeon);
     BulletList* tmpBullet1 = new BulletList(this->dungeon);
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
@@ -19,7 +17,7 @@ Game::Game(){
 
     //generazione lista di liste
     List* tmpList1 = new List(1, 1, dungeon, 0, tmpBullet1, p);
-    List* tmpList2 = new List(1, 1, dungeon, 0, tmpBullet1, p);
+    List* tmpList2 = new List(1, 1, dungeon, 0, tmpBullet2, p);
     this->head = new listOfLists(tmpBullet1, tmpList1);
     this->head->next = new listOfLists(tmpBullet2, tmpList2);
     this->head->next->prev = head;
