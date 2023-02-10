@@ -396,7 +396,7 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
     
     mvwprintw(scoreboard, i, 1, "life: "); i+=2; //stampa la vita
     int x = (int)ceil(life)/10;
-    if (x > (s_width-8) || x == 1) { wprintw(scoreboard, "%f", life); }
+    if (x > (s_width-8) || x == 1) { wprintw(scoreboard, "%d", (int)ceil(life)); }
     else { 
         for (int j = 0; j < x; j++) { 
             waddch(scoreboard, ACS_DIAMOND);
