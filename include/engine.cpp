@@ -32,8 +32,9 @@ engine::~engine() {
 
 void engine::gameover() { //termina il gioco
     clear();
-    printw("Game Over");
-    printw("\nyour score is %d", score);
+    printw("Game Over!");
+    printw("\n Max level reached: %d", score);
+    printw("\n Enemy killed: %d", count);
     printw("\nPRESS x TO CLOSE THE PROGRAM");
     int ch = 0;
     while (ch != 'x') { ch = getch(); }

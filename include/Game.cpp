@@ -13,7 +13,21 @@ Game::Game(){
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
     this->p = new Player(playerSpawn.x, playerSpawn.y, 100, 3, dungeon, tmpBullet1);
-    
+    bool okSpawnPoint = false;
+    do {
+        p->updateNearby();
+        okSpawnPoint = true;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(p->getNearby(i, j) != ' ' && i != 1 && j != 1) {
+                    playerSpawn = dungeon->random_clear_point();
+                    okSpawnPoint = false;
+                }
+            }
+        }
+    } while (!okSpawnPoint);
+    p->setPositionX(playerSpawn.x);
+    p->setPositionY(playerSpawn.y);
 
     //generazione lista di liste
     List* tmpList1 = new List(3, 3, dungeon, 0, tmpBullet1, p);
