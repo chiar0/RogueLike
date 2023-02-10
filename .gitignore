@@ -1,6 +1,6 @@
 *.out
 *.o
-file.txt
+log.txt
 test.
 test
 test.*
