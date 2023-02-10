@@ -49,8 +49,8 @@ void engine::life_update(double x) {  //aggiorna la vita (se x<0 decrementa, se 
     refresh_scoreboard();
 }
 
-void engine::score_update(int x) { //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
-    score = score + x;
+void engine::count_update(int x) { //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
+    count = count + x;
     refresh_scoreboard();
 }
 
