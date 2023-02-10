@@ -17,6 +17,7 @@ protected:
     engine *dungeon;            // dungeon in cui si trova l'entità
     char character;             // carattere che rappresenta l'entità
     char nearby[3][3];          // matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
+                                // [0][1] = sopra, [1][0] = sinistra, [1][2] = destra, [2][1] = sotto, [1][1] = entità stessa
 
     // attributi del gioco
     int HP;                     // punti vita
@@ -28,7 +29,7 @@ public:
     Entity();
     Entity(int positionX, int positionY, int HP, int damage, engine* dungeon, BulletList* bulletslist);
 
-    // getters
+    // getters, ritornano i valori degli attributi
     int getPositionX();
     int getPositionY();
     int getMaxX();
@@ -39,7 +40,7 @@ public:
     char getNearby(int x, int y);
     WINDOW* getDungeonWindow();
 
-    // setters
+    // setters, impostano i valori degli attributi
     void setPositionX(int x);
     void setPositionY(int y);
     void setHP(int lostHPs);
@@ -47,10 +48,10 @@ public:
     void setBulletList(BulletList* b);
     
     // metodi che aggiornano lo stato grafico dell'entità
-    void display();
-    void hide();
-    void update();
-    void updateNearby();
+    void display();             // stampa l'entità sulla finestra
+    void hide();                // oscura l'entità dalla finestra
+    void update();              // aggiorna lo stato dell'entità
+    void updateNearby();        // aggiorna la matrice 3x3 che contiene i caratteri nelle caselle adiacenti a quella in cui si trova l'entità
 
 
     // metodi di movimento
@@ -60,8 +61,11 @@ public:
     void moveRight();
 
     // metodi per il combattimento
+
+    // ritorna true se l'entità è morta, se lo è la elimina dalla finestra con hide()
     bool isDead();
-    // void isHit(int bulletX, int bulletY, int dmg);
+
+    // aggiunge un proiettile alla lista dei proiettili
     void addBullets(int direction, bool isEnemy, int entityX, int entityY);
-    void updateDungeon();                   //setter della nuova BulletList per quando si cambia stanza
+
 };

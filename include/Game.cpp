@@ -14,6 +14,7 @@ Game::Game(){
     display::point playerSpawn = dungeon->random_clear_point();
     this->p = new Player(playerSpawn.x, playerSpawn.y, 100, 3, dungeon, tmpBullet1);
     bool okSpawnPoint = false;
+    // controllo che il player non sia spawnato vicino a un nemico/muro
     do {
         p->updateNearby();
         okSpawnPoint = true;
@@ -25,9 +26,9 @@ Game::Game(){
                 }
             }
         }
+        p->setPositionX(playerSpawn.x);
+        p->setPositionY(playerSpawn.y);
     } while (!okSpawnPoint);
-    p->setPositionX(playerSpawn.x);
-    p->setPositionY(playerSpawn.y);
 
     //generazione lista di liste
     List* tmpList1 = new List(3, 3, dungeon, 0, tmpBullet1, p);
@@ -46,7 +47,7 @@ Game::Game(){
     keypad(dungeon->retrive_dungeon(), true);
 };
 
-
+// assegna a current la lista di nemici successive se esiste altrimenti ne crea una nuova
 void Game::nextList(int nMeelee, int nRanged, engine *dungeon) {
         if (current->next != NULL) {
             current = current->next;
@@ -57,13 +58,14 @@ void Game::nextList(int nMeelee, int nRanged, engine *dungeon) {
         }
     }
 
-
+// assegna a current la lista di nemici precedente se esiste
 void Game::prevList() {
     if (current->prev != NULL) {
         current = current->prev;
     }
 }
 
+// genera una nuova lista di nemici e la aggiunge alla lista di liste
 void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
     listOfLists *tmp = head;
     maxId += 1;

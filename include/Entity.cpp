@@ -55,6 +55,8 @@
 
     // metodi per i movimenti, in ognuno di essi sono gestiti i controlli per evitare che l'entità esca dalla finestra
     // e per evitare che si muova su altre entità
+    // il controllo è effettuato con la matrice nearby e ci si può muovere solo se la casella adiacente è vuota o è un rimasuglio di un attacco
+    // di un nemico 
 
     void Entity::moveUp(){
         wmove(dungeon->retrive_dungeon(), positionY, positionX);
@@ -113,10 +115,6 @@
     // metodo che aggiunge un bullet alla lista di proiettili
     void Entity::addBullets(int direction, bool isEnemy, int entityX, int entityY){
         this->bulletsList->addBullet(this->dungeon, this->damage, entityX, entityY, direction, this->character, (char)'+', isEnemy);
-    }
-
-    void Entity::updateDungeon(){
-        dungeon->retrive_dungeon();
     }
 
     void Entity::setBulletList(BulletList* b){
