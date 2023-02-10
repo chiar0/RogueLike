@@ -7,6 +7,9 @@ main.o: main.cpp include/engine.hpp include/display.hpp include/Game.hpp
 display.o: include/display.cpp include/display.hpp
 	g++ -c include/display.cpp -fno-stack-protector
 
+menu.o: include/menu.cpp include/menu.hpp
+	g++ -c include/menu.cpp -fno-stack-protector
+
 engine.o: include/engine.cpp include/engine.hpp 
 	g++ -c include/engine.cpp -fno-stack-protector
 
