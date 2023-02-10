@@ -1,7 +1,5 @@
 #include "engine.hpp"
 
-extern bool debug = true; //se true, attiva la modalità debug
-
 engine::engine():display() { //costruttore della classe engine (inizializza il gioco)
 
     ///////////////////////// inizializza i parametri della finestra di gioco
@@ -17,7 +15,7 @@ engine::engine():display() { //costruttore della classe engine (inizializza il g
 	last_col = d_width - 1;         //l'ultima colonna del dungeon è pari alla larghezza del dungeon meno 1
 
     ////////////////////////// creo il primo livello
-    life = 10.0;                          //vite iniziali del giocatore
+    life = 100.0;                          //vite iniziali del giocatore
     score = 0;                          //punteggio iniziale del giocatore
     count = 0;                         //numero di nemici uccisi
     current = new level;
@@ -44,8 +42,8 @@ void engine::gameover() { //termina il gioco
 
 void engine::life_update(double x) {  //aggiorna la vita (se x<0 decrementa, se x>0 incrementa) se diventa negativa termina il gioco
     life = life + x;
-    if (life <= 0) {
-        life = 0;
+    if (life <= 0.0) {
+        life = 0.0;
         gameover();
     }
     refresh_scoreboard();
@@ -390,34 +388,35 @@ int engine::retrive_rows() { //restituisce il numero di righe del dungeon
 }
 
 void engine::refresh_scoreboard() { //stampa il livello corrente
+    
     wclear(scoreboard);
     box(scoreboard, 0, 0);
 	int lines=s_height-1;
     int i = 1;
-    mvwprintw(scoreboard, i, 1, "score: %d", score); i++; //stampa il punteggio
-    mvwprintw(scoreboard, i, 1, "level: %d", current->number); i++; //stampa il numero del livello corrente
-    mvwprintw(scoreboard, i, 1, "life: "); i++;
-    //voglio arrotondare life sempre per eccesso
-    int tmp = (int)ceil(life);
-    for (int j = 0; j < tmp; j++) {
-        waddch(scoreboard, ACS_DIAMOND);
+    
+    mvwprintw(scoreboard, i, 1, "life: "); i+=2; //stampa la vita
+    int x = (int)ceil(life)/10;
+    if (x > (s_width-8) || x == 1) { wprintw(scoreboard, "%f", life); }
+    else { 
+        for (int j = 0; j < x; j++) { 
+            waddch(scoreboard, ACS_DIAMOND);
+        } 
     }
-    mvwprintw(scoreboard, i, 1, "kills: %d", count); i+=3; //stampa il punteggio
-    if (debug){
-        mvwprintw(scoreboard, i, 1, "debug: "); i++;
-        if (score != 0) { mvwprintw(scoreboard, i, 1, "entry NSWE: %d", current->entry->NSWE); i++; } //stampa il valore NSWE dell'entrata
-        point_list *tmp = current->entry->pointList; //creo un puntatore temporaneo al primo elemento della lista delle uscite
-        while (tmp != nullptr) { //finchè il puntatore temporaneo non punta a nullptr
-            if (i<lines) { mvwprintw(scoreboard, i, 1, "entry %d %d", tmp->p.y, tmp->p.x); i++; } //stampa il valore NSWE dell'uscita
-            tmp = tmp->next; //passa all'elemento successivo
-        }
-        { mvwprintw(scoreboard, i, 1, "exit NSWE: %d", current->exit->NSWE); i++; } //stampa il valore NSWE dell'uscita
-        tmp = current->exit->pointList; //creo un puntatore temporaneo al primo elemento della lista delle uscite
-        while (tmp != nullptr) { //finchè il puntatore temporaneo non punta a nullptr
-            if (i<lines) { mvwprintw(scoreboard, i, 1, "exit %d %d", tmp->p.y, tmp->p.x); i++; } //stampa il valore NSWE dell'uscita
-            tmp = tmp->next; //passa all'elemento successivo
-        }
+
+    mvwprintw(scoreboard, i, 1, "kills: %d", count); i+=2; //stampa il punteggio
+    mvwprintw(scoreboard, i, 1, "level: %d", current->number); i+=2; //stampa il numero del livello corrente
+    if (score != 0){
+        if (current->entry->NSWE == 0) mvwprintw(scoreboard, i, 1, "entry: NORD");
+        if (current->entry->NSWE == 1) mvwprintw(scoreboard, i, 1, "entry: SUD");
+        if (current->entry->NSWE == 2) mvwprintw(scoreboard, i, 1, "entry: OVEST");
+        if (current->entry->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
+        i++;
     }
+    if (current->exit->NSWE == 0) mvwprintw(scoreboard, i, 1, "entry: NORD");
+    if (current->exit->NSWE == 1) mvwprintw(scoreboard, i, 1, "entry: SUD");
+    if (current->exit->NSWE == 2) mvwprintw(scoreboard, i, 1, "entry: OVEST");
+    if (current->exit->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
+
     touchwin(scoreboard); 
     wrefresh(scoreboard); 
 }
