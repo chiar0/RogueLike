@@ -79,23 +79,17 @@ void Game::gameLoop(){
         ch = getch();
         enemyTimer->tick();
 
-        if(ch == 'x')
-            end = false;
-        if (ch == 'n') {
-            dungeon->clear_exit();
-        }
-        if(ch != ERR){
-            updatePlayer(ch);
-        }
-        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
+        if(ch == 'x') end = false;
+        if (ch == 'n') dungeon->clear_exit();
+        if(ch != ERR) updatePlayer(ch);
 
+        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             checkPlayer(current->list->updateAll());
             enemyTimer->reset();
             bulletFrameRate = enemyFrameRate * 4;
         }
             
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
-            
             current->bulletsList->update();
             checkBullets();
             current->bulletsList->display();
