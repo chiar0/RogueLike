@@ -24,7 +24,7 @@
     void Player::setCollectedArtifacts() { collectedArtifacts += 1; }
     void Player::setCollectedPowerUps() { collectedPowerUps += 1; }
     void Player::powerUpDamage(int increase) { damage += increase; }
-    void Player::powerUpHP(int increase) { HP += increase; }
+    void Player::powerUpHP(int increase) { HP += increase; if (HP > 100) HP = 100; }
 
     // metodi per il movimento:
     // cotrolla se la casella in cui si vuole andare è vuota (con la matrice di adiacenze) oppure con un proiettile,
@@ -50,7 +50,7 @@
                 powerUpDamage(3);
             } else {
                 powerUpHP(-10);
-                dungeon->update_life(10);
+                dungeon->life_update(10);
             }
         }
         if (positionY == 0) { flag = changeRoom(0); }
@@ -76,7 +76,7 @@
                 powerUpDamage(3);
             } else {
                 powerUpHP(-10);
-                dungeon->update_life(10);
+                dungeon->life_update(10);
             }
         }
         if (positionY == yMax-1) { flag = changeRoom(1); }
@@ -102,7 +102,7 @@
                 powerUpDamage(3);
             } else {
                 powerUpHP(-10);
-                dungeon->update_life(10);
+                dungeon->life_update(10);
             }
         }
         if (positionX == 0) { flag = changeRoom(2); }
@@ -128,7 +128,7 @@
                 powerUpDamage(3);
             } else {
                 powerUpHP(-10);
-                dungeon->update_life(10);
+                dungeon->life_update(10);
             }
         }
         if (positionX == xMax-1) { flag = changeRoom(3); }
