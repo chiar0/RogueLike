@@ -156,6 +156,7 @@
         if(isBoss){
             bossBoost = bossBoost + 2;
         }
+        //trovo la posizione di start per l'attacco
         switch(direction){
             case 1:
                 startAttackY -= (dimension + bossBoost); 

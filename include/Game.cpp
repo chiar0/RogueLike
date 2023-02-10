@@ -89,7 +89,7 @@ void Game::gameLoop(){
             enemyTimer->reset();
             bulletFrameRate = enemyFrameRate * 4;
         }
-            
+        
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
             current->bulletsList->update();
             checkBullets();
@@ -153,6 +153,7 @@ void Game::updatePlayer(int move){
         current->list->hideAll();
         switch (changedRoom) {
             case 1:
+                //caso passaggio al nuovo livello
                 {dungeon->next_level();
                 int nMeelee = 3 + (maxId/2); if (nMeelee > 12) { nMeelee = 12; }
                 int nRanged = 3 + (maxId/2); if (nRanged > 12) { nRanged = 12; }
@@ -166,6 +167,7 @@ void Game::updatePlayer(int move){
                 p->setPositionY(entryPoints->p.y);
                 break;}
             case 2:
+                //caso passaggio al livello precedente
                 {dungeon->prev_level();
                 prevList();
                 display::point_list *exitPoints = dungeon->retrive_exit();
@@ -181,6 +183,7 @@ void Game::updatePlayer(int move){
         }
     }
     else{
+        //caso nessun cambiamneto di livello
         checkPlayer();
         current->bulletsList->display();
         p->display();

@@ -44,12 +44,12 @@ class Game{
 
 
         //funzioni per la gestione del gioco
-        void gameLoop();                //gestisce il gioco e il tempo
-        void shoot();                   //viene verificato se i proiettili hanno colpito delle entità
-        void checkBullets();            //funzione principale per la verifica delle entità
-        void checkMeelee();             //verifica per i meelee             
-        void checkRanged();             //verifica per i ranged
-        void checkPlayer(int damage = 0);             //verifica per il giocatore
-        void updatePlayer(int move);    //gestisce lo spostamento del giocatore nel livello e tra di essi
+        void gameLoop();                     //gestisce il gioco e il tempo
+        void shoot();                        //viene verificato se i proiettili hanno colpito delle entità
+        void checkBullets();                 //funzione principale per la verifica delle entità
+        void checkMeelee();                  //verifica per i meelee             
+        void checkRanged();                  //verifica per i ranged
+        void checkPlayer(int damage = 0);    //verifica per il giocatore
+        void updatePlayer(int move);         //gestisce lo spostamento del giocatore nel livello e tra di essi
 
 };
