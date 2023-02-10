@@ -75,7 +75,6 @@ void Game::gameLoop(){
     float enemyFrameRate = 3.0f;
     float bulletFrameRate = enemyFrameRate * 4;
 
-
     while(end){
         changedRoom = 0;
         ch = getch();

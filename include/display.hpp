@@ -1,3 +1,4 @@
+#pragma once
 #include "ncurses.h"
 #include "ctime"
 #include "cstdlib"

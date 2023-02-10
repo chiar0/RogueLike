@@ -33,7 +33,7 @@ void menu::loop() {
     std::string r20 = "                                              gggggggggggg                                                                                                                                                                                                      \0";
 
     int i = 0, j = 0;
-    while (true) {  
+    while (getch() != 'x') {  
         for (i = 0; i <= width - 1; i++) {
             bool b = true; 
             while (b == true){ 
