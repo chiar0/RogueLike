@@ -32,10 +32,15 @@ engine::~engine() {
 
 void engine::gameover() { //termina il gioco
     clear();
-    printw("Game Over!");
-    printw("\n Max level reached: %d", score);
-    printw("\n Enemy killed: %d", count);
-    printw("\nPRESS x TO CLOSE THE PROGRAM");
+    WINDOW *gameover = newwin(11, 36, LINES/2 - 10/2, COLS/2 - 36/2);
+    refresh();
+    touchwin(gameover);
+    mvwprintw(gameover, 3, 1, "            GAME OVER!           ");
+    mvwprintw(gameover, 4, 1, "   Max level reached: %d", score);
+    mvwprintw(gameover, 5, 1, "   Enemy killed: %d", count);
+    mvwprintw(gameover, 6, 1, "   PRESS x TO CLOSE THE PROGRAM   ");
+    box(gameover, 0, 0);
+    wrefresh(gameover);
     int ch = 0;
     while (ch != 'x') { ch = getch(); }
     end();  //termina ncurses

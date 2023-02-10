@@ -1,8 +1,10 @@
 #include "menu.hpp"
 
-menu::menu() {                                                                                                                                                                                                                                              
-    set_dimensions(21, 58);
-    menu_win = newwin(height, width, 0, 0);
+menu::menu() {                                                                                                                                                                                                                                
+    set_dimensions(21, 52);
+    int y = LINES/2 - height/2;
+    int x = COLS/2 - width/2;
+    menu_win = newwin(height, width, y, x);
     refresh();
 
     mvwprintw(menu_win, 1, 1, r00);
