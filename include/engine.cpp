@@ -2,11 +2,7 @@
 
 extern bool debug = true; //se true, attiva la modalità debug
 
-engine::engine() { //costruttore della classe engine (inizializza il gioco)
-
-    init();                             //inizializza ncurses
-    terminal_check(24, 80);       //controlla se la finestra è abbastanza grande
-    set_dimensions(LINES, COLS);  //imposta le dimensioni della finestra
+engine::engine():display() { //costruttore della classe engine (inizializza il gioco)
 
     ///////////////////////// inizializza i parametri della finestra di gioco
     int h= retrive_height();
@@ -21,8 +17,9 @@ engine::engine() { //costruttore della classe engine (inizializza il gioco)
 	last_col = d_width - 1;         //l'ultima colonna del dungeon è pari alla larghezza del dungeon meno 1
 
     ////////////////////////// creo il primo livello
-    life = 2.0;                          //vite iniziali del giocatore
+    life = 10.0;                          //vite iniziali del giocatore
     score = 0;                          //punteggio iniziale del giocatore
+    count = 0;                         //numero di nemici uccisi
     current = new level;
     current->number = score;
     current->prev = nullptr;
@@ -51,6 +48,11 @@ void engine::life_update(double x) {  //aggiorna la vita (se x<0 decrementa, se 
         life = 0;
         gameover();
     }
+    refresh_scoreboard();
+}
+
+void engine::score_update(int x) { //aggiorna il punteggio (se x<0 decrementa, se x>0 incrementa)
+    score = score + x;
     refresh_scoreboard();
 }
 
@@ -400,20 +402,16 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
     for (int j = 0; j < tmp; j++) {
         waddch(scoreboard, ACS_DIAMOND);
     }
+    mvwprintw(scoreboard, i, 1, "kills: %d", count); i+=3; //stampa il punteggio
     if (debug){
-        if (i<lines) { mvwprintw(scoreboard, i, 1, "prev:"); i++; } //stampa il puntatore al livello precedente
-        if (i<lines) { if (ok_prev_level()) mvwprintw(scoreboard, i, 1, "%p", current->prev->dungeon); else mvwprintw(scoreboard, i, 1, "NULL"); i++; }
-        if (i<lines) { mvwprintw(scoreboard, i, 1, "current:"); i++; } //stampa il puntatore al livello corrente
-        if (i<lines) { mvwprintw(scoreboard, i, 1, "%p", current->dungeon); i++; } //stampa l'indirizzo del dungeon del livello corrente
-        if (i<lines) { mvwprintw(scoreboard, i, 1, "next:"); i++; } //stampa il puntatore al livello successivo
-        if (i<lines) { if (ok_next_level()) mvwprintw(scoreboard, i, 1, "%p", current->next->dungeon); else mvwprintw(scoreboard, i, 1, "NULL"); i++; }
-        if (i<lines && score != 0) { mvwprintw(scoreboard, i, 1, "entry NSWE: %d", current->entry->NSWE); i++; } //stampa il valore NSWE dell'entrata
+        mvwprintw(scoreboard, i, 1, "debug: "); i++;
+        if (score != 0) { mvwprintw(scoreboard, i, 1, "entry NSWE: %d", current->entry->NSWE); i++; } //stampa il valore NSWE dell'entrata
         point_list *tmp = current->entry->pointList; //creo un puntatore temporaneo al primo elemento della lista delle uscite
         while (tmp != nullptr) { //finchè il puntatore temporaneo non punta a nullptr
             if (i<lines) { mvwprintw(scoreboard, i, 1, "entry %d %d", tmp->p.y, tmp->p.x); i++; } //stampa il valore NSWE dell'uscita
             tmp = tmp->next; //passa all'elemento successivo
         }
-        if (i<lines) { mvwprintw(scoreboard, i, 1, "exit NSWE: %d", current->exit->NSWE); i++; } //stampa il valore NSWE dell'uscita
+        { mvwprintw(scoreboard, i, 1, "exit NSWE: %d", current->exit->NSWE); i++; } //stampa il valore NSWE dell'uscita
         tmp = current->exit->pointList; //creo un puntatore temporaneo al primo elemento della lista delle uscite
         while (tmp != nullptr) { //finchè il puntatore temporaneo non punta a nullptr
             if (i<lines) { mvwprintw(scoreboard, i, 1, "exit %d %d", tmp->p.y, tmp->p.x); i++; } //stampa il valore NSWE dell'uscita

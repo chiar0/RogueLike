@@ -1,5 +1,15 @@
 #include "display.hpp"
 
+display::display() {
+    init();                         //inizializza ncurses
+    terminal_check(24, 80);         //controlla se la finestra è abbastanza grande
+    set_dimensions(LINES, COLS);    //imposta le dimensioni della finestra
+}
+
+display::~display() {
+    end();                          //termina ncurses
+}
+
 void display::init(){ //inizializza ncurses
     initscr();                                  //inizializza ncurses
     cbreak();                                   //disabilita il buffering della tastiera
