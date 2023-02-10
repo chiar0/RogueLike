@@ -20,6 +20,30 @@
     // setters
     void Meelee::setIsTaunted(bool isTaunted) { this->isTaunted = isTaunted; }
 
+    // controlla se il nemico è in range di attacco in una certa direzione usando la matrice di adiacenza
+    bool Meelee::isInRange(int x, int y, int direction) {
+        bool found = false;
+        switch (direction) {
+            case 1:
+                if (positionX == x && (positionY-1 == y || positionY-2 == y)) { found = true; }
+                else { found = false; }
+                break;
+            case 2:
+                if (positionX == x && (positionY+1 == y || positionY+2 == y)){found = true; }
+                else{ found = false; }
+                break;
+            case 3:
+                if (positionY == y && (positionX+1 == x || positionX+1 == x)){ found = true; }
+                else{ found = false; }
+                break;
+            case 4:
+                if (positionY == y && (positionX-1 == x-1 || positionX-1 == x)){ found = true; }
+                else{ found = false; }
+                break;
+        }
+        return found;
+    }
+
     // update con movimento non certo in direzioni casuali (dx, sx, up, down), altrimenti segue il player se è "taunted"
     void Meelee::update(int playerX, int playerY) {
 

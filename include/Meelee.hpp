@@ -26,6 +26,9 @@ public:
     // setters
     void setIsTaunted(bool isTaunted);
 
+    // controlla se c'è un nemico in range di attacco in una certa direzione usando la matrice di adiacenza
+    bool isInRange(int x, int y, int direction);
+
     // update con movimento non certo in direzioni casuali (dx, sx, up, down)
     void update(int playerX, int playerY);
     int attack(int direction,int playerX, int playerY);
