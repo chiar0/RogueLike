@@ -114,7 +114,3 @@
     void Entity::addBullets(int direction, bool isEnemy, int entityX, int entityY){
         this->bulletsList->addBullet(this->dungeon, this->damage, entityX, entityY, direction, this->character, (char)'+', isEnemy);
     }
-
-    void Entity::updateDungeon(){
-        dungeon->retrive_dungeon();
-    }

@@ -62,5 +62,4 @@ public:
     bool isDead();
     // void isHit(int bulletX, int bulletY, int dmg);
     void addBullets(int direction, bool isEnemy, int entityX, int entityY);
-    void updateDungeon();
 };
