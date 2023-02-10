@@ -413,10 +413,11 @@ void engine::refresh_scoreboard() { //stampa il livello corrente
         if (current->entry->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
         i++;
     }
-    if (current->exit->NSWE == 0) mvwprintw(scoreboard, i, 1, "entry: NORD");
-    if (current->exit->NSWE == 1) mvwprintw(scoreboard, i, 1, "entry: SUD");
-    if (current->exit->NSWE == 2) mvwprintw(scoreboard, i, 1, "entry: OVEST");
-    if (current->exit->NSWE == 3) mvwprintw(scoreboard, i, 1, "entry: EST");
+    if (current->exit->NSWE == 0) mvwprintw(scoreboard, i, 1, "exit: NORD");
+    if (current->exit->NSWE == 1) mvwprintw(scoreboard, i, 1, "exit: SUD");
+    if (current->exit->NSWE == 2) mvwprintw(scoreboard, i, 1, "exit: OVEST");
+    if (current->exit->NSWE == 3) mvwprintw(scoreboard, i, 1, "exit: EST");
+    i++;
 
     touchwin(scoreboard); 
     wrefresh(scoreboard); 

@@ -102,13 +102,13 @@ void Game::gameLoop(){
         }
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
 
+        if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
             checkPlayer(current->list->updateAll());
             enemyTimer->reset();
             bulletFrameRate = enemyFrameRate * 4;
         }
             
         if(enemyTimer->getDeltaTime() >= 1/bulletFrameRate){
-            
             current->bulletsList->update();
             checkBullets();
             current->bulletsList->display();
