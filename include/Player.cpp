@@ -99,7 +99,7 @@
             if (r == 0) {
                 powerUpDamage(3);
             } else {
-                powerUpHP(10);
+                powerUpHP(-10);
             }
         }
         if (positionX == 0) { flag = changeRoom(2); }
@@ -124,7 +124,7 @@
             if (r == 0) {
                 powerUpDamage(3);
             } else {
-                powerUpHP(10);
+                powerUpHP(-10);
             }
         }
         if (positionX == xMax-1) { flag = changeRoom(3); }

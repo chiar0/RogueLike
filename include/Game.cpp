@@ -141,14 +141,15 @@ void Game::checkRanged(){
 
 void Game::checkPlayer(){
     p->setHP(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
-    if(p->isDead()){ dungeon->gameover(); }
+    p->isDead();
+    dungeon->life_update(-(bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@')));
 }
 
 void Game::updatePlayer(int move){
     int changedRoom = p->update(move);
     if (changedRoom != 0) {
-        //bulletsList->resetList();
-        //bulletsList->getBulletHead();
+        bulletsList->resetList();
+        bulletsList->getBulletHead();
         p->hide();
         current->list.hideAll();
         switch (changedRoom) {
