@@ -69,6 +69,7 @@ void Game::newList(int nMeelee, int nRanged, engine* dungeon) {
 void Game::gameLoop(){
     
     int changedRoom = 0;
+    int meeleeDamage = 0;
     bool end = true;
     int ch;
     float enemyFrameRate = 3.0f;
@@ -89,7 +90,8 @@ void Game::gameLoop(){
             updatePlayer(ch);
         }
         if(enemyTimer->getDeltaTime() >= 1/enemyFrameRate){
-            current->list->updateAll();
+
+            checkPlayer(current->list->updateAll());
             enemyTimer->reset();
             bulletFrameRate = enemyFrameRate * 4;
         }
@@ -143,8 +145,8 @@ void Game::checkRanged(){
    
 }
 
-void Game::checkPlayer(){
-    int damageTaken = current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@');
+void Game::checkPlayer(int damage){
+    int damageTaken = current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@') + damage;
     if (damageTaken > 0) {
         p->setHP(damageTaken);
         p->isDead();

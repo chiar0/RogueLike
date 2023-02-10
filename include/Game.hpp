@@ -49,7 +49,7 @@ class Game{
         void checkBullets();            //funzione principale per la verifica delle entità
         void checkMeelee();             //verifica per i meelee             
         void checkRanged();             //verifica per i ranged
-        void checkPlayer();             //verifica per il giocatore
+        void checkPlayer(int damage = 0);             //verifica per il giocatore
         void updatePlayer(int move);    //gestisce lo spostamento del giocatore nel livello e tra di essi
 
 };

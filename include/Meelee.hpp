@@ -30,7 +30,7 @@ public:
     bool isInRange(int x, int y, int direction);
 
     // update con movimento non certo in direzioni casuali (dx, sx, up, down)
-    void update(int playerX, int playerY);
+    int update(int playerX, int playerY);
     int attack(int direction,int playerX, int playerY); //funzione per l'attacco 
     void clearAttack();                                 //funzone per pulire il dungeon dopo l'attacco
 };

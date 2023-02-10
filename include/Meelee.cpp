@@ -47,8 +47,8 @@
     }
 
     // update con movimento non certo in direzioni casuali (dx, sx, up, down), altrimenti segue il player se è "taunted"
-    void Meelee::update(int playerX, int playerY) {
-
+    int Meelee::update(int playerX, int playerY) {
+        int damageDealt = 0;
         int direction;
         updateNearby(); // aggiorno le entità vicine
 
@@ -61,14 +61,16 @@
                 if (diffX > 0) {
                     moveLeft();
                     if(startAttackX == 0 && startAttackY == 0){
-                        if(isInRange(playerX, playerY, 4))  attack(2, playerX, playerY); 
+                        if(isInRange(playerX, playerY, 4))  
+                            damageDealt = attack(2, playerX, playerY); 
                     }
                     else
                         clearAttack();
                 } else {
                     moveRight();
                     if(startAttackX == 0 && startAttackY == 0){
-                        if(isInRange(playerX, playerY, 3))  attack(4, playerX, playerY); 
+                        if(isInRange(playerX, playerY, 3))  
+                            damageDealt = attack(4, playerX, playerY); 
                     }
                     else
                         clearAttack();
@@ -77,14 +79,16 @@
                 if (diffY > 0) {
                     moveUp();
                     if(startAttackX == 0 && startAttackY == 0){
-                        if(isInRange(playerX, playerY, 1))  attack(1, playerX, playerY); 
+                        if(isInRange(playerX, playerY, 1))  
+                            damageDealt = attack(1, playerX, playerY); 
                     }
                     else
                         clearAttack();
                 } else {
                     moveDown();
                     if(startAttackX == 0 && startAttackY == 0){
-                        if(isInRange(playerX, playerY, 2))  attack(3, playerX, playerY); 
+                        if(isInRange(playerX, playerY, 2))  
+                            damageDealt = attack(3, playerX, playerY); 
                     }
                     else
                         clearAttack();
@@ -107,17 +111,19 @@
                 switch (direction) {
                     case 1:
                         moveRight();
-
+                        clearAttack();
                         break;
                     case 2:
                         moveLeft();
-
+                        clearAttack();
                         break;
                     case 3:
                         moveUp();
+                        clearAttack();
                         break;
                     case 4:
                         moveDown();
+                        clearAttack();
                         break;
                     default:
                         break;
@@ -125,6 +131,7 @@
             }
         }
         display();
+        return damageDealt;
     }
 
     int Meelee::attack(int direction, int playerX, int playerY){

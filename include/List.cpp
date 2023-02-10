@@ -149,15 +149,15 @@
     }
 
     // aggiornamento di tutti i nemici
-    void List::updateAll() {
-
+    int List::updateAll() {
+        int meeleeDamage = 0;
         checkDeads();
 
         meeleeList *tempMeelee = meeleeHead;
         rangedList *tempRanged = rangedHead;
 
         while(tempMeelee != NULL) {
-            tempMeelee->meelee.update(p->getPositionX(), p->getPositionY());
+            meeleeDamage += tempMeelee->meelee.update(p->getPositionX(), p->getPositionY());
             tempMeelee = tempMeelee->next;
         }
 
@@ -187,6 +187,7 @@
             powerUp.hide();
             powerUpDisplayed = false;
         }
+        return meeleeDamage;
     }
 
     void List::hideAll() {

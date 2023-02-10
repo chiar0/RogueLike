@@ -61,7 +61,7 @@ public:
     void removeMeelee(int x, int y);            // rimuove un nemico meelee dalla lista date le coordinate
     void removeRanged(int x, int y);            // rimuove un nemico ranged dalla lista date le coordinate
     void checkDeads();
-    void updateAll();   // aggiorna tutti i nemici della lista
+    int updateAll();   // aggiorna tutti i nemici della lista
     void hideAll();                             // nasconde tutti i nemici, artefatti e potenziamenti della lista
     void displayAll();
     void clearMeeleeAttack();
