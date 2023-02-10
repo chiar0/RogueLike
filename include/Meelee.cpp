@@ -152,7 +152,6 @@
                 if(mapChar == ' '){
                     wmove(Entity::getDungeonWindow(), attackY, attackX);
                     waddch(Entity::getDungeonWindow(), '#');
-                    // Entity::updateDungeon();
                 }
             }
         }
@@ -172,7 +171,6 @@
                 if(mapChar == '#'){
                     wmove(Entity::getDungeonWindow(), attackY, attackX);
                     waddch(Entity::getDungeonWindow(), ' ');
-                    // Entity::updateDungeon();
                 }
             }
         }

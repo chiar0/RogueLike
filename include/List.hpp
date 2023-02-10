@@ -1,5 +1,6 @@
 #pragma once
 
+#include <time.h>
 #include "Entity.hpp"
 #include "Ranged.hpp"
 #include "Meelee.hpp"

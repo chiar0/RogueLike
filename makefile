@@ -40,5 +40,12 @@ Player.o: include/Player.cpp include/Player.hpp
 Game.o: include/Game.cpp include/Game.hpp
 	g++ -c include/Game.cpp -fno-stack-protector
 
+CFLAGS = -Wall -g
+
+all: test main.o display.o engine.o Timer.o Bullet.o Items.o BulletList.o Entity.o Player.o Meelee.o Ranged.o List.o Game.o -lncurses
+
+valgrind:
+	valgrind ./test
+
 clean:
 	rm *.o a.out
