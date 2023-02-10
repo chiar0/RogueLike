@@ -60,14 +60,34 @@
             if (abs(diffX) > abs(diffY)) {
                 if (diffX > 0) {
                     moveLeft();
+                    if(startAttackX == 0 && startAttackY == 0){
+                        if(isInRange(playerX, playerY, 4))  attack(2, playerX, playerY); 
+                    }
+                    else
+                        clearAttack();
                 } else {
                     moveRight();
+                    if(startAttackX == 0 && startAttackY == 0){
+                        if(isInRange(playerX, playerY, 3))  attack(4, playerX, playerY); 
+                    }
+                    else
+                        clearAttack();
                 }
             } else {
                 if (diffY > 0) {
                     moveUp();
+                    if(startAttackX == 0 && startAttackY == 0){
+                        if(isInRange(playerX, playerY, 1))  attack(1, playerX, playerY); 
+                    }
+                    else
+                        clearAttack();
                 } else {
                     moveDown();
+                    if(startAttackX == 0 && startAttackY == 0){
+                        if(isInRange(playerX, playerY, 2))  attack(3, playerX, playerY); 
+                    }
+                    else
+                        clearAttack();
                 }
             }
             
@@ -87,23 +107,17 @@
                 switch (direction) {
                     case 1:
                         moveRight();
-                        if(startAttackX == 0 && startAttackY == 0) attack(4, playerX, playerY);
-                        else clearAttack();
+
                         break;
                     case 2:
                         moveLeft();
-                        if(startAttackX == 0 && startAttackY == 0) attack(2, playerX, playerY);
-                        else clearAttack();
+
                         break;
                     case 3:
                         moveUp();
-                        if(startAttackX == 0 && startAttackY == 0) attack(1, playerX, playerY);
-                        else clearAttack();
                         break;
                     case 4:
                         moveDown();
-                        if(startAttackX == 0 && startAttackY == 0) attack(3, playerX, playerY);
-                        else clearAttack();
                         break;
                     default:
                         break;

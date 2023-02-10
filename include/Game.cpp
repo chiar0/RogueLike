@@ -14,7 +14,7 @@ Game::Game(){
     BulletList* tmpBullet1 = new BulletList(this->dungeon);
     BulletList* tmpBullet2 = new BulletList(this->dungeon);
     display::point playerSpawn = dungeon->random_clear_point();
-    this->p = new Player(playerSpawn.x, playerSpawn.y, 10000, 100, dungeon, tmpBullet1);
+    this->p = new Player(playerSpawn.x, playerSpawn.y, 10000, 1, dungeon, tmpBullet1);
     
 
     //generazione lista di liste
@@ -146,7 +146,7 @@ void Game::checkRanged(){
 void Game::checkPlayer(){
     p->setHP(current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@'));
     p->isDead();
-    dungeon->life_update((current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@')));
+    //dungeon->life_update((current->bulletsList->isHit(p->getPositionX(), p->getPositionY(), '@')));
 }
 
 
